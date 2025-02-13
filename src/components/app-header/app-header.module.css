@@ -1,0 +1,80 @@
+.header {
+	max-width: 1920px;
+	margin: 40px 40px 0;
+	background-color: rgb(28 28 33 / 100%);
+	border: 2px solid rgb(76 76 255 / 100%);
+}
+
+.nav {
+	display: flex;
+	justify-content: space-around;
+	max-width: 1280px;
+
+	/* margin: 16px 560px 16px 80px; */
+	padding: 16px 0;
+	background-color: inherit;
+
+}
+
+.builder {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	box-sizing: border-box;
+	max-width: 178px;
+	border-radius: 40px;
+}
+
+.builderText {
+	font-weight: 400;
+	font-size: 16px;
+
+	/* font-family: "JetBrains Mono"; */
+
+	/* line-height: 24%; */
+	letter-spacing: 0%;
+
+/* ! */
+
+}
+
+.orderFeed {
+	composes: builder;
+	max-width: 197px;
+}
+
+.orderFeedText {
+	composes: buildertext;
+	color: rgb(133 133 173 / 100%);
+
+	/* padding: 0px 120px 0px 0px; */
+}
+
+.personalAccount {
+	composes: builder;
+	max-width: 207px;
+
+}
+
+.personalAccountText {
+	composes: buildertext;
+	color: rgb(133 133 173 / 100%);
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	column-gap: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
