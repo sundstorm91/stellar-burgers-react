@@ -14,11 +14,18 @@ export const AppHeader = () => {
 					<div className={styles.wrapper}>
 						<div className={styles.builder}>
 							<BurgerIcon type={'primary'} />
-							<span className={styles.builderText}>Конструктор</span>
+
+							<div className={styles.builderText}>
+								<span>Конструктор</span>
+							</div>
 						</div>
+
 						<div className={styles.orderFeed}>
 							<ListIcon type={'secondary'} />
-							<span className={styles.orderFeedText}>Лента заказов</span>
+
+							<div className={styles.orderFeedText}>
+								<span>Лента заказов</span>
+							</div>
 						</div>
 					</div>
 					<Logo />

@@ -1,3 +1,10 @@
+@font-face {
+	font-weight: 400;
+	font-family: 'JetBrainsMono';
+	font-style: normal;
+	src: url('../../fonts/jet-brains/JetBrainsMono-VariableFont_wght.ttf');
+}
+
 .header {
 	max-width: 1920px;
 	margin: 40px 40px 0;
@@ -9,56 +16,85 @@
 	display: flex;
 	justify-content: space-around;
 	max-width: 1280px;
-
-	/* margin: 16px 560px 16px 80px; */
 	padding: 16px 0;
 	background-color: inherit;
-
 }
 
 .builder {
 	display: flex;
-    justify-content: center;
-    align-items: center;
+	justify-content: center;
+	align-items: center;
 	box-sizing: border-box;
 	max-width: 178px;
+	padding: 0 0 0 20px;
+	column-gap: 8px;
 	border-radius: 40px;
 }
 
 .builderText {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	width: 106px;
+	height: 24px;
+}
+
+.builderText span {
 	font-weight: 400;
 	font-size: 16px;
-
-	/* font-family: "JetBrains Mono"; */
-
-	/* line-height: 24%; */
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
 	letter-spacing: 0%;
-
-/* ! */
-
 }
 
 .orderFeed {
-	composes: builder;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+
+	/* composes: builder; */
 	max-width: 197px;
+	padding: 0 0 0 20px;
+	column-gap: 8px;
+	border-radius: 40px;
 }
 
 .orderFeedText {
-	composes: buildertext;
-	color: rgb(133 133 173 / 100%);
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	width: 125px;
+	height: 24px;
+}
 
-	/* padding: 0px 120px 0px 0px; */
+.orderFeedText span {
+	/* composes: buildertext; */
+	color: rgb(133 133 173 / 100%);
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
+	letter-spacing: 0%;
 }
 
 .personalAccount {
-	composes: builder;
-	max-width: 207px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
 
+	/* composes: builder; */
+	max-width: 207px;
+	column-gap: 8px;
+	border-radius: 40px;
 }
 
 .personalAccountText {
-	composes: buildertext;
+	/* composes: buildertext; */
 	color: rgb(133 133 173 / 100%);
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
+	letter-spacing: 0%;
 }
 
 .wrapper {
@@ -66,15 +102,3 @@
 	flex-direction: row;
 	column-gap: 8px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
