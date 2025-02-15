@@ -1,6 +1,6 @@
 import { Iingredients } from '../types/data-types';
 
-const data: Iingredients[] = [
+const products: Iingredients[] = [
 	{
 		_id: '60666c42cc7b410027a1a9b1',
 		name: 'Краторная булка N-200i',
@@ -215,4 +215,4 @@ const data: Iingredients[] = [
 	},
 ];
 
-export { data };
+export { products };
