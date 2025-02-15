@@ -1,7 +1,7 @@
 import styles from './burger-ingredients.module.css';
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BunComponent } from './create-ingredient/ingredient';
+import { Component } from './ingredient-component/ingredient-component';
 import { products } from '../data/data';
 
 export const BurgerIngredients = () => {
@@ -35,8 +35,9 @@ export const BurgerIngredients = () => {
 					</div>
 
 					<h3 className={styles.headline}>Булки</h3>
-
-					<BunComponent products={products} />
+					<Component products={products} type={'bun'} />
+					<h3 className={styles.headline}>Соусы</h3>
+					<Component products={products} type={'sauce'} />
 				</div>
 			</section>
 		</>

@@ -1,8 +1,10 @@
 .ingredientsField {
 	display: flex;
-	flex-direction: row;
+	flex-flow: row wrap;
 	justify-content: center;
 	column-gap: 24px;
+
+	/* overflow: scroll; */
 }
 
 .ingredientItem {
