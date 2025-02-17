@@ -1,0 +1,17 @@
+.menuList {
+	max-width: inherit;
+	height: 480px;
+	overflow-y: auto;
+}
+
+.menuList li {
+	margin-bottom: 16px;
+}
+
+.upperBun {
+	margin: 100px 0 0;
+}
+
+.bottomBun {
+	margin: 0 0 40px;
+}

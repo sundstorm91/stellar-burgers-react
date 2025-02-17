@@ -1,5 +1,5 @@
 import { Iingredients } from '../../types/data-types';
-import './burger-components.module.css';
+import styles from './burger-components.module.css';
 import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -12,7 +12,7 @@ export const ListProductComponents: React.FC<IListComponentsProps> = ({
 }) => {
 	return (
 		<>
-			<ul>
+			<ul className={styles.menuList}>
 				{products.map((product) => (
 					<li key={product._id}>
 						<ConstructorElement

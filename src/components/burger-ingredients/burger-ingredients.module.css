@@ -30,3 +30,8 @@
 	/* line-height: 30px; */
 	letter-spacing: 0%;
 }
+
+.wrapper {
+	height: 756px;
+	overflow-y: auto;
+}

@@ -3,6 +3,7 @@ import React from 'react';
 import { BunComponent } from './burger-components/bun-component';
 import { products } from '../data/data';
 import { ListProductComponents } from './burger-components/list-product-components';
+import { ButtonOrderComponent } from './button-order/button-order';
 
 export const BurgerBuilder = () => {
 	return (
@@ -13,6 +14,7 @@ export const BurgerBuilder = () => {
 					<ListProductComponents products={products} />
 					<BunComponent products={products} type={'bottom'} />
 				</div>
+				<ButtonOrderComponent />
 			</section>
 		</>
 	);

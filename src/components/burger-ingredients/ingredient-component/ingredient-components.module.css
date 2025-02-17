@@ -4,7 +4,7 @@
 	justify-content: center;
 	column-gap: 24px;
 
-	/* overflow: scroll; */
+	/* overflow-y: auto;  */
 }
 
 .ingredientItem {

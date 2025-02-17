@@ -28,8 +28,9 @@ export const AppHeader = () => {
 							</div>
 						</div>
 					</div>
-					<Logo />
-
+					<div className={styles.wrapperLogo}>
+						<Logo />
+					</div>
 					<div className={styles.personalAccount}>
 						<ProfileIcon type={'secondary'} />
 						<span className={styles.personalAccountText}>Личный кабинет</span>

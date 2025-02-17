@@ -33,11 +33,12 @@ export const BurgerIngredients = () => {
 							Начинки
 						</Tab>
 					</div>
-
-					<h3 className={styles.headline}>Булки</h3>
-					<Component products={products} type={'bun'} />
-					<h3 className={styles.headline}>Соусы</h3>
-					<Component products={products} type={'sauce'} />
+					<div className={styles.wrapper}>
+						<h3 className={styles.headline}>Булки</h3>
+						<Component products={products} type={'bun'} />
+						<h3 className={styles.headline}>Соусы</h3>
+						<Component products={products} type={'sauce'} />
+					</div>
 				</div>
 			</section>
 		</>
