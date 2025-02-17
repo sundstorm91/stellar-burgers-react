@@ -1,0 +1,17 @@
+import styles from './modal-order.module.css';
+import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+export const ModalContentOrder = () => {
+	return (
+		<>
+			<p className='text text_type_digits-large'>034536</p>
+			<p>идентификатор заказа</p>
+			<div>
+				<CheckMarkIcon type={'primary'} className={styles.done} />
+			</div>
+			<p className='text text_type_main-medium'>Ваш заказ начали готовить</p>
+			<p className='text text_type_main-medium text_color_inactive'>
+				Дождитесь готовности на орбитальной станции
+			</p>
+		</>
+	);
+};
