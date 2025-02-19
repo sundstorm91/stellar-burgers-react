@@ -43,7 +43,6 @@ export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
 						</div>
 					))}
 
-				{/* Render Modal */}
 				{currentCard && (
 					<ModalOrder onClose={closeModal} isOpen={!!openModalId}>
 						<ModalContentDetail product={currentCard} />

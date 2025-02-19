@@ -50,28 +50,18 @@
 }
 
 .orderFeed {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-
-	/* composes: builder; */
 	max-width: 197px;
-	padding: 0 0 0 20px;
-	column-gap: 8px;
-	border-radius: 40px;
+	composes: builder;
 }
 
 .orderFeedText {
-	display: flex;
-	flex-wrap: wrap;
-	align-content: center;
+	composes: builderText;
 	width: 125px;
 	height: 24px;
 }
 
 .orderFeedText span {
-	/* composes: buildertext; */
+
 	color: rgb(133 133 173 / 100%);
 	font-weight: 400;
 	font-size: 16px;
@@ -80,19 +70,12 @@
 }
 
 .personalAccount {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-
-	/* composes: builder; */
+	composes: builder;
 	max-width: 207px;
-	column-gap: 8px;
-	border-radius: 40px;
+
 }
 
 .personalAccountText {
-	/* composes: buildertext; */
 	color: rgb(133 133 173 / 100%);
 	font-weight: 400;
 	font-size: 16px;
