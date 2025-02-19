@@ -3,7 +3,7 @@ import styles from './ingredient-components.module.css';
 import React, { useState } from 'react';
 import {
 	CurrencyIcon,
-	/* Counter, */
+	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ModalOrder } from '../../modal-order/modal';
 import { ModalContentDetail } from '../../modal-order/modal-content-detail';
@@ -24,14 +24,15 @@ export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
 	return (
 		<>
 			<div className={styles.ingredientsField}>
+				<Counter count={1} size='default' />
 				{products
 					.filter((item) => item.type === type)
 					.map((item) => (
 						<div key={item._id}>
 							<div
+								aria-hidden='true'
 								className={styles.ingredientItem}
 								onClick={() => openModal(item._id!)}>
-								{/* <Counter count={1} size='default' /> */}
 								<img src={item.image} alt='logo-ingredient' />
 								<div className={styles.price}>
 									<p className='text text_type_digits-default'>{item.price}</p>

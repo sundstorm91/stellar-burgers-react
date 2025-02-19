@@ -32,9 +32,8 @@
 }
 
 .wrapper {
-  /* scrollbar-width: thin;
+	/* scrollbar-width: thin;
   scrollbar-color: hsl(0 0% 50%); */
 	height: 756px;
 	overflow: auto;
-
 }
