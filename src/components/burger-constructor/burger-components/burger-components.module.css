@@ -2,6 +2,7 @@
 	max-width: inherit;
 	height: 480px;
 	overflow-y: auto;
+	list-style-image: url('../../../svg/Vector.svg');
 }
 
 .menuList li {

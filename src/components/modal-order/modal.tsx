@@ -20,7 +20,7 @@ export const ModalOrder: React.FC<ModalProps> = ({
 		<div className={styles.modalOverlay}>
 			<div className={styles.modalContent}>
 				<button className={styles.modalClose} onClick={onClose}>
-					x
+					&times;
 				</button>
 				{children}
 			</div>

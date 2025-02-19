@@ -1,3 +1,9 @@
+@font-face {
+	font-family: 'JetBrainsMono';
+	font-style: normal;
+	src: url('../../fonts/jet-brains/JetBrainsMono-VariableFont_wght.ttf');
+}
+
 .modalOverlay {
 	position: fixed;
 	top: 0;
@@ -11,6 +17,8 @@
 	z-index: 1000;
 }
 
+
+
 .modalContent {
 	display: flex;
 	flex-direction: column;
@@ -20,7 +28,6 @@
 	background-color: rgba(28, 28, 33, 1);
 	border-radius: 40px;
 	width: 720px;
-	height: 718px;
 	position: relative;
 	border: 1px rgba(76, 76, 255, 0.2);
 	box-shadow: rgba(26, 24, 24, 0.04);
@@ -41,6 +48,61 @@
 	width: 48px;
 	height: 48px;
 }
+
+.title {
+	width: 640px;
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	font-size: 36px;
+	line-height: 40px;
+	letter-spacing: 0%;
+	color: rgba(242, 242, 243, 1);
+	text-align: start;
+	/* margin: 40px 40px 0px 40px; */
+}
+
+.nameProduct {
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 30px;
+	letter-spacing: 0%;
+}
+
+.imageProduct {
+
+}
+
+.descriptionWrapper {
+	display: flex;
+	flex-direction: row;
+	column-gap: 20px;
+}
+
+.tab {
+	display: flex;
+	flex-direction: row;
+	column-gap: 20px;
+	color: rgba(133, 133, 173, 1);
+	margin: 0px 0px 60px 0px;
+}
+
+.tab th {
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: 0px;
+	display: flex;
+	flex-direction: column;
+}
+
+.tab tr {
+	font-size: 28px;
+}
+
+
+
 
 
 

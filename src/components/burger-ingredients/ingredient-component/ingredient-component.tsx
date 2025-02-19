@@ -1,10 +1,12 @@
 import { Iingredients } from '../../types/data-types';
 import styles from './ingredient-components.module.css';
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	CurrencyIcon,
 	/* Counter, */
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ModalOrder } from '../../modal-order/modal';
+import { ModalContentDetail } from '../../modal-order/modal-content-detail';
 
 type TypeItem = 'bun' | 'main' | 'sauce';
 
@@ -14,6 +16,11 @@ interface BunComponentProps {
 }
 
 export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
+	const [openModalId, setOpenModalId] = useState<string | null>(null);
+	const openModal = (id: string) => setOpenModalId(id);
+	const closeModal = () => setOpenModalId(null);
+	const currentCard = products.find((card) => card._id === openModalId);
+
 	return (
 		<>
 			<div className={styles.ingredientsField}>
@@ -21,7 +28,9 @@ export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
 					.filter((item) => item.type === type)
 					.map((item) => (
 						<div key={item._id}>
-							<div className={styles.ingredientItem}>
+							<div
+								className={styles.ingredientItem}
+								onClick={() => openModal(item._id!)}>
 								{/* <Counter count={1} size='default' /> */}
 								<img src={item.image} alt='logo-ingredient' />
 								<div className={styles.price}>
@@ -32,6 +41,13 @@ export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
 							</div>
 						</div>
 					))}
+
+				{/* Render Modal */}
+				{currentCard && (
+					<ModalOrder onClose={closeModal} isOpen={!!openModalId}>
+						<ModalContentDetail product={currentCard} />
+					</ModalOrder>
+				)}
 			</div>
 		</>
 	);

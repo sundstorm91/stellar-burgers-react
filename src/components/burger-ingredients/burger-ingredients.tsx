@@ -6,7 +6,6 @@ import { products } from '../data/data';
 
 export const BurgerIngredients = () => {
 	const [current, setCurrent] = useState('Булки');
-
 	return (
 		<>
 			<section>
@@ -38,6 +37,8 @@ export const BurgerIngredients = () => {
 						<Component products={products} type={'bun'} />
 						<h3 className={styles.headline}>Соусы</h3>
 						<Component products={products} type={'sauce'} />
+						<h3 className={styles.headline}>Начинки</h3>
+						<Component products={products} type={'main'} />
 					</div>
 				</div>
 			</section>
