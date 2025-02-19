@@ -6,41 +6,38 @@
 
 .modalOverlay {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0, 0, 0, 0.7);
+	inset: 0;
+	z-index: 1000;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 1000;
+	background-color: rgb(0 0 0 / 70%);
 }
 
 
 
 .modalContent {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
 	row-gap: 20px;
-	background-color: rgba(28, 28, 33, 1);
-	border-radius: 40px;
 	width: 720px;
-	position: relative;
-	border: 1px rgba(76, 76, 255, 0.2);
-	box-shadow: rgba(26, 24, 24, 0.04);
+	background-color: rgb(28 28 33 / 100%);
+	border: 1px rgb(76 76 255 / 20%);
+	border-radius: 40px;
+	box-shadow: rgb(26 24 24 / 4%);
 }
 
 .modalClose {
-	color: white;
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	color: white;
+	font-size: 60px;
 	background: none;
 	border: none;
-	font-size: 60px;
 	cursor: pointer;
 }
 
@@ -51,27 +48,27 @@
 
 .title {
 	width: 640px;
-	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	color: rgb(242 242 243 / 100%);
 	font-weight: 700;
 	font-size: 36px;
-	line-height: 40px;
+	font-family: 'JetBrainsMono', "Arial", "Helvetica", sans-serif;
+
+	/* line-height: 40px; */
 	letter-spacing: 0%;
-	color: rgba(242, 242, 243, 1);
 	text-align: start;
+
 	/* margin: 40px 40px 0px 40px; */
 }
 
 .nameProduct {
-	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
 	font-weight: 700;
 	font-size: 24px;
-	line-height: 30px;
+	font-family: 'JetBrainsMono', "Arial", "Helvetica", sans-serif;
+
+	/* line-height: 30px; */
 	letter-spacing: 0%;
 }
 
-.imageProduct {
-
-}
 
 .descriptionWrapper {
 	display: flex;
@@ -82,19 +79,20 @@
 .tab {
 	display: flex;
 	flex-direction: row;
+	margin: 0 0 60px;
+	color: rgb(133 133 173 / 100%);
 	column-gap: 20px;
-	color: rgba(133, 133, 173, 1);
-	margin: 0px 0px 60px 0px;
 }
 
 .tab th {
-	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 24px;
-	letter-spacing: 0px;
 	display: flex;
 	flex-direction: column;
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', "Arial", "Helvetica", sans-serif;
+
+	/* line-height: 24px; */
+	letter-spacing: 0;
 }
 
 .tab tr {
