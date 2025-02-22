@@ -4,7 +4,7 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState } from 'react';
-import { ModalOverlay } from '../../modal/modal-overlay';
+import ModalOverlay from '../../modal/modal-overlay';
 import { OrderDetails } from '../../modal/order-details';
 
 export const ButtonOrderComponent = () => {

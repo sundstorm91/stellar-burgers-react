@@ -5,7 +5,7 @@ import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ModalOverlay } from '../../modal/modal-overlay';
+import ModalOverlay from '../../modal/modal-overlay';
 import { IngredientDetails } from '../../modal/ingredient-details';
 
 type TypeItem = 'bun' | 'main' | 'sauce';
