@@ -1,17 +1,17 @@
-import { Iingredients } from '../../types/data-types';
+import { Ingredients } from '../../types/data-types';
 import styles from './ingredient-components.module.css';
 import React, { useState } from 'react';
 import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ModalOrder } from '../../modal-order/modal';
-import { ModalContentDetail } from '../../modal-order/modal-content-detail';
+import { ModalOverlay } from '../../modal/modal-overlay';
+import { IngredientDetails } from '../../modal/ingredient-details';
 
 type TypeItem = 'bun' | 'main' | 'sauce';
 
 interface BunComponentProps {
-	products: Iingredients[];
+	products: Ingredients[];
 	type: TypeItem;
 }
 
@@ -44,9 +44,9 @@ export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
 					))}
 
 				{currentCard && (
-					<ModalOrder onClose={closeModal} isOpen={!!openModalId}>
-						<ModalContentDetail product={currentCard} />
-					</ModalOrder>
+					<ModalOverlay onClose={closeModal} isOpen={!!openModalId}>
+						<IngredientDetails product={currentCard} />
+					</ModalOverlay>
 				)}
 			</div>
 		</>

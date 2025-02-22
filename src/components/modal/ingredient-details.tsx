@@ -1,12 +1,8 @@
-import { Iingredients } from '../types/data-types';
-import styles from './modal-order.module.css';
+import { CurrentComponentProps } from '../types/data-types';
+import styles from './modal.module.css';
 import React from 'react';
 
-interface ICurrentComponentProps {
-	product: Iingredients;
-}
-
-export const ModalContentDetail: React.FC<ICurrentComponentProps> = ({
+export const IngredientDetails: React.FC<CurrentComponentProps> = ({
 	product,
 }) => {
 	return (

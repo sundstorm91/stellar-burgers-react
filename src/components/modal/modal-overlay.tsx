@@ -1,13 +1,8 @@
-import styles from './modal-order.module.css';
+import { ModalProps } from '../types/data-types';
+import styles from './modal.module.css';
 import React from 'react';
 
-interface ModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	children: React.ReactNode;
-}
-
-export const ModalOrder: React.FC<ModalProps> = ({
+export const ModalOverlay: React.FC<ModalProps> = ({
 	isOpen,
 	onClose,
 	children,

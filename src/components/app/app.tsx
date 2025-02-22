@@ -2,13 +2,13 @@ import { AppHeader } from '../app-header/app-header';
 import { BurgerBuilder } from '../burger-constructor/burger-builder';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import styles from './app.module.css';
-import { UseFetch } from '../hocs/use-fetch';
-import { IncomingDataApi } from '../types/data-types';
+import { UseFetch } from '../../utils/api/hooks/use-fetch';
+import { IngredientsApi } from '../types/data-types';
+import ingredientsUrl from '@utils/api/api-endpoints';
 
 export const App = () => {
-	const { data, loading, error } = UseFetch<IncomingDataApi>(
-		'https://norma.nomoreparties.space/api/ingredients'
-	);
+	const { ingredients, loading, error } =
+		UseFetch<IngredientsApi>(ingredientsUrl);
 
 	if (loading) {
 		return <div>Loading...</div>;
@@ -18,13 +18,13 @@ export const App = () => {
 		return <div>Error: {error.message}</div>;
 	}
 
-	if (data) {
+	if (ingredients) {
 		return (
 			<>
 				<AppHeader />
 				<main className={styles.main}>
-					<BurgerIngredients data={data.data} />
-					<BurgerBuilder data={data.data} />
+					<BurgerIngredients data={ingredients.data} />
+					<BurgerBuilder data={ingredients.data} />
 				</main>
 			</>
 		);

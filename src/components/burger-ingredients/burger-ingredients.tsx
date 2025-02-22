@@ -2,9 +2,9 @@ import styles from './burger-ingredients.module.css';
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Component } from './ingredient-component/ingredient-component';
-import { IncomingDataApi } from '../types/data-types';
+import { IngredientsApi } from '../types/data-types';
 
-export const BurgerIngredients: React.FC<IncomingDataApi> = ({ data }) => {
+export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 	const [current, setCurrent] = useState('Булки');
 	return (
 		<>

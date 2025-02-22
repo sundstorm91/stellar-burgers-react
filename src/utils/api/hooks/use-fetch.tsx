@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
-
-export interface IUseFetchResult<T> {
-	data: T | null;
-	loading: boolean;
-	error: Error | null;
-}
+import { IUseFetchResult } from '../../../components/types/data-types';
 
 export const UseFetch = <T,>(url: string): IUseFetchResult<T> => {
-	const [data, setData] = useState<T | null>(null);
+	const [ingredients, setIngredients] = useState<T | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -19,7 +14,7 @@ export const UseFetch = <T,>(url: string): IUseFetchResult<T> => {
 					throw new Error('Error: status' + response.status);
 				}
 				const result = (await response.json()) as T;
-				setData(result);
+				setIngredients(result);
 			} catch (error) {
 				setError(error as Error);
 			} finally {
@@ -29,5 +24,5 @@ export const UseFetch = <T,>(url: string): IUseFetchResult<T> => {
 		fetchData();
 	}, [url]);
 
-	return { data, loading, error };
+	return { ingredients, loading, error };
 };

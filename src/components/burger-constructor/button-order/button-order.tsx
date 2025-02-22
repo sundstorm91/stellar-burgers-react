@@ -4,8 +4,8 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState } from 'react';
-import { ModalOrder } from '../../modal-order/modal';
-import { ModalContentOrder } from '../../modal-order/modal-content-order';
+import { ModalOverlay } from '../../modal/modal-overlay';
+import { OrderDetails } from '../../modal/order-details';
 
 export const ButtonOrderComponent = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,9 +29,9 @@ export const ButtonOrderComponent = () => {
 					onClick={openModal}>
 					Оформить заказ
 				</Button>
-				<ModalOrder isOpen={isModalOpen} onClose={closedModal}>
-					<ModalContentOrder />
-				</ModalOrder>
+				<ModalOverlay isOpen={isModalOpen} onClose={closedModal}>
+					<OrderDetails />
+				</ModalOverlay>
 			</div>
 		</>
 	);

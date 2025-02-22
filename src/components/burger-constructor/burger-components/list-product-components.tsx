@@ -1,10 +1,10 @@
-import { Iingredients } from '../../types/data-types';
+import { Ingredients } from '../../types/data-types';
 import styles from './burger-components.module.css';
 import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
 interface IListComponentsProps {
-	products: Iingredients[];
+	products: Ingredients[];
 }
 
 export const ListProductComponents: React.FC<IListComponentsProps> = ({

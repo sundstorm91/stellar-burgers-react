@@ -1,13 +1,7 @@
-import { Iingredients } from '../../types/data-types';
+import { BunComponentProps } from '../../types/data-types';
 import styles from './burger-components.module.css';
 import React from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-type TypeBun = 'top' | 'bottom';
-
-interface BunComponentProps {
-	products: Iingredients[];
-	type: TypeBun;
-}
 
 export const BunComponent: React.FC<BunComponentProps> = ({
 	products,

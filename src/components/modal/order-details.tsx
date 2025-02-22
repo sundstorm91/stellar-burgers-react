@@ -1,7 +1,7 @@
-import styles from './modal-order.module.css';
+import styles from './modal.module.css';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const ModalContentOrder = () => {
+export const OrderDetails = () => {
 	return (
 		<>
 			<p className='text text_type_digits-large' id={styles.number}>
