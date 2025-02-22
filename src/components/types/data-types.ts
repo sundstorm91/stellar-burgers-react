@@ -1,4 +1,4 @@
-export interface Iingredients {
+interface Iingredients {
 	_id?: string;
 	name?: string;
 	type?: string;
@@ -13,4 +13,9 @@ export interface Iingredients {
 	__v?: number;
 }
 
-/* export { Iingredients }; */
+interface IncomingDataApi {
+	success?: boolean;
+	data: Iingredients[];
+}
+
+export type { Iingredients, IncomingDataApi };

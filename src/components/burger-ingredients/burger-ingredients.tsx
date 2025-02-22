@@ -2,9 +2,9 @@ import styles from './burger-ingredients.module.css';
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Component } from './ingredient-component/ingredient-component';
-import { products } from '../data/data';
+import { IncomingDataApi } from '../types/data-types';
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients: React.FC<IncomingDataApi> = ({ data }) => {
 	const [current, setCurrent] = useState('Булки');
 	return (
 		<>
@@ -34,11 +34,11 @@ export const BurgerIngredients = () => {
 					</div>
 					<div className={styles.wrapper}>
 						<h3 className={styles.headline}>Булки</h3>
-						<Component products={products} type={'bun'} />
+						<Component products={data} type={'bun'} />
 						<h3 className={styles.headline}>Соусы</h3>
-						<Component products={products} type={'sauce'} />
+						<Component products={data} type={'sauce'} />
 						<h3 className={styles.headline}>Начинки</h3>
-						<Component products={products} type={'main'} />
+						<Component products={data} type={'main'} />
 					</div>
 				</div>
 			</section>
