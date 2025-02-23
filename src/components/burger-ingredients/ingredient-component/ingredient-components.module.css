@@ -15,6 +15,7 @@
 	align-items: center;
 	max-width: 272px;
 	background-color: inherit;
+	cursor: pointer;
 }
 
 .price {

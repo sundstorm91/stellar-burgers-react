@@ -1,6 +1,7 @@
 .menuList {
 	max-width: inherit;
 	height: 480px;
+	padding-right: 8px;
 	overflow-y: auto;
 	list-style-image: url('../../../svg/Vector.svg');
 }

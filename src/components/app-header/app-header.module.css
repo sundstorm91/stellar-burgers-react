@@ -11,7 +11,8 @@
 	width: 1920px;
 	margin: 40px 40px 0;
 	background-color: rgb(28 28 33 / 100%);
-	border: 2px solid rgb(76 76 255 / 100%);
+
+	/* border: 2px solid rgb(76 76 255 / 100%); */
 }
 
 .nav {

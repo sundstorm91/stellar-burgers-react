@@ -15,7 +15,7 @@ export const BurgerBuilder: React.FC<IngredientsApi> = ({ data }) => {
 						type={'bun'}
 						position={{ property: 'top', value: 'верх' }}
 					/>
-					<ListProductComponents products={data} />
+					<ListProductComponents products={data} exceptionProperty='bun' />
 					<BunComponent
 						products={data}
 						type={'bun'}
