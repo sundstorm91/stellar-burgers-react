@@ -10,9 +10,17 @@ export const BurgerBuilder: React.FC<IngredientsApi> = ({ data }) => {
 		<>
 			<section>
 				<div className={styles.burgerBuilder}>
-					<BunComponent products={data} type={'top'} />
+					<BunComponent
+						products={data}
+						type={'bun'}
+						position={{ property: 'top', value: 'верх' }}
+					/>
 					<ListProductComponents products={data} />
-					<BunComponent products={data} type={'bottom'} />
+					<BunComponent
+						products={data}
+						type={'bun'}
+						position={{ property: 'bottom', value: 'низ' }}
+					/>
 				</div>
 				<ButtonOrderComponent />
 			</section>

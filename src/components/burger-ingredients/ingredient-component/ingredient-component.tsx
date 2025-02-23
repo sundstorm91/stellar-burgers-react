@@ -10,12 +10,15 @@ import { IngredientDetails } from '../../modal/ingredient-details';
 
 type TypeItem = 'bun' | 'main' | 'sauce';
 
-interface BunComponentProps {
+interface IngredientComponentProps {
 	products: Ingredients[];
 	type: TypeItem;
 }
 
-export const Component: React.FC<BunComponentProps> = ({ products, type }) => {
+export const Component: React.FC<IngredientComponentProps> = ({
+	products,
+	type,
+}) => {
 	const [openModalId, setOpenModalId] = useState<string | null>(null);
 	const openModal = (id: string) => setOpenModalId(id);
 	const closeModal = () => setOpenModalId(null);

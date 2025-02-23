@@ -24,11 +24,20 @@ interface IUseFetchResult<T> {
 	error: Error | null;
 }
 
-type TypeBun = 'top' | 'bottom';
+type TypePositionBun = 'верх' | 'низ';
+type TypePropertyBun = 'bottom' | 'top';
 
-interface BunComponentProps {
+interface PositionBun {
+	property: TypePropertyBun;
+	value: TypePositionBun;
+}
+
+type TypeComponent = 'bun' | 'main' | 'sauce';
+
+interface IngredientComponentProps {
 	products: Ingredients[];
-	type: TypeBun;
+	type: TypeComponent;
+	position?: PositionBun;
 }
 
 interface CurrentComponentProps {
@@ -45,8 +54,9 @@ export type {
 	Ingredients,
 	IngredientsApi,
 	IUseFetchResult,
-	TypeBun,
-	BunComponentProps,
+	TypeComponent,
+	IngredientComponentProps,
 	CurrentComponentProps,
 	ModalProps,
+	PositionBun,
 };

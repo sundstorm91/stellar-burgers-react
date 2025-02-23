@@ -37,3 +37,7 @@
 	height: 756px;
 	overflow: auto;
 }
+
+.switchWrapper {
+	display: flex;
+}

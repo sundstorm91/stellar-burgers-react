@@ -12,7 +12,7 @@ export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 				<div className={styles.burgerIngredients}>
 					<h2 className={styles.title}>Соберите бургер</h2>
 
-					<div style={{ display: 'flex' }}>
+					<div className={styles.switchWrapper}>
 						<Tab
 							value='Булки'
 							active={current === 'Булки'}
