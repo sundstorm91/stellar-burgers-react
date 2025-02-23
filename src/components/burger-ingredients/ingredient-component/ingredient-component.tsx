@@ -36,7 +36,7 @@ export const Component: React.FC<IngredientComponentProps> = ({
 								aria-hidden='true'
 								className={styles.ingredientItem}
 								onClick={() => openModal(item._id!)}>
-								<img src={item.image} alt='logo-ingredient' />
+								<img src={item.image} alt={item.name} />
 								<div className={styles.price}>
 									<p className='text text_type_digits-default'>{item.price}</p>
 									<CurrencyIcon type={'primary'} />
