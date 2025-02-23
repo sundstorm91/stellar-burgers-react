@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import styles from './modal.module.css';
-
-interface ModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	children: React.ReactNode;
-}
+import ReactDOM from 'react-dom';
+import { ModalProps } from '../types/data-types';
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+	const modalRoot = document.getElementById('modal-root');
+
 	useEffect(() => {
 		const handleEscape = (event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
@@ -25,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 	}, [isOpen, onClose]);
 	if (!isOpen) return null;
 
-	return (
+	return ReactDOM.createPortal(
 		<div className={styles.modal}>
 			<div className={styles.modalContent}>
 				<button className={styles.modalClose} onClick={onClose}>
@@ -33,7 +31,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 				</button>
 				{children}
 			</div>
-		</div>
+		</div>,
+		modalRoot!
 	);
 };
 
