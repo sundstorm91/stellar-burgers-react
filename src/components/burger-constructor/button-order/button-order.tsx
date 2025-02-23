@@ -6,8 +6,9 @@ import {
 import React, { useState } from 'react';
 import ModalOverlay from '../../modal/modal-overlay';
 import { OrderDetails } from '../../modal/order-details';
+import Modal from '../../modal/modal';
 
-export const ButtonOrderComponent = () => {
+export const ButtonOrderComponent: React.FC = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openModal = () => setIsModalOpen(true);
@@ -29,9 +30,10 @@ export const ButtonOrderComponent = () => {
 					onClick={openModal}>
 					Оформить заказ
 				</Button>
-				<ModalOverlay isOpen={isModalOpen} onClose={closedModal}>
+				<ModalOverlay isOpen={isModalOpen} onClose={closedModal} />
+				<Modal isOpen={isModalOpen} onClose={closedModal}>
 					<OrderDetails />
-				</ModalOverlay>
+				</Modal>
 			</div>
 		</>
 	);

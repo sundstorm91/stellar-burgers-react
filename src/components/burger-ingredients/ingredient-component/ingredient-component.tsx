@@ -7,6 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../../modal/modal-overlay';
 import { IngredientDetails } from '../../modal/ingredient-details';
+import Modal from '../../modal/modal';
 
 type TypeItem = 'bun' | 'main' | 'sauce';
 
@@ -47,9 +48,12 @@ export const Component: React.FC<IngredientComponentProps> = ({
 					))}
 
 				{currentCard && (
-					<ModalOverlay onClose={closeModal} isOpen={!!openModalId}>
-						<IngredientDetails product={currentCard} />
-					</ModalOverlay>
+					<>
+						<ModalOverlay onClose={closeModal} isOpen={!!openModalId} />
+						<Modal onClose={closeModal} isOpen={!!openModalId}>
+							<IngredientDetails product={currentCard} />
+						</Modal>
+					</>
 				)}
 			</div>
 		</>
