@@ -1,0 +1,43 @@
+@font-face {
+	font-family: 'JetBrainsMono';
+	font-style: normal;
+	src: url('../../fonts/jet-brains/JetBrainsMono-VariableFont_wght.ttf');
+}
+
+.burgerIngredients {
+	box-sizing: border-box;
+	max-width: 600px;
+	background-color: rgb(19 19 22 / 100%);
+	border: 2px rgb(76 76 255 / 100%);
+}
+
+.title {
+	margin: 40px 0 20px;
+	font-weight: 700;
+	font-size: 36px;
+	font-family: 'JetBrainsMono', sans-serif, 'Arial';
+
+	/* line-height: 40px; */
+	letter-spacing: 0%;
+}
+
+.headline {
+	color: rgb(242 242 243 / 100%);
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', sans-serif, 'Arial';
+
+	/* line-height: 30px; */
+	letter-spacing: 0%;
+}
+
+.wrapper {
+	/* scrollbar-width: thin;
+  scrollbar-color: hsl(0 0% 50%); */
+	height: 756px;
+	overflow: auto;
+}
+
+.switchWrapper {
+	display: flex;
+}
