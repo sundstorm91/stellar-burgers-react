@@ -1,3 +1,4 @@
+/* import { useEffect } from 'react'; */
 import { AppHeader } from '../app-header/app-header';
 import { BurgerBuilder } from '../burger-constructor/burger-builder';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
@@ -6,9 +7,15 @@ import { UseFetch } from '../../utils/api/hooks/use-fetch';
 import { IngredientsApi } from '../types/data-types';
 import ingredientsUrl from '@utils/api/api-endpoints';
 
-export const App = () => {
+export const App: React.FC = () => {
+	/* const dispatch = useDispatch<AppDispatch>(); */
+
 	const { ingredients, loading, error } =
 		UseFetch<IngredientsApi>(ingredientsUrl);
+
+	/* useEffect(() => {
+		dispatch(loadIngredients());
+	}, []); */
 
 	if (loading) {
 		return <div>Loading...</div>;
