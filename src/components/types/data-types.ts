@@ -1,4 +1,5 @@
 interface Ingredients {
+	[x: string]: any;
 	_id?: string;
 	name?: string;
 	type?: string;

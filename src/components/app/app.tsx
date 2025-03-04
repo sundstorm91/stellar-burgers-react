@@ -1,38 +1,48 @@
-/* import { useEffect } from 'react'; */
 import { AppHeader } from '../app-header/app-header';
 import { BurgerBuilder } from '../burger-constructor/burger-builder';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import styles from './app.module.css';
-import { UseFetch } from '../../utils/api/hooks/use-fetch';
-import { IngredientsApi } from '../types/data-types';
-import ingredientsUrl from '@utils/api/api-endpoints';
+import { AppDispatch } from '../..';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients } from '../../services/features/ingredients/action';
+import { ApiState } from '../../services/features/ingredients/reducer';
+import { useEffect } from 'react';
 
 export const App: React.FC = () => {
-	/* const dispatch = useDispatch<AppDispatch>(); */
+	const dispatch = useDispatch<AppDispatch>();
 
-	const { ingredients, loading, error } =
-		UseFetch<IngredientsApi>(ingredientsUrl);
+	interface RootState {
+		api: ApiState;
+	}
 
-	/* useEffect(() => {
+	const loading = useSelector((state: RootState) => state.api.loading);
+	const error = useSelector((state: RootState) => state.api.error);
+	const ingredients = useSelector((state: RootState) => state.api.ingredients);
+	console.log(ingredients, loading, error);
+
+	const showState = useSelector((state: RootState) => state.api);
+	console.log(showState);
+
+	useEffect(() => {
 		dispatch(loadIngredients());
-	}, []); */
+	}, []);
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 
 	if (error) {
-		return <div>Error: {error.message}</div>;
+		return <div>Error: {error}</div>;
 	}
 
 	if (ingredients) {
 		return (
 			<>
 				<AppHeader />
-				<main className={styles.main}>
-					<BurgerIngredients data={ingredients.data} />
-					<BurgerBuilder data={ingredients.data} />
-				</main>
+				{/* <main className={styles.main}>
+					<BurgerIngredients data={ingredients} />
+					<BurgerBuilder data={ingredients} />
+				</main> */}
 			</>
 		);
 	}

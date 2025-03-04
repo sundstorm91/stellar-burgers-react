@@ -1,15 +1,17 @@
-import { Actions } from '@services/services-types';
 import { Ingredients } from '../../../components/types/data-types';
 import {
 	FETCH_INGREDIENTS_FAILURE,
 	FETCH_INGREDIENTS_START,
 	FETCH_INGREDIENTS_SUCCESS,
+	/* FetchIngredientsFailure,
+	FetchIngredientsStart,
+	FetchIngredientsSuccess, */
 } from './action';
 
-interface ApiState {
+export interface ApiState {
 	ingredients: Ingredients[];
 	loading: boolean;
-	error: Error | null;
+	error: string | null;
 }
 
 const initialState: ApiState = {
@@ -18,10 +20,15 @@ const initialState: ApiState = {
 	error: null,
 };
 
+/* type IngredientsAction =
+	| FetchIngredientsStart
+	| FetchIngredientsSuccess
+	| FetchIngredientsFailure;
+ */
 export const reducerApi = (
-	state = initialState,
-	action: Actions<Ingredients[], Error>
-) => {
+	state: ApiState = initialState,
+	action: any
+): ApiState => {
 	switch (action.type) {
 		case FETCH_INGREDIENTS_START:
 			return {
@@ -32,14 +39,14 @@ export const reducerApi = (
 		case FETCH_INGREDIENTS_SUCCESS:
 			return {
 				...state,
-				ingredients: [...state.ingredients, action.payload as Ingredients],
 				loading: false,
+				ingredients: action.payload,
 			};
 		case FETCH_INGREDIENTS_FAILURE:
 			return {
 				...state,
-				error: action.payload as Error,
 				loading: false,
+				error: action.payload,
 			};
 
 		default:
