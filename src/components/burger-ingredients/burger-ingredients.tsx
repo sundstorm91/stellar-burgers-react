@@ -17,7 +17,6 @@ interface componentsField {
 export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
 	const componentRefs = useRef<HTMLDivElement[]>([]);
-	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const fillComponents: componentsField[] = [
 		{
@@ -39,39 +38,23 @@ export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 
 	const buttonComponentsArray = ['Булки', 'Соусы', 'Начинки'];
 
-	useEffect(() => {
-		const handleScroll = () => {
-			const wrapper = wrapperRef.current;
-			if (!wrapper) return;
+	const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+		const parent = event.currentTarget;
 
-			const scrollPosition = wrapper.scrollTop + wrapper.clientHeight / 2;
+		const scrollPosition = parent.scrollTop + parent.clientHeight / 2;
 
-			const activeComponentIndex = componentRefs.current.findIndex(
-				(component) => {
-					const childTop = component.offsetTop;
-					const childBottom = childTop + component.offsetHeight;
-					return scrollPosition >= childTop && scrollPosition < childBottom;
-				}
-			);
-
-			// Update the active button
-			if (activeComponentIndex !== -1) {
-				setActiveButton(activeComponentIndex);
+		const activeComponentIndex = componentRefs.current.findIndex(
+			(component) => {
+				const childTop = component.offsetTop;
+				const childBottom = childTop + component.offsetHeight;
+				return scrollPosition >= childTop && scrollPosition < childBottom;
 			}
-		};
+		);
 
-		const wrapper = wrapperRef.current;
-		if (wrapper) {
-			wrapper.addEventListener('scroll', handleScroll);
+		if (activeComponentIndex !== -1) {
+			setActiveButton(activeComponentIndex);
 		}
-
-		// Clean up the event listener on unmount
-		return () => {
-			if (wrapper) {
-				wrapper.removeEventListener('scroll', handleScroll);
-			}
-		};
-	}, []);
+	};
 
 	return (
 		<>
@@ -95,7 +78,7 @@ export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 						))}
 					</div>
 
-					<div className={styles.wrapper} ref={wrapperRef}>
+					<div onScroll={handleScroll} className={styles.wrapper}>
 						{fillComponents.map((component, index) => (
 							<div
 								key={index}
