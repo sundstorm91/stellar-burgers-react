@@ -39,10 +39,10 @@ export const App: React.FC = () => {
 		return (
 			<>
 				<AppHeader />
-				{/* <main className={styles.main}>
-					<BurgerIngredients data={ingredients} />
-					<BurgerBuilder data={ingredients} />
-				</main> */}
+				<main className={styles.main}>
+					<BurgerIngredients data={ingredients.data} />
+					<BurgerBuilder data={ingredients.data} />
+				</main>
 			</>
 		);
 	}

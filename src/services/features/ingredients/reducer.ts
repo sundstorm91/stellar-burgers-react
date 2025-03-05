@@ -1,4 +1,7 @@
-import { Ingredients } from '../../../components/types/data-types';
+import {
+	Ingredients,
+	IngredientsApi,
+} from '../../../components/types/data-types';
 import {
 	FETCH_INGREDIENTS_FAILURE,
 	FETCH_INGREDIENTS_START,
@@ -9,13 +12,13 @@ import {
 } from './action';
 
 export interface ApiState {
-	ingredients: Ingredients[];
+	ingredients: IngredientsApi;
 	loading: boolean;
 	error: string | null;
 }
 
 const initialState: ApiState = {
-	ingredients: [],
+	ingredients: { data: [], success: false },
 	loading: false,
 	error: null,
 };

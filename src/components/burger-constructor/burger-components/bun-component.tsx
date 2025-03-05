@@ -10,26 +10,14 @@ export const BunComponent: React.FC<IngredientComponentProps> = ({
 }) => {
 	const wrapperArr: Array<Ingredients> = [];
 	const currentBun = products.find((item) => item.type === type);
+	console.log(currentBun, '!!')
 	wrapperArr.push(currentBun!);
 	return (
 		<>
 			<div
 				className={
 					position?.property === 'top' ? styles.upperBun : styles.bottomBun
-				}>
-				{wrapperArr.map((item) => (
-					<div key={item._id}>
-						<ConstructorElement
-							type={position?.property}
-							isLocked={true}
-							text={`${item.name}
-							(${position?.value})`}
-							price={200}
-							thumbnail={item.image!}
-						/>
-					</div>
-				))}
-			</div>
+				}></div>
 		</>
 	);
 };

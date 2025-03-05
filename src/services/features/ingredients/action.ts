@@ -27,7 +27,7 @@ export const loadIngredients = () => {
 			.then((data) => {
 				dispatch({
 					type: FETCH_INGREDIENTS_SUCCESS,
-					payload: data.data,
+					payload: data,
 				});
 			})
 			.catch((err: string) => {
