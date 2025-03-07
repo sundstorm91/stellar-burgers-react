@@ -1,6 +1,9 @@
 import styles from './burger-ingredients.module.css';
 import { useEffect, useRef, useState } from 'react';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	CurrencyIcon,
+	Tab,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Component } from './ingredient-component/ingredient-component';
 import { ApiState } from '@services/features/ingredients/reducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +18,23 @@ export const BurgerIngredients: React.FC = () => {
 	interface RootState {
 		api: ApiState;
 	}
+
+	const typeComponents = [
+		{
+			type: 'bun',
+			title: 'Булки',
+		},
+
+		{
+			type: 'sauce',
+			title: 'Соусы',
+		},
+
+		{
+			type: 'main',
+			title: 'Начинки',
+		},
+	];
 
 	const loading = useSelector((state: RootState) => state.api.loading);
 	const error = useSelector((state: RootState) => state.api.error);
@@ -78,7 +98,46 @@ export const BurgerIngredients: React.FC = () => {
 						</div>
 
 						<div onScroll={handleScroll} className={styles.wrapper}>
-							<Component />
+							<>
+								{typeComponents.map((component, idx) => {
+									const filtredIngredients = ingredients.data.filter(
+										(ingredient) => ingredient.type === component.type
+									);
+
+									if (filtredIngredients.length === 0) return null;
+									return (
+										<>
+											<h2>{component.title}</h2>
+											<div
+												key={component.type}
+												className={styles.typeWrapper}
+												ref={(el) => {
+													if (el) componentRefs.current[idx] = el;
+												}}>
+												{/* <Counter count={1} size='default' /> */}
+												{filtredIngredients.map((item) => (
+													<div key={item._id} className={styles.ingredientItem}>
+														<div
+															aria-hidden='true'
+															className={styles.ingredientItem}
+															/* onClick={() => openModal(item._id!)} */
+														>
+															<img src={item.image} alt={item.name} />
+															<div className={styles.price}>
+																<p className='text text_type_digits-default'>
+																	{item.price}
+																</p>
+																<CurrencyIcon type={'primary'} />
+															</div>
+															<p className={styles.description}>{item.name}</p>
+														</div>
+													</div>
+												))}
+											</div>
+										</>
+									);
+								})}
+							</>
 						</div>
 					</div>
 				</section>
