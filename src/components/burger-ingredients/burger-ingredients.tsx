@@ -1,43 +1,29 @@
 import styles from './burger-ingredients.module.css';
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Component } from './ingredient-component/ingredient-component';
-import {
-	IngredientComponentProps,
-	IngredientsApi,
-	TypeComponent,
-} from '../types/data-types';
+import { ApiState } from '@services/features/ingredients/reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../..';
+import { loadIngredients } from '../../services/features/ingredients/action';
 
-interface componentsField {
-	component: FC<IngredientComponentProps>;
-	type: TypeComponent;
-	title: 'Булки' | 'Соусы' | 'Начинки';
-}
-
-export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
+export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
 	const componentRefs = useRef<HTMLDivElement[]>([]);
+	const dispatch = useDispatch<AppDispatch>();
 
-	const fillComponents: componentsField[] = [
-		{
-			component: Component,
-			type: 'bun',
-			title: 'Булки',
-		},
-		{
-			component: Component,
-			type: 'sauce',
-			title: 'Соусы',
-		},
-		{
-			component: Component,
-			type: 'main',
-			title: 'Начинки',
-		},
-	];
+	interface RootState {
+		api: ApiState;
+	}
 
-	const buttonComponentsArray = ['Булки', 'Соусы', 'Начинки'];
+	const loading = useSelector((state: RootState) => state.api.loading);
+	const error = useSelector((state: RootState) => state.api.error);
+	const ingredients = useSelector((state: RootState) => state.api.ingredients);
+	const root = useSelector((state: RootState) => state.api);
+	console.log(root);
+	console.log(ingredients, loading, error);
 
+	const tabComponentsArray = ['Булки', 'Соусы', 'Начинки'];
 	const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
 		const parent = event.currentTarget;
 
@@ -56,42 +42,47 @@ export const BurgerIngredients: React.FC<IngredientsApi> = ({ data }) => {
 		}
 	};
 
-	return (
-		<>
-			<section>
-				<div className={styles.burgerIngredients}>
-					<h2 className={styles.title}>Соберите бургер</h2>
+	useEffect(() => {
+		dispatch(loadIngredients());
+	}, [dispatch]);
 
-					<div className={styles.switchWrapper}>
-						{buttonComponentsArray.map((tab, index) => (
-							<Tab
-								key={index}
-								value={tab}
-								active={activeButton === index}
-								onClick={() => {
-									componentRefs.current[index]?.scrollIntoView({
-										behavior: 'smooth',
-									});
-								}}>
-								{tab}
-							</Tab>
-						))}
-					</div>
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
-					<div onScroll={handleScroll} className={styles.wrapper}>
-						{fillComponents.map((component, index) => (
-							<div
-								key={index}
-								ref={(el) => {
-									if (el) componentRefs.current[index] = el;
-								}}>
-								<h3 className={styles.headline}>{component.title}</h3>
-								<Component products={data} type={component.type} />
-							</div>
-						))}
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
+	if (ingredients) {
+		return (
+			<>
+				<section>
+					<div className={styles.burgerIngredients}>
+						<h2 className={styles.title}>Соберите бургер</h2>
+
+						<div className={styles.switchWrapper}>
+							{tabComponentsArray.map((tab, index) => (
+								<Tab
+									key={index}
+									value={tab}
+									active={activeButton === index}
+									onClick={() => {
+										componentRefs.current[index]?.scrollIntoView({
+											behavior: 'smooth',
+										});
+									}}>
+									{tab}
+								</Tab>
+							))}
+						</div>
+
+						<div onScroll={handleScroll} className={styles.wrapper}>
+							<Component />
+						</div>
 					</div>
-				</div>
-			</section>
-		</>
-	);
+				</section>
+			</>
+		);
+	}
 };
