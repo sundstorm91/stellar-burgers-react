@@ -1,3 +1,4 @@
+import { orderReducer } from '../../services/features/create-order/reducer';
 import { reducerApi } from '../features/ingredients/reducer';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
@@ -16,6 +17,7 @@ const composeEnhancers =
 
 const rootReducer = combineReducers({
 	api: reducerApi,
+	createOrder: orderReducer,
 });
 
 export const configureStore = () => {
