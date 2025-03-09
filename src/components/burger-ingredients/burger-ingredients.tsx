@@ -4,7 +4,6 @@ import {
 	CurrencyIcon,
 	Tab,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Component } from './ingredient-component/ingredient-component';
 import { ApiState } from '@services/features/ingredients/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../..';
