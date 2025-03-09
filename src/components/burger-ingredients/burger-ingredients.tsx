@@ -9,6 +9,8 @@ import { ApiState } from '@services/features/ingredients/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../..';
 import { loadIngredients } from '../../services/features/ingredients/action';
+import { Ingredients } from '../types/data-types';
+import { openModal } from '../../services/features/modal-data/action';
 
 export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
@@ -39,9 +41,6 @@ export const BurgerIngredients: React.FC = () => {
 	const loading = useSelector((state: RootState) => state.api.loading);
 	const error = useSelector((state: RootState) => state.api.error);
 	const ingredients = useSelector((state: RootState) => state.api.ingredients);
-	const root = useSelector((state: RootState) => state.api);
-	console.log(root);
-	console.log(ingredients, loading, error);
 
 	const tabComponentsArray = ['Булки', 'Соусы', 'Начинки'];
 	const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -73,6 +72,53 @@ export const BurgerIngredients: React.FC = () => {
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
+
+	const handleIngredientClick = (ingredient: Ingredients) => {
+		// Open the modal with the ingredient details
+		dispatch(
+			openModal(
+				<>
+					<p className={styles.title}>Детали ингредиента</p>
+					<img
+						className={styles.imageProduct}
+						src={ingredient.image_large}
+						alt='product-image'
+					/>
+					<p className={styles.nameProduct}>{ingredient.name}</p>
+					<div className={styles.descriptionWrapper}>
+						<tbody className={styles.tab}>
+							<th>
+								Калории, ккал
+								<tr className='text text_type_digits-small'>
+									{ingredient.calories}
+								</tr>
+							</th>
+
+							<th>
+								Белки, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.proteins}
+								</tr>
+							</th>
+							<th>
+								Жиры, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.fat}
+								</tr>
+							</th>
+
+							<th>
+								Углеводы, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.carbohydrates}
+								</tr>
+							</th>
+						</tbody>
+					</div>
+				</>
+			)
+		);
+	};
 
 	if (ingredients) {
 		return (
@@ -120,8 +166,7 @@ export const BurgerIngredients: React.FC = () => {
 														<div
 															aria-hidden='true'
 															className={styles.ingredientItem}
-															/* onClick={() => openModal(item._id!)} */
-														>
+															onClick={() => handleIngredientClick(item)}>
 															<img src={item.image} alt={item.name} />
 															<div className={styles.price}>
 																<p className='text text_type_digits-default'>
