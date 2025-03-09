@@ -3,6 +3,7 @@ import { orderReducer } from '../../services/features/create-order/reducer';
 import { reducerApi } from '../features/ingredients/reducer';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { thunk } from 'redux-thunk';
+import { builderReducer } from '../../services/features/constructor/reducer';
 
 // Define the type for the Redux DevTools extension
 declare global {
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
 	api: reducerApi,
 	createOrder: orderReducer,
 	modal: modalReducer,
+	builder: builderReducer,
 });
 
 export const configureStore = () => {
