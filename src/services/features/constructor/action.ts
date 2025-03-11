@@ -1,20 +1,31 @@
 import { Ingredients } from '../../../components/types/data-types';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT, REORDER_INGREDIENT } from './types';
 
-export const addIngredient = (
-	ingredient: Ingredients,
-	position: 'bun' | 'middle'
-) => ({
-	type: ADD_INGREDIENT,
-	payload: { ingredient, position },
-});
+export interface BurgerConstructorState {
+	bunTop: Ingredients | null;
+	ingredients: Ingredients[];
+	bunBottom: Ingredients | null;
+}
 
-export const removeIngredient = (index: number) => ({
-	type: REMOVE_INGREDIENT,
-	payload: { index },
-});
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+export const REORDER_INGREDIENTS = 'REORDER_INGREDIENTS';
 
-export const reorderIngredient = (fromIndex: number, toIndex: number) => ({
-	type: REORDER_INGREDIENT,
-	payload: { fromIndex, toIndex },
-});
+export interface AddIngredientAction {
+	type: typeof ADD_INGREDIENT;
+	payload: Ingredients;
+}
+
+export interface RemoveIngredientAction {
+	type: typeof REMOVE_INGREDIENT;
+	payload: { id: string };
+}
+
+export interface ReorderIngredientsAction {
+	type: typeof REORDER_INGREDIENTS;
+	payload: { startIndex: number; endIndex: number };
+}
+
+export type BurgerConstructorActionTypes =
+	| AddIngredientAction
+	| RemoveIngredientAction
+	| ReorderIngredientsAction;

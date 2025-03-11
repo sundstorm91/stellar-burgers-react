@@ -1,55 +1,52 @@
-import { Ingredients } from '../../../components/types/data-types';
+// src/store/reducers/burgerConstructorReducer.ts
 import {
+	BurgerConstructorState,
+	BurgerConstructorActionTypes,
 	ADD_INGREDIENT,
 	REMOVE_INGREDIENT,
-	REORDER_INGREDIENT,
-	ConstructorActionTypes,
-} from './types';
-
-export interface BurgerConstructorState {
-	bun: Ingredients | null;
-	ingredients: Ingredients[];
-}
+	REORDER_INGREDIENTS,
+} from './action';
 
 const initialState: BurgerConstructorState = {
-	bun: null,
+	bunTop: null,
 	ingredients: [],
+	bunBottom: null,
 };
 
-export const builderReducer = (
+export const burgerConstructorReducer = (
 	state = initialState,
-	action: any /* ConstructorActionTypes */
+	action: any
 ): BurgerConstructorState => {
 	switch (action.type) {
 		case ADD_INGREDIENT:
-			const { ingredient, position } = action.payload;
-			if (position === 'middle') {
+			const { type, _id, name } = action.payload;
+			if (type === 'bun') {
 				return {
 					...state,
-					ingredients: [...state.ingredients, ingredient],
+					bunTop: action.payload,
+					bunBottom: action.payload,
 				};
 			} else {
 				return {
 					...state,
-					[position]: ingredient,
+					ingredients: [...state.ingredients, action.payload],
 				};
 			}
-
 		case REMOVE_INGREDIENT:
 			return {
 				...state,
 				ingredients: state.ingredients.filter(
-					(_, index) => index !== action.payload.index
+					(item) => item._id !== action.payload.id
 				),
 			};
-		case REORDER_INGREDIENT:
-			const { fromIndex, toIndex } = action.payload;
-			const updatedMiddle = [...state.ingredients];
-			const [movedIngredient] = updatedMiddle.splice(fromIndex, 1);
-			updatedMiddle.splice(toIndex, 0, movedIngredient);
+		case REORDER_INGREDIENTS:
+			const { startIndex, endIndex } = action.payload;
+			const newIngredients = [...state.ingredients];
+			const [removed] = newIngredients.splice(startIndex, 1);
+			newIngredients.splice(endIndex, 0, removed);
 			return {
 				...state,
-				ingredients: updatedMiddle,
+				ingredients: newIngredients,
 			};
 		default:
 			return state;

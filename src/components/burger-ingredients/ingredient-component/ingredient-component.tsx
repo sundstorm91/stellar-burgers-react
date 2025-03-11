@@ -80,3 +80,18 @@ export const Component: React.FC = () => {
 		</>
 	);
 };
+/* <div key={item._id} className={styles.ingredientItem}>
+														<div
+															aria-hidden='true'
+															className={styles.ingredientItem}
+															onClick={() => handleIngredientClick(item)}>
+															<img src={item.image} alt={item.name} />
+															<div className={styles.price}>
+																<p className='text text_type_digits-default'>
+																	{item.price}
+																</p>
+																<CurrencyIcon type={'primary'} />
+															</div>
+															<p className={styles.description}>{item.name}</p>
+														</div>
+													</div> */

@@ -4,7 +4,8 @@ import { App } from './components/app/app';
 import './styles.css';
 import { Provider } from 'react-redux';
 import { configureStore } from './services/store/store';
-
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 const store = configureStore();
 
 // Define and export the AppDispatch type
@@ -19,7 +20,9 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<App />
+			<DndProvider backend={HTML5Backend}>
+				<App />
+			</DndProvider>
 		</Provider>
 	</StrictMode>
 );

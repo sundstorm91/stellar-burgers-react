@@ -10,6 +10,7 @@ import { AppDispatch } from '../..';
 import { loadIngredients } from '../../services/features/ingredients/action';
 import { Ingredients } from '../types/data-types';
 import { openModal } from '../../services/features/modal-data/action';
+import { useDrag } from 'react-dnd';
 
 export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
@@ -160,22 +161,12 @@ export const BurgerIngredients: React.FC = () => {
 													if (el) componentRefs.current[idx] = el;
 												}}>
 												{/* <Counter count={1} size='default' /> */}
-												{filtredIngredients.map((item) => (
-													<div key={item._id} className={styles.ingredientItem}>
-														<div
-															aria-hidden='true'
-															className={styles.ingredientItem}
-															onClick={() => handleIngredientClick(item)}>
-															<img src={item.image} alt={item.name} />
-															<div className={styles.price}>
-																<p className='text text_type_digits-default'>
-																	{item.price}
-																</p>
-																<CurrencyIcon type={'primary'} />
-															</div>
-															<p className={styles.description}>{item.name}</p>
-														</div>
-													</div>
+
+												{filtredIngredients.map((ingredient) => (
+													<DraggableIngredient
+														ingredient={ingredient}
+														key={ingredient._id}
+													/>
 												))}
 											</div>
 										</>
@@ -188,4 +179,80 @@ export const BurgerIngredients: React.FC = () => {
 			</>
 		);
 	}
+};
+
+const DraggableIngredient: React.FC<{ ingredient: Ingredients }> = ({
+	ingredient,
+}) => {
+	const [{ isDragging }, drag] = useDrag(() => ({
+		type: ingredient.type,
+		item: { id: ingredient._id, type: ingredient.type, name: ingredient.name },
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+	}));
+	const dispatch = useDispatch();
+
+	const handleIngredientClick = (ingredient: Ingredients) => {
+		// Open the modal with the ingredient details
+		dispatch(
+			openModal(
+				<>
+					<p className={styles.title}>Детали ингредиента</p>
+					<img
+						className={styles.imageProduct}
+						src={ingredient.image_large}
+						alt='product-image'
+					/>
+					<p className={styles.nameProduct}>{ingredient.name}</p>
+					<div className={styles.descriptionWrapper}>
+						<tbody className={styles.tab}>
+							<th>
+								Калории, ккал
+								<tr className='text text_type_digits-small'>
+									{ingredient.calories}
+								</tr>
+							</th>
+
+							<th>
+								Белки, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.proteins}
+								</tr>
+							</th>
+							<th>
+								Жиры, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.fat}
+								</tr>
+							</th>
+
+							<th>
+								Углеводы, г
+								<tr className='text text_type_digits-small'>
+									{ingredient.carbohydrates}
+								</tr>
+							</th>
+						</tbody>
+					</div>
+				</>
+			)
+		);
+	};
+
+	return (
+		<div key={ingredient._id} className={styles.ingredientItem} ref={drag}>
+			<div
+				aria-hidden='true'
+				className={styles.ingredientItem}
+				onClick={() => handleIngredientClick(ingredient)}>
+				<img src={ingredient.image} alt={ingredient.name} />
+				<div className={styles.price}>
+					<p className='text text_type_digits-default'>{ingredient.price}</p>
+					<CurrencyIcon type={'primary'} />
+				</div>
+				<p className={styles.description}>{ingredient.name}</p>
+			</div>
+		</div>
+	);
 };
