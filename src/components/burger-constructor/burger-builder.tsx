@@ -1,4 +1,3 @@
-// src/components/BurgerConstructor.tsx
 import React from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,13 +8,15 @@ import {
 	REORDER_INGREDIENTS,
 } from '../../services/features/constructor/action';
 import { Ingredients } from '../types/data-types';
+import styles from './burger-builder.module.css';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerBuilder: React.FC = () => {
 	const dispatch = useDispatch();
 	const { bunTop, ingredients, bunBottom } = useSelector(
 		(state: RootState) => state.burgerConstructor
 	);
-
+	console.log(bunTop, bunBottom);
 	const [, bunTopDrop] = useDrop(() => ({
 		accept: 'bun',
 		drop: (item: { id: string; type: string; name: string }) => {
@@ -24,7 +25,7 @@ const BurgerBuilder: React.FC = () => {
 	}));
 
 	const [, ingredientsDrop] = useDrop(() => ({
-		accept: ['sauce', 'topping'],
+		accept: ['sauce', 'main'],
 		drop: (item: { id: string; type: string; name: string }) => {
 			dispatch({ type: ADD_INGREDIENT, payload: item });
 		},
@@ -42,26 +43,22 @@ const BurgerBuilder: React.FC = () => {
 	};
 
 	return (
-		<div>
-			<h2>Burger Constructor</h2>
-			<div
-				ref={bunTopDrop}
-				style={{
-					padding: '16px',
-					margin: '8px',
-					border: '1px dashed #ccc',
-					backgroundColor: bunTop ? '#e0f7fa' : '#fff',
-				}}>
-				{bunTop ? bunTop.name : 'Drag a bun here'}
+		<section>
+			<div ref={bunTopDrop}>
+				{bunTop ? (
+					<ConstructorElement
+						type='top'
+						text={bunTop.name}
+						thumbnail={bunTop.image}
+						price={bunTop.price}
+						isLocked={true}
+					/>
+				) : (
+					<div className={styles.emptyBunTop}>Выберите булки</div>
+				)}
 			</div>
-			<div
-				ref={ingredientsDrop}
-				style={{
-					padding: '16px',
-					margin: '8px',
-					border: '1px dashed #ccc',
-					backgroundColor: ingredients.length > 0 ? '#e0f7fa' : '#fff',
-				}}>
+
+			<div ref={ingredientsDrop}>
 				{ingredients.map((ingredient, index) => (
 					<DraggableFilling
 						key={ingredient._id}
@@ -76,19 +73,23 @@ const BurgerBuilder: React.FC = () => {
 						}
 					/>
 				))}
-				{ingredients.length === 0 && 'Drag fillings here'}
+				{ingredients.length === 0 && (
+					<div className={styles.emptyMiddle}>Выберите начинку</div>
+				)}
 			</div>
-			<div
-				ref={bunBottomDrop}
-				style={{
-					padding: '16px',
-					margin: '8px',
-					border: '1px dashed #ccc',
-					backgroundColor: bunBottom ? '#e0f7fa' : '#fff',
-				}}>
-				{bunBottom ? bunBottom.name : 'Drag a bun here'}
+			<div ref={bunBottomDrop}>
+				{bunBottom ? (
+					<ConstructorElement
+						text={bunBottom.name}
+						thumbnail={bunBottom.image}
+						price={bunBottom.price}
+						isLocked={true}
+					/>
+				) : (
+					<div className={styles.emptyBunBottom}>Выберите булки</div>
+				)}
 			</div>
-		</div>
+		</section>
 	);
 };
 
@@ -104,7 +105,7 @@ const DraggableFilling: React.FC<{
 	}));
 
 	const [, drop] = useDrop(() => ({
-		accept: ['sauce', 'topping'],
+		accept: ['sauce', 'main'],
 		hover: (item: { id: string; index: number }) => {
 			if (item.index !== index) {
 				moveIngredient(item.index, index);
@@ -114,19 +115,13 @@ const DraggableFilling: React.FC<{
 	}));
 
 	return (
-		<div
-			ref={(node) => drag(drop(node))}
-			style={{
-				padding: '8px',
-				margin: '8px',
-				border: '1px solid #ccc',
-				backgroundColor: '#f9f9f9',
-				cursor: 'move',
-			}}>
-			{ingredients.name}
-			<button onClick={onRemove} style={{ marginLeft: '8px' }}>
-				Remove
-			</button>
+		<div ref={(node) => drag(drop(node))}>
+			<ConstructorElement
+				text={ingredients.name}
+				thumbnail={ingredients.image}
+				price={ingredients.price}
+				handleClose={onRemove}
+			/>
 		</div>
 	);
 };

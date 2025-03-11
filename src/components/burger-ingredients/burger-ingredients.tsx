@@ -1,6 +1,7 @@
 import styles from './burger-ingredients.module.css';
 import { useEffect, useRef, useState } from 'react';
 import {
+	ConstructorElement,
 	CurrencyIcon,
 	Tab,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -72,53 +73,6 @@ export const BurgerIngredients: React.FC = () => {
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
-
-	const handleIngredientClick = (ingredient: Ingredients) => {
-		// Open the modal with the ingredient details
-		dispatch(
-			openModal(
-				<>
-					<p className={styles.title}>Детали ингредиента</p>
-					<img
-						className={styles.imageProduct}
-						src={ingredient.image_large}
-						alt='product-image'
-					/>
-					<p className={styles.nameProduct}>{ingredient.name}</p>
-					<div className={styles.descriptionWrapper}>
-						<tbody className={styles.tab}>
-							<th>
-								Калории, ккал
-								<tr className='text text_type_digits-small'>
-									{ingredient.calories}
-								</tr>
-							</th>
-
-							<th>
-								Белки, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.proteins}
-								</tr>
-							</th>
-							<th>
-								Жиры, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.fat}
-								</tr>
-							</th>
-
-							<th>
-								Углеводы, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.carbohydrates}
-								</tr>
-							</th>
-						</tbody>
-					</div>
-				</>
-			)
-		);
-	};
 
 	if (ingredients) {
 		return (
