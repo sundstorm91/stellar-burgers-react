@@ -1,7 +1,6 @@
 import styles from './burger-ingredients.module.css';
 import { useEffect, useRef, useState } from 'react';
 import {
-	ConstructorElement,
 	CurrencyIcon,
 	Tab,
 } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -140,7 +139,13 @@ const DraggableIngredient: React.FC<{ ingredient: Ingredients }> = ({
 }) => {
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: ingredient.type,
-		item: { id: ingredient._id, type: ingredient.type, name: ingredient.name },
+		item: {
+			id: ingredient._id,
+			type: ingredient.type,
+			name: ingredient.name,
+			price: ingredient.price,
+			image: ingredient.image,
+		},
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
@@ -194,8 +199,14 @@ const DraggableIngredient: React.FC<{ ingredient: Ingredients }> = ({
 		);
 	};
 
+	const opacity = isDragging ? 0 : 1;
+
 	return (
-		<div key={ingredient._id} className={styles.ingredientItem} ref={drag}>
+		<div
+			key={ingredient._id}
+			className={styles.ingredientItem}
+			ref={drag}
+			style={{ opacity }}>
 			<div
 				aria-hidden='true'
 				className={styles.ingredientItem}

@@ -16,24 +16,42 @@ const BurgerBuilder: React.FC = () => {
 	const { bunTop, ingredients, bunBottom } = useSelector(
 		(state: RootState) => state.burgerConstructor
 	);
-	console.log(bunTop, bunBottom);
+
 	const [, bunTopDrop] = useDrop(() => ({
 		accept: 'bun',
-		drop: (item: { id: string; type: string; name: string }) => {
+		drop: (item: {
+			id: string;
+			type: string;
+			name: string;
+			image: string;
+			price: number;
+		}) => {
 			dispatch({ type: ADD_INGREDIENT, payload: item });
 		},
 	}));
 
 	const [, ingredientsDrop] = useDrop(() => ({
 		accept: ['sauce', 'main'],
-		drop: (item: { id: string; type: string; name: string }) => {
+		drop: (item: {
+			id: string;
+			type: string;
+			name: string;
+			image: string;
+			price: number;
+		}) => {
 			dispatch({ type: ADD_INGREDIENT, payload: item });
 		},
 	}));
 
 	const [, bunBottomDrop] = useDrop(() => ({
 		accept: 'bun',
-		drop: (item: { id: string; type: string; name: string }) => {
+		drop: (item: {
+			id: string;
+			type: string;
+			name: string;
+			image: string;
+			price: number;
+		}) => {
 			dispatch({ type: ADD_INGREDIENT, payload: item });
 		},
 	}));
@@ -99,23 +117,35 @@ const DraggableFilling: React.FC<{
 	moveIngredient: (startIndex: number, endIndex: number) => void;
 	onRemove: () => void;
 }> = ({ ingredients, index, moveIngredient, onRemove }) => {
-	const [, drag] = useDrag(() => ({
+	const [{ isDragging }, drag] = useDrag(() => ({
 		type: ingredients.type,
-		item: { id: ingredients._id, index },
+		item: {
+			id: ingredients._id,
+			index,
+			type: ingredients.type,
+			price: ingredients.price,
+			image: ingredients.image,
+		},
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
 	}));
 
 	const [, drop] = useDrop(() => ({
 		accept: ['sauce', 'main'],
-		hover: (item: { id: string; index: number }) => {
+		hover: (item: { _id: string; index: number }) => {
 			if (item.index !== index) {
 				moveIngredient(item.index, index);
 				item.index = index;
 			}
 		},
+		drop: (item) => {
+			console.log(item);
+		},
 	}));
-
+	const opacity = isDragging ? 0 : 1;
 	return (
-		<div ref={(node) => drag(drop(node))}>
+		<div ref={(node) => drag(drop(node))} style={{ opacity }}>
 			<ConstructorElement
 				text={ingredients.name}
 				thumbnail={ingredients.image}

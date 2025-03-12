@@ -19,7 +19,7 @@ export const burgerConstructorReducer = (
 ): BurgerConstructorState => {
 	switch (action.type) {
 		case ADD_INGREDIENT:
-			const { type, _id, name, image, price } = action.payload;
+			const { type, _id } = action.payload;
 			if (type === 'bun') {
 				return {
 					...state,
