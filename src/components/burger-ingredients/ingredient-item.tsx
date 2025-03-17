@@ -22,55 +22,10 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 	}));
 	const dispatch = useAppDispatch();
 
-	const handleIngredientClick = (ingredient: Ingredients) => {
-		// Open the modal with the ingredient details
-		dispatch(
-			openModal(
-				<>
-					<p className={styles.title}>Детали ингредиента</p>
-					<img
-						className={styles.imageProduct}
-						src={ingredient.image_large}
-						alt='product-image'
-					/>
-					<p className={styles.nameProduct}>{ingredient.name}</p>
-					<div className={styles.descriptionWrapper}>
-						<tbody className={styles.tab}>
-							<th>
-								Калории, ккал
-								<tr className='text text_type_digits-small'>
-									{ingredient.calories}
-								</tr>
-							</th>
-
-							<th>
-								Белки, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.proteins}
-								</tr>
-							</th>
-							<th>
-								Жиры, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.fat}
-								</tr>
-							</th>
-
-							<th>
-								Углеводы, г
-								<tr className='text text_type_digits-small'>
-									{ingredient.carbohydrates}
-								</tr>
-							</th>
-						</tbody>
-					</div>
-				</>
-			)
-		);
-	};
-
 	const opacity = isDragging ? 0 : 1;
-
+	const handleIngredientClick = (id: string) => {
+		dispatch(openModal(id));
+	};
 	return (
 		<div
 			key={ingredient._id}
@@ -80,7 +35,7 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 			<div
 				aria-hidden='true'
 				className={styles.ingredientItem}
-				onClick={() => handleIngredientClick(ingredient)}>
+				onClick={() => handleIngredientClick(ingredient._id)}>
 				<img src={ingredient.image} alt={ingredient.name} />
 				<div className={styles.price}>
 					<p className='text text_type_digits-default'>{ingredient.price}</p>
