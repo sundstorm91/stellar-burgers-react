@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import ingredientsReducer from '../features/ingredients/ingredientsSlice';
-
+import modalReducer from '../features/modal-control/modal-slice';
 export const store = configureStore({
 	reducer: {
 		ingredients: ingredientsReducer,
+		modal: modalReducer,
 	},
 });
 

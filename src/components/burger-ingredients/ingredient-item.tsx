@@ -3,6 +3,7 @@ import { useAppDispatch } from '../../hooks/hook';
 import styles from './burger-ingredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Ingredients } from '../../types/data-types';
+import { openModal } from '../../services/features/modal-control/modal-slice';
 export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 	ingredient,
 }) => {
@@ -21,7 +22,7 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 	}));
 	const dispatch = useAppDispatch();
 
-	/* const handleIngredientClick = (ingredient: Ingredients) => {
+	const handleIngredientClick = (ingredient: Ingredients) => {
 		// Open the modal with the ingredient details
 		dispatch(
 			openModal(
@@ -66,7 +67,7 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 				</>
 			)
 		);
-	}; */
+	};
 
 	const opacity = isDragging ? 0 : 1;
 
@@ -79,8 +80,7 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 			<div
 				aria-hidden='true'
 				className={styles.ingredientItem}
-				/* onClick={() => handleIngredientClick(ingredient)} */
-			>
+				onClick={() => handleIngredientClick(ingredient)}>
 				<img src={ingredient.image} alt={ingredient.name} />
 				<div className={styles.price}>
 					<p className='text text_type_digits-default'>{ingredient.price}</p>

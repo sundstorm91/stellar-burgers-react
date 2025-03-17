@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Ingredients, IngredientsApi } from '../../../types/data-types';
+import { IngredientsApi } from '../../../types/data-types';
 
 export const ingredientsApiConfig = {
 	baseUrl: 'https://norma.nomoreparties.space/api',

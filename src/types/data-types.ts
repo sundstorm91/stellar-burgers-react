@@ -40,10 +40,6 @@ interface IngredientComponentProps {
 	position?: PositionBun;
 }
 
-interface CurrentComponentProps {
-	product: Ingredients;
-}
-
 interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -56,7 +52,6 @@ export type {
 	IUseFetchResult,
 	TypeComponent,
 	IngredientComponentProps,
-	CurrentComponentProps,
 	ModalProps,
 	PositionBun,
 };
