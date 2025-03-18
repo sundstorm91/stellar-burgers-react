@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { fetchIngredients } from '../../services/features/ingredients/ingredientsSlice';
 import styles from './burger-ingredients.module.css';
@@ -29,7 +29,6 @@ export const IngredientList: React.FC = () => {
 	const { error, loading, ingredients } = useAppSelector(
 		(state) => state.ingredients
 	);
-	console.log(ingredients, error, loading);
 
 	const tabComponentsArray = ['Булки', 'Соусы', 'Начинки'];
 	const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -93,7 +92,7 @@ export const IngredientList: React.FC = () => {
 									);
 									if (filtredIngredients.length === 0) return null;
 									return (
-										<>
+										<div key={idx}>
 											<h2>{component.title}</h2>
 											<div
 												key={component.type}
@@ -101,8 +100,6 @@ export const IngredientList: React.FC = () => {
 												ref={(el) => {
 													if (el) componentRefs.current[idx] = el;
 												}}>
-												{/* <Counter count={1} size='default' /> */}
-
 												{filtredIngredients.map((ingredient) => (
 													<IngredientItem
 														ingredient={ingredient}
@@ -110,7 +107,7 @@ export const IngredientList: React.FC = () => {
 													/>
 												))}
 											</div>
-										</>
+										</div>
 									);
 								})}
 							</>
