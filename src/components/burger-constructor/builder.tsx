@@ -1,5 +1,6 @@
 import {
 	addIngredient,
+	ConstructorIngredient,
 	removeIngredient,
 } from '../../services/features/constructor/constructor-slice';
 import { useDrop } from 'react-dnd';
@@ -10,19 +11,23 @@ import { Ingredients } from '../../types/data-types';
 export const BurgerBuilder: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
 	const dispatch = useAppDispatch();
-
 	const [, bunDrop] = useDrop(() => ({
 		accept: 'bun',
-		drop: (item: Ingredients) => {
-			dispatch(addIngredient({ ...item }));
+		drop: (item: ConstructorIngredient) => {
+			const constructorId = Math.random().toString(36).substring(2, 9);
+			const ingredientWithId = { ...item, constructorId };
+			dispatch(addIngredient(ingredientWithId));
+			console.log(ingredientWithId);
 		},
 	}));
 
 	const [, fillingsDrop] = useDrop(() => ({
 		accept: ['sauce', 'main'],
-		drop: (item: Ingredients) => {
-			dispatch(addIngredient({ ...item }));
-			console.log(item);
+		drop: (item: ConstructorIngredient) => {
+			const constructorId = Math.random().toString(36).substring(2, 9);
+			const ingredientWithId = { ...item, constructorId };
+			dispatch(addIngredient(ingredientWithId));
+			console.log(ingredientWithId);
 		},
 	}));
 
@@ -46,7 +51,7 @@ export const BurgerBuilder: React.FC = () => {
 			</div>
 			<div ref={fillingsDrop}>
 				{ingredients.map((filling, index) => (
-					<div key={filling.generateId}>
+					<div key={filling.constructorId}>
 						<img
 							src={filling.image}
 							alt={filling.name}
@@ -55,7 +60,9 @@ export const BurgerBuilder: React.FC = () => {
 						<div>{filling.name}</div>
 						<div>${filling.price}</div>
 						<button
-							onClick={() => dispatch(removeIngredient(filling.generateId!))}>
+							onClick={() =>
+								dispatch(removeIngredient(filling.constructorId!))
+							}>
 							Remove
 						</button>
 					</div>

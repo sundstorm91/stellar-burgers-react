@@ -4,10 +4,13 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Ingredients } from '../../types/data-types';
 import { openModal } from '../../services/features/modal-control/modal-slice';
 import { useDrag } from 'react-dnd';
-import { addIngredient } from '../../services/features/constructor/constructor-slice';
-export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
-	ingredient,
-}) => {
+import {
+	addIngredient,
+	ConstructorIngredient,
+} from '../../services/features/constructor/constructor-slice';
+export const IngredientItem: React.FC<{
+	ingredient: ConstructorIngredient;
+}> = ({ ingredient }) => {
 	const dispatch = useAppDispatch();
 
 	const handleIngredientClick = (id: string) => {

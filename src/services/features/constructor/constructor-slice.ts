@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Ingredients } from '../../../types/data-types';
 
 export interface ConstructorIngredient extends Ingredients {
-	generateId?: string;
+	constructorId?: string;
 }
 
 interface BurgerBuilderState {
@@ -21,6 +21,7 @@ const burgerBuilderSlice = createSlice({
 	reducers: {
 		addIngredient: (state, action: PayloadAction<ConstructorIngredient>) => {
 			const ingredient = action.payload;
+
 			if (ingredient.type === 'bun') {
 				state.bun = ingredient;
 			} else {
