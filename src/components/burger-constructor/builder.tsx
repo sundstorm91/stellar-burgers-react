@@ -1,12 +1,11 @@
 import {
 	addIngredient,
-	ConstructorIngredient,
 	removeIngredient,
 } from '../../services/features/constructor/constructor-slice';
 import { useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import styles from './builder.module.css';
-import { IngredientComponentProps, Ingredients } from '../../types/data-types';
+import { Ingredients } from '../../types/data-types';
 
 export const BurgerBuilder: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
@@ -15,16 +14,14 @@ export const BurgerBuilder: React.FC = () => {
 	const [, bunDrop] = useDrop(() => ({
 		accept: 'bun',
 		drop: (item: Ingredients) => {
-			const constructorId = Math.random().toString(36).substr(2, 9); // Generate unique ID
-			dispatch(addIngredient({ ...item, generateId: constructorId }));
+			dispatch(addIngredient({ ...item }));
 		},
 	}));
 
 	const [, fillingsDrop] = useDrop(() => ({
 		accept: ['sauce', 'main'],
 		drop: (item: Ingredients) => {
-			const constructorId = Math.random().toString(36).substr(2, 9); // Generate unique ID
-			dispatch(addIngredient({ ...item, generateId: constructorId }));
+			dispatch(addIngredient({ ...item }));
 			console.log(item);
 		},
 	}));
@@ -56,7 +53,7 @@ export const BurgerBuilder: React.FC = () => {
 							style={{ width: '50px', height: '50px' }}
 						/>
 						<div>{filling.name}</div>
-						<div>${filling.price.toFixed(2)}</div>
+						<div>${filling.price}</div>
 						<button
 							onClick={() => dispatch(removeIngredient(filling.generateId!))}>
 							Remove

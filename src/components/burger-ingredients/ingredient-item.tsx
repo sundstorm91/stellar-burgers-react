@@ -17,12 +17,6 @@ export const IngredientItem: React.FC<{ ingredient: Ingredients }> = ({
 	const [, drag] = useDrag(() => ({
 		type: ingredient.type,
 		item: ingredient,
-		end: (item, monitor) => {
-			if (monitor.didDrop()) {
-				const constructorId = Math.random().toString(36).substr(2, 9); // Generate unique ID
-				dispatch(addIngredient({ ...item, generateId: constructorId }));
-			}
-		},
 	}));
 
 	return (
