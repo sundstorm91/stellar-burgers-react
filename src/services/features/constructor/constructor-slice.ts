@@ -26,7 +26,6 @@ const burgerBuilderSlice = createSlice({
 				state.bun = ingredient;
 			} else {
 				state.ingredients.push(ingredient);
-				console.log('add отработал!');
 			}
 		},
 
@@ -34,15 +33,6 @@ const burgerBuilderSlice = createSlice({
 			state.ingredients = state.ingredients.filter(
 				(ingredient) => ingredient.constructorId !== action.payload
 			);
-		},
-
-		reorderIngredientByIdx: (
-			state,
-			action: PayloadAction<{ startIndex: number; endIndex: number }>
-		) => {
-			const { startIndex, endIndex } = action.payload;
-			const [removed] = state.ingredients.splice(startIndex, 1);
-			state.ingredients.splice(endIndex, 0, removed);
 		},
 
 		reorderIngredient: (
@@ -65,9 +55,20 @@ const burgerBuilderSlice = createSlice({
 				state.ingredients = updatedIngredients;
 			}
 		},
+
+		updateIngredient: (
+			state,
+			action: PayloadAction<ConstructorIngredient[]>
+		) => {
+			state.ingredients = action.payload;
+		},
 	},
 });
 
-export const { addIngredient, reorderIngredient, removeIngredient } =
-	burgerBuilderSlice.actions;
+export const {
+	addIngredient,
+	reorderIngredient,
+	removeIngredient,
+	updateIngredient,
+} = burgerBuilderSlice.actions;
 export default burgerBuilderSlice.reducer;

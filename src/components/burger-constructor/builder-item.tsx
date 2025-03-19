@@ -1,4 +1,5 @@
 import { useDrag, useDrop } from 'react-dnd';
+import styles from './builder.module.css';
 import { useAppDispatch } from '../../hooks/hook';
 import {
 	ConstructorIngredient,
@@ -6,11 +7,12 @@ import {
 	reorderIngredient,
 } from '../../services/features/constructor/constructor-slice';
 import { useRef } from 'react';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 	ingredient,
 }) => {
 	const dispatch = useAppDispatch();
-	const { constructorId, name, image } = ingredient;
+	const { constructorId, name, image, price } = ingredient;
 	const ref = useRef<HTMLDivElement | null>(null);
 
 	const moveIngredient = (draggedId: string, targetId: string) => {
@@ -37,17 +39,17 @@ export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 	const opacity = isDragging ? 0 : 1;
 	drag(drop(ref));
 	return (
-		<div key={constructorId} ref={ref} style={{ opacity }}>
-			<img
-				src={image}
-				alt={name}
-				style={{ width: '250px', height: '100px', backgroundColor: 'white' }}
+		<div
+			key={constructorId}
+			ref={ref}
+			style={{ opacity }}
+			className={styles.item}>
+			<ConstructorElement
+				text={name}
+				thumbnail={image}
+				price={price}
+				handleClose={() => dispatch(removeIngredient(constructorId!))}
 			/>
-			<div>{ingredient.name}</div>
-			<div>${ingredient.price}</div>
-			<button onClick={() => dispatch(removeIngredient(constructorId!))}>
-				Remove
-			</button>
 		</div>
 	);
 };
