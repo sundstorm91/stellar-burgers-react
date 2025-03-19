@@ -1,13 +1,9 @@
 import { useAppDispatch } from '../../hooks/hook';
 import styles from './burger-ingredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Ingredients } from '../../types/data-types';
 import { openModal } from '../../services/features/modal-control/modal-slice';
 import { useDrag } from 'react-dnd';
-import {
-	addIngredient,
-	ConstructorIngredient,
-} from '../../services/features/constructor/constructor-slice';
+import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 export const IngredientItem: React.FC<{
 	ingredient: ConstructorIngredient;
 }> = ({ ingredient }) => {
