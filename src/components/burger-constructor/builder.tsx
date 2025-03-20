@@ -12,12 +12,14 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 export const BurgerBuilder: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
 	console.log(ingredients);
+	console.log(bun);
 	const dispatch = useAppDispatch();
 
 	const [, bunTopDrop] = useDrop(() => ({
 		accept: 'bun',
 		drop: (item: ConstructorIngredient) => {
 			const constructorId = Math.random().toString(36).substring(2, 9);
+
 			const ingredientWithId = { ...item, constructorId };
 			dispatch(addIngredient(ingredientWithId));
 		},

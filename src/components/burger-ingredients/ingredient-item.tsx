@@ -1,12 +1,16 @@
 import { useAppDispatch } from '../../hooks/hook';
 import styles from './burger-ingredients.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	Counter,
+	CurrencyIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { openModal } from '../../services/features/modal-control/modal-slice';
 import { useDrag } from 'react-dnd';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 export const IngredientItem: React.FC<{
 	ingredient: ConstructorIngredient;
-}> = ({ ingredient }) => {
+	count: number;
+}> = ({ ingredient, count }) => {
 	const dispatch = useAppDispatch();
 
 	const handleIngredientClick = (id: string) => {
@@ -24,6 +28,7 @@ export const IngredientItem: React.FC<{
 				aria-hidden='true'
 				className={styles.ingredientItem}
 				onClick={() => handleIngredientClick(ingredient._id!)}>
+				{count > 0 && <Counter count={count} />}
 				<img src={ingredient.image} alt={ingredient.name} />
 				<div className={styles.price}>
 					<p className='text text_type_digits-default'>{ingredient.price}</p>

@@ -4,11 +4,15 @@ import { fetchIngredients } from '../../services/features/ingredients/ingredient
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientItem } from './ingredient-item';
+import { useSelector } from 'react-redux';
+import { ingredientCounts } from '../../services/features/constructor/constructor-slice';
 
 export const IngredientList: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
 	const componentRefs = useRef<HTMLDivElement[]>([]);
 	const dispatch = useAppDispatch();
+	const counts = useSelector(ingredientCounts);
+
 	const typeComponents = [
 		{
 			type: 'bun',
@@ -104,6 +108,7 @@ export const IngredientList: React.FC = () => {
 													<IngredientItem
 														ingredient={ingredient}
 														key={ingredient._id}
+														count={counts[ingredient._id] || 0}
 													/>
 												))}
 											</div>
