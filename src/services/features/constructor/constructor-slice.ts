@@ -72,16 +72,3 @@ export const {
 	updateIngredient,
 } = burgerBuilderSlice.actions;
 export default burgerBuilderSlice.reducer;
-
-export const ingredientCounts = (state: { builder: BurgerBuilderState }) => {
-	const { bun, ingredients } = state.builder;
-	const counts: { [key: string]: number } = {};
-	if (bun) {
-		counts[bun._id] = 2;
-	}
-
-	ingredients.forEach((ingredient) => {
-		counts[ingredient._id] = (counts[ingredient._id] || 0) + 1;
-	});
-	return counts;
-};

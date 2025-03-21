@@ -7,6 +7,7 @@ import {
 import { openModal } from '../../services/features/modal-control/modal-slice';
 import { useDrag } from 'react-dnd';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
+
 export const IngredientItem: React.FC<{
 	ingredient: ConstructorIngredient;
 	count: number;
