@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsApiConfig } from '../ingredients/ingredientsSlice';
 
 interface OrderState {
-	orderData: Array<string>;
 	orderNumber: number | null;
 	loading: boolean;
 	error: string | null;
@@ -17,7 +16,6 @@ export interface ResponseData {
 }
 
 const initialState: OrderState = {
-	orderData: [],
 	orderNumber: null,
 	loading: false,
 	error: null,
@@ -47,7 +45,6 @@ const orderSlice = createSlice({
 	initialState,
 	reducers: {
 		clearOrder: (state) => {
-			state.orderData = [];
 			state.orderNumber = null;
 			state.error = null;
 			state.loading = false;

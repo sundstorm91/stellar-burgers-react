@@ -8,6 +8,7 @@ import styles from './builder.module.css';
 
 import { BuilderItem } from './builder-item';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { OrderField } from '../order/order-field';
 
 export const BurgerBuilder: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
@@ -44,40 +45,48 @@ export const BurgerBuilder: React.FC = () => {
 	}));
 
 	return (
-		<section className={styles.container}>
-			<div ref={bunTopDrop}>
-				{bun ? (
-					<ConstructorElement
-						type='top'
-						text={bun.name}
-						thumbnail={bun.image}
-						price={bun.price}
-						isLocked={true}
-					/>
-				) : (
-					<div className={styles.emptyBunTop}>Выберите булки</div>
-				)}
-			</div>
-			<div ref={fillingsDrop} className={styles.itemContainer}>
-				{ingredients.map((ingredient) => (
-					<BuilderItem ingredient={ingredient} key={ingredient.constructorId} />
-				))}
-				{ingredients.length === 0 && (
-					<div className={styles.emptyMiddle}>Выберите начинку</div>
-				)}
-			</div>
+		<section className={styles.burgerConstructorField}>
+			<div className={styles.container}>
+				<div ref={bunTopDrop}>
+					{bun ? (
+						<ConstructorElement
+							type='top'
+							text={bun.name}
+							thumbnail={bun.image}
+							price={bun.price}
+							isLocked={true}
+						/>
+					) : (
+						<div className={styles.emptyBunTop}>Выберите булки</div>
+					)}
+				</div>
+				<div ref={fillingsDrop} className={styles.itemContainer}>
+					{ingredients.map((ingredient) => (
+						<BuilderItem
+							ingredient={ingredient}
+							key={ingredient.constructorId}
+						/>
+					))}
+					{ingredients.length === 0 && (
+						<div className={styles.emptyMiddle}>Выберите начинку</div>
+					)}
+				</div>
 
-			<div ref={bunBottomDrop}>
-				{bun ? (
-					<ConstructorElement
-						text={bun.name}
-						thumbnail={bun.image}
-						price={bun.price}
-						isLocked={true}
-					/>
-				) : (
-					<div className={styles.emptyBunBottom}>Выберите булки</div>
-				)}
+				<div ref={bunBottomDrop}>
+					{bun ? (
+						<ConstructorElement
+							text={bun.name}
+							thumbnail={bun.image}
+							price={bun.price}
+							isLocked={true}
+						/>
+					) : (
+						<div className={styles.emptyBunBottom}>Выберите булки</div>
+					)}
+				</div>
+			</div>
+			<div>
+				<OrderField />
 			</div>
 		</section>
 	);
