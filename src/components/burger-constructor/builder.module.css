@@ -43,7 +43,7 @@
     max-width: 536px;
     height: 80px;
     padding: 28px 178px;
-    width: 100%;
+	margin: 16px 0px 16px 40px;
 }
 
 .container {
@@ -56,16 +56,16 @@
 	padding: 0px 0px 0px 40px;
 }
 
-.itemContainer {
+
+.itemWrapper {
 	max-height: 463px;
     overflow-y: scroll;
     width: 568px;
-
 	display: flex;
 	flex-direction: column;
 }
 
-.itemContainer .item:not(:last-child) {
+.itemWrapper .item:not(:last-child) {
 	margin-bottom: 16px;
   }
 

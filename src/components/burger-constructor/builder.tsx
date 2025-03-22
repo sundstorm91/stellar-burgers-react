@@ -86,21 +86,24 @@ export const BurgerBuilder: React.FC = () => {
 						</div>
 					)}
 				</div>
-				<ul ref={fillingsDrop} className={styles.itemContainer}>
-					{ingredients.map((ingredient) => (
-						<BuilderItem
-							ingredient={ingredient}
-							key={ingredient.constructorId}
-						/>
-					))}
-					{ingredients.length === 0 && (
+				<div ref={fillingsDrop}>
+					{ingredients.length === 0 ? (
 						<div
 							className={styles.emptyMiddle}
 							style={{ border: borderStyleFilling }}>
 							Выберите начинку
 						</div>
+					) : (
+						<ul className={styles.itemWrapper}>
+							{ingredients.map((ingredient) => (
+								<BuilderItem
+									ingredient={ingredient}
+									key={ingredient.constructorId}
+								/>
+							))}
+						</ul>
 					)}
-				</ul>
+				</div>
 
 				<div ref={bunBottomDrop} className={styles.bunIndent}>
 					{bun ? (
