@@ -22,7 +22,7 @@
 }
 
 .headline {
-	color: rgb(242 242 243 / 100%);
+	color: rgba(242, 242, 243, 1);
 	font-weight: 700;
 	font-size: 24px;
 	font-family: 'JetBrainsMono', sans-serif, 'Arial';

@@ -41,7 +41,7 @@
     font-size: 16px;
     line-height: 24px;
     max-width: 536px;
-    min-height: 80px;
+    height: 80px;
     padding: 28px 178px;
     width: 100%;
 }
@@ -50,28 +50,27 @@
 	margin: 100px 0px 0px 0px;
 	display: flex;
 	flex-direction: column;
-	row-gap: 17px;
+}
+
+.bunIndent {
+	padding: 0px 0px 0px 40px;
 }
 
 .itemContainer {
+	max-height: 463px;
+    overflow-y: scroll;
+    width: 568px;
+
 	display: flex;
 	flex-direction: column;
-	row-gap: 17px;
-	/* scroll-behavior: smooth;
-	overflow-y: scroll; !ОСтался скролл! */
 }
+
+.itemContainer .item:not(:last-child) {
+	margin-bottom: 16px;
+  }
 
 .item {
-	position: relative;
-}
-
-.item::before {
-	content: url("../../svg//Vector.svg");
-	position: absolute;
-	right: 100%;
-	top: 41%;
-	width: 24px;
-	height: 24px;
+	list-style-image: url('../../svg/Vector.svg');
 }
 
 .wrapperItemIngredient {

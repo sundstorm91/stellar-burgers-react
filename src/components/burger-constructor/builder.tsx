@@ -69,7 +69,7 @@ export const BurgerBuilder: React.FC = () => {
 	return (
 		<section className={styles.burgerConstructorField}>
 			<div className={styles.container}>
-				<div ref={bunTopDrop}>
+				<div ref={bunTopDrop} className={styles.bunIndent}>
 					{bun ? (
 						<ConstructorElement
 							type='top'
@@ -86,7 +86,7 @@ export const BurgerBuilder: React.FC = () => {
 						</div>
 					)}
 				</div>
-				<div ref={fillingsDrop} className={styles.itemContainer}>
+				<ul ref={fillingsDrop} className={styles.itemContainer}>
 					{ingredients.map((ingredient) => (
 						<BuilderItem
 							ingredient={ingredient}
@@ -100,9 +100,9 @@ export const BurgerBuilder: React.FC = () => {
 							Выберите начинку
 						</div>
 					)}
-				</div>
+				</ul>
 
-				<div ref={bunBottomDrop}>
+				<div ref={bunBottomDrop} className={styles.bunIndent}>
 					{bun ? (
 						<ConstructorElement
 							text={bun.name}

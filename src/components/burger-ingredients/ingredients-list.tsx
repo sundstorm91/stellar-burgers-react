@@ -98,7 +98,7 @@ export const IngredientList: React.FC = () => {
 									if (filtredIngredients.length === 0) return null;
 									return (
 										<div key={idx}>
-											<h2>{component.title}</h2>
+											<h2 className={styles.headline}>{component.title}</h2>
 											<div
 												key={component.type}
 												className={styles.typeWrapper}

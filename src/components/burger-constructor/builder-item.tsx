@@ -13,7 +13,7 @@ export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const { constructorId, name, image, price } = ingredient;
-	const ref = useRef<HTMLDivElement | null>(null);
+	const ref = useRef<HTMLLIElement | null>(null);
 
 	const moveIngredient = (draggedId: string, targetId: string) => {
 		dispatch(reorderIngredient({ draggedId, targetId }));
@@ -38,7 +38,7 @@ export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 	const opacity = isDragging ? 0 : 1;
 	drag(drop(ref));
 	return (
-		<div
+		<li
 			key={constructorId}
 			ref={ref}
 			style={{ opacity }}
@@ -49,6 +49,6 @@ export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 				price={price}
 				handleClose={() => dispatch(removeIngredient(constructorId!))}
 			/>
-		</div>
+		</li>
 	);
 };
