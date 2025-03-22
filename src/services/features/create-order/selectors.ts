@@ -10,36 +10,33 @@ export const selectOrderIngredients = createSelector(
 		const orderIngredients: string[] = [];
 
 		if (bun) {
-			orderIngredients.push(bun._id); // Top bun
+			orderIngredients.push(bun._id);
 		}
 
 		ingredients.forEach((ingredient) => {
-			orderIngredients.push(ingredient._id); // Sauces and toppings
+			orderIngredients.push(ingredient._id);
 		});
 
 		if (bun) {
-			orderIngredients.push(bun._id); // Bottom bun
+			orderIngredients.push(bun._id);
 		}
 
 		return orderIngredients;
 	}
 );
 
-export const selectTotalPrice = createSelector(
-	(state: RootState) => state.builder,
-	(burgerConstructor): number => {
-		const { bun, ingredients } = burgerConstructor;
+export const selectTotalPrice = createSelector([selectBuilder], (builder) => {
+	const { bun, ingredients } = builder;
 
-		let total = 0;
+	let total = 0;
 
-		if (bun) {
-			total += bun.price * 2;
-		}
-
-		ingredients.forEach((item) => {
-			total += item.price;
-		});
-
-		return total;
+	if (bun) {
+		total += bun.price * 2;
 	}
-);
+
+	ingredients.forEach((item) => {
+		total += item.price;
+	});
+
+	return total;
+});

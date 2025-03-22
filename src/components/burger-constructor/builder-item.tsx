@@ -28,10 +28,9 @@ export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
 		},
 	});
 
-	// Drag source for the ingredient
 	const [{ isDragging }, drag] = useDrag({
 		type: 'sortable',
-		item: { id: constructorId }, // Use constructorId instead of index
+		item: { id: constructorId },
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),

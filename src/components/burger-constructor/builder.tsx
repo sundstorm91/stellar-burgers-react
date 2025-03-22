@@ -12,11 +12,9 @@ import { OrderField } from '../order/order-field';
 
 export const BurgerBuilder: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
-	console.log(ingredients);
-	console.log(bun);
 	const dispatch = useAppDispatch();
 
-	const [, bunTopDrop] = useDrop(() => ({
+	const [{ canDropTopBun, isOverTopBun }, bunTopDrop] = useDrop(() => ({
 		accept: 'bun',
 		drop: (item: ConstructorIngredient) => {
 			const constructorId = Math.random().toString(36).substring(2, 9);
@@ -24,25 +22,49 @@ export const BurgerBuilder: React.FC = () => {
 			const ingredientWithId = { ...item, constructorId };
 			dispatch(addIngredient(ingredientWithId));
 		},
+		collect: (monitor) => ({
+			canDropTopBun: monitor.canDrop(),
+			isOverTopBun: monitor.isOver(),
+		}),
 	}));
 
-	const [, bunBottomDrop] = useDrop(() => ({
-		accept: 'bun',
-		drop: (item: ConstructorIngredient) => {
-			const constructorId = Math.random().toString(36).substring(2, 9);
-			const ingredientWithId = { ...item, constructorId };
-			dispatch(addIngredient(ingredientWithId));
-		},
-	}));
+	const [{ canDropBottomBun, isOverBottomBun }, bunBottomDrop] = useDrop(
+		() => ({
+			accept: 'bun',
+			drop: (item: ConstructorIngredient) => {
+				const constructorId = Math.random().toString(36).substring(2, 9);
+				const ingredientWithId = { ...item, constructorId };
+				dispatch(addIngredient(ingredientWithId));
+			},
+			collect: (monitor) => ({
+				canDropBottomBun: monitor.canDrop(),
+				isOverBottomBun: monitor.isOver(),
+			}),
+		})
+	);
 
-	const [, fillingsDrop] = useDrop(() => ({
+	const [{ canDropFillings, isOverFillings }, fillingsDrop] = useDrop(() => ({
 		accept: ['sauce', 'main'],
 		drop: (item: ConstructorIngredient) => {
 			const constructorId = Math.random().toString(36).substring(2, 9);
 			const ingredientWithId = { ...item, constructorId };
 			dispatch(addIngredient(ingredientWithId));
 		},
+		collect: (monitor) => ({
+			canDropFillings: monitor.canDrop(),
+			isOverFillings: monitor.isOver(),
+		}),
 	}));
+
+	const borderColorBun =
+		(canDropBottomBun || canDropTopBun) && (isOverBottomBun || isOverTopBun)
+			? 'green'
+			: 'transparent';
+	const borderColorFilling =
+		canDropFillings && isOverFillings ? 'green' : 'transparent';
+
+	const borderStyleBun = `2px dotted ${borderColorBun}`;
+	const borderStyleFilling = `2px dotted ${borderColorFilling}`;
 
 	return (
 		<section className={styles.burgerConstructorField}>
@@ -57,7 +79,11 @@ export const BurgerBuilder: React.FC = () => {
 							isLocked={true}
 						/>
 					) : (
-						<div className={styles.emptyBunTop}>Выберите булки</div>
+						<div
+							className={styles.emptyBunTop}
+							style={{ border: borderStyleBun }}>
+							Выберите булки
+						</div>
 					)}
 				</div>
 				<div ref={fillingsDrop} className={styles.itemContainer}>
@@ -68,7 +94,11 @@ export const BurgerBuilder: React.FC = () => {
 						/>
 					))}
 					{ingredients.length === 0 && (
-						<div className={styles.emptyMiddle}>Выберите начинку</div>
+						<div
+							className={styles.emptyMiddle}
+							style={{ border: borderStyleFilling }}>
+							Выберите начинку
+						</div>
 					)}
 				</div>
 
@@ -81,7 +111,11 @@ export const BurgerBuilder: React.FC = () => {
 							isLocked={true}
 						/>
 					) : (
-						<div className={styles.emptyBunBottom}>Выберите булки</div>
+						<div
+							className={styles.emptyBunBottom}
+							style={{ border: borderStyleBun }}>
+							Выберите булки
+						</div>
 					)}
 				</div>
 			</div>
