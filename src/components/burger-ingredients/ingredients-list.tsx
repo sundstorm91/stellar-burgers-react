@@ -4,11 +4,28 @@ import { fetchIngredients } from '../../services/features/ingredients/ingredient
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientItem } from './ingredient-item';
+import {
+	clearCurrentIngredient,
+	setCurrentIngredient,
+} from '../../services/features/current-ingredient/current-ingredient-slice';
+import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
+import { Modal } from '../modal/modal';
 
 export const IngredientList: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
-	const componentRefs = useRef<HTMLDivElement[]>([]);
 	const dispatch = useAppDispatch();
+	const componentRefs = useRef<HTMLDivElement[]>([]);
+	const currentIngredient = useAppSelector(
+		(state) => state.currentIngredient.currentIngredient
+	);
+	console.log(currentIngredient);
+	const handleIngredientClick = (ingredient: ConstructorIngredient) => {
+		dispatch(setCurrentIngredient(ingredient));
+	};
+
+	const handleCloseModal = () => {
+		dispatch(clearCurrentIngredient());
+	};
 
 	const { bun, ingredients: fillings } = useAppSelector(
 		(state) => state.builder
@@ -117,6 +134,7 @@ export const IngredientList: React.FC = () => {
 															ingredient={ingredient}
 															key={ingredient._id}
 															count={count}
+															onClick={handleIngredientClick}
 														/>
 													);
 												})}
@@ -127,6 +145,12 @@ export const IngredientList: React.FC = () => {
 							</>
 						</div>
 					</div>
+					{currentIngredient && (
+						<Modal
+							currentComponent={currentIngredient}
+							onClose={handleCloseModal}
+						/>
+					)}
 				</section>
 			</>
 		);

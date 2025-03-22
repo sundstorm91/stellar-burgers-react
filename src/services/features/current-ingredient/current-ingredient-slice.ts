@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Ingredients } from '../../../types/data-types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ConstructorIngredient } from '../constructor/constructor-slice';
 
-interface CurrentIngredient {
-	currentIngredient: Ingredients | null;
+export interface CurrentIngredient {
+	currentIngredient: ConstructorIngredient | null;
 }
 const initialState: CurrentIngredient = {
 	currentIngredient: null,
@@ -11,7 +11,10 @@ const currentIngredientSlice = createSlice({
 	name: 'currentIngredient',
 	initialState,
 	reducers: {
-		setCurrentIngredient: (state, action) => {
+		setCurrentIngredient: (
+			state,
+			action: PayloadAction<ConstructorIngredient>
+		) => {
 			state.currentIngredient = action.payload;
 		},
 		clearCurrentIngredient: (state) => {

@@ -1,35 +1,29 @@
 import ReactDOM from 'react-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import styles from './modal.module.css';
+import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import Overlay from './modal-overlay';
-import { closeModal } from '../../services/features/modal-control/modal-slice';
 import { IngredientDetails } from './ingredient-details';
 
-export const Modal: React.FC = () => {
+export const Modal: React.FC<{
+	currentComponent?: ConstructorIngredient;
+	onClose: () => void;
+}> = ({ currentComponent, onClose }) => {
 	const modalRoot = document.getElementById('modal-root');
-	const dispatch = useAppDispatch();
-	const { isOpen, ingredientId } = useAppSelector((state) => state.modal);
-	const ingredients = useAppSelector(
-		(state) => state.ingredients.ingredients.data
-	);
 
-	const selectedIngredient = ingredients.find(
-		(ingredient) => ingredient._id === ingredientId
-	);
-	if (!isOpen || !modalRoot) return null;
-	if (!selectedIngredient) return null;
+	console.log(currentComponent, '!!');
+	if (!currentComponent) return null;
 
 	return ReactDOM.createPortal(
 		<>
-			<Overlay onClick={() => dispatch(closeModal())} />
+			<Overlay onClick={onClose} />
 			<div className={styles.modal}>
 				<div className={styles.modalContent}>
-					<button
-						className={styles.modalClose}
-						onClick={() => dispatch(closeModal())}>
+					<button className={styles.modalClose} onClick={onClose}>
 						&times;
 					</button>
-					<IngredientDetails product={selectedIngredient} />
+					{currentComponent && (
+						<IngredientDetails currentIngredient={currentComponent} />
+					)}
 				</div>
 			</div>
 		</>,

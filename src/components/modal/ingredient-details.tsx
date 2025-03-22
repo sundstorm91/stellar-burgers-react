@@ -1,43 +1,45 @@
-import { Ingredients } from '../../types/data-types';
+import { CurrentIngredient } from '../../services/features/current-ingredient/current-ingredient-slice';
 import styles from './modal.module.css';
 import React from 'react';
 
-interface CurrentComponentProps {
-	product: Ingredients;
-}
-
-export const IngredientDetails: React.FC<CurrentComponentProps> = ({
-	product,
+export const IngredientDetails: React.FC<CurrentIngredient> = ({
+	currentIngredient,
 }) => {
 	return (
 		<>
 			<p className={styles.title}>Детали ингредиента</p>
 			<img
 				className={styles.imageProduct}
-				src={product.image_large}
+				src={currentIngredient?.image_large}
 				alt='product-image'
 			/>
-			<p className={styles.nameProduct}>{product.name}</p>
+			<p className={styles.nameProduct}>{currentIngredient?.name}</p>
 			<div className={styles.descriptionWrapper}>
 				<tbody className={styles.tab}>
 					<th>
 						Калории, ккал
-						<tr className='text text_type_digits-small'>{product.calories}</tr>
+						<tr className='text text_type_digits-small'>
+							{currentIngredient?.calories}
+						</tr>
 					</th>
 
 					<th>
 						Белки, г
-						<tr className='text text_type_digits-small'>{product.proteins}</tr>
+						<tr className='text text_type_digits-small'>
+							{currentIngredient?.proteins}
+						</tr>
 					</th>
 					<th>
 						Жиры, г
-						<tr className='text text_type_digits-small'>{product.fat}</tr>
+						<tr className='text text_type_digits-small'>
+							{currentIngredient?.fat}
+						</tr>
 					</th>
 
 					<th>
 						Углеводы, г
 						<tr className='text text_type_digits-small'>
-							{product.carbohydrates}
+							{currentIngredient?.carbohydrates}
 						</tr>
 					</th>
 				</tbody>
