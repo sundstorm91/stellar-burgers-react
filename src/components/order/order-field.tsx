@@ -8,10 +8,17 @@ import {
 	selectOrderIngredients,
 	selectTotalPrice,
 } from '../../services/features/create-order/selectors';
-import { createOrder } from '../../services/features/create-order/order-slice';
+import {
+	clearOrder,
+	createOrder,
+} from '../../services/features/create-order/order-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
+import { useState } from 'react';
+import { OrderDetails } from './order-details';
+import { Modal } from '../modal/modal';
 
 export const OrderField: React.FC = () => {
+	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 	const dispatch = useAppDispatch();
 	const totalPrice = useSelector(selectTotalPrice);
 	const orderIngredient = useSelector(selectOrderIngredients);
@@ -20,6 +27,12 @@ export const OrderField: React.FC = () => {
 	);
 	const handleCreateOrder = () => {
 		dispatch(createOrder(orderIngredient));
+		setIsOrderModalOpen(true);
+	};
+
+	const handleCloseOrderModal = () => {
+		setIsOrderModalOpen(false);
+		dispatch(clearOrder());
 	};
 
 	return (
@@ -35,20 +48,12 @@ export const OrderField: React.FC = () => {
 				type='primary'
 				size='large'
 				onClick={handleCreateOrder}>
-				{/* Оформить заказ */} {loading ? 'creating order..' : 'create order'}
+				{loading ? 'Выполняю заказ...' : 'Оформить заказ'}
 			</Button>
-			{orderNumber && (
-				<div>
-					<h3>Order Created Successfully!</h3>
-					<p>Order Number: {orderNumber}</p>
-				</div>
-			)}
-			{error && (
-				<div>
-					<h3>Error Creating Order</h3>
-					<p>{error}</p>
-				</div>
-			)}
+
+			<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
+				<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
+			</Modal>
 		</div>
 	);
 };

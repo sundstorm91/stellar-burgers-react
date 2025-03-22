@@ -10,6 +10,7 @@ import {
 } from '../../services/features/current-ingredient/current-ingredient-slice';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import { Modal } from '../modal/modal';
+import { IngredientDetails } from '../modal/ingredient-details';
 
 export const IngredientList: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
@@ -18,7 +19,7 @@ export const IngredientList: React.FC = () => {
 	const currentIngredient = useAppSelector(
 		(state) => state.currentIngredient.currentIngredient
 	);
-	console.log(currentIngredient);
+
 	const handleIngredientClick = (ingredient: ConstructorIngredient) => {
 		dispatch(setCurrentIngredient(ingredient));
 	};
@@ -145,12 +146,9 @@ export const IngredientList: React.FC = () => {
 							</>
 						</div>
 					</div>
-					{currentIngredient && (
-						<Modal
-							currentComponent={currentIngredient}
-							onClose={handleCloseModal}
-						/>
-					)}
+					<Modal isOpen={!!currentIngredient} onClose={handleCloseModal}>
+						<IngredientDetails currentIngredient={currentIngredient!} />
+					</Modal>
 				</section>
 			</>
 		);

@@ -1,17 +1,15 @@
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
-import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import Overlay from './modal-overlay';
-import { IngredientDetails } from './ingredient-details';
 
 export const Modal: React.FC<{
-	currentComponent?: ConstructorIngredient;
+	isOpen: boolean;
 	onClose: () => void;
-}> = ({ currentComponent, onClose }) => {
+	children: React.ReactNode;
+}> = ({ isOpen, onClose, children }) => {
 	const modalRoot = document.getElementById('modal-root');
 
-	console.log(currentComponent, '!!');
-	if (!currentComponent) return null;
+	if (!isOpen) return null;
 
 	return ReactDOM.createPortal(
 		<>
@@ -21,9 +19,7 @@ export const Modal: React.FC<{
 					<button className={styles.modalClose} onClick={onClose}>
 						&times;
 					</button>
-					{currentComponent && (
-						<IngredientDetails currentIngredient={currentComponent} />
-					)}
+					{children}
 				</div>
 			</div>
 		</>,

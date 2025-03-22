@@ -1,9 +1,10 @@
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order.module.css';
 
-export const OrderDetails: React.FC<{ orderNumber?: number }> = ({
-	orderNumber,
-}) => {
+export const OrderDetails: React.FC<{
+	orderNumber: number | null;
+	isSuccess: boolean;
+}> = ({ orderNumber }) => {
 	return (
 		<>
 			<p className='text text_type_digits-large'>{orderNumber}</p>
