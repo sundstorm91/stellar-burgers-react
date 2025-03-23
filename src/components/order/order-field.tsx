@@ -51,9 +51,11 @@ export const OrderField: React.FC = () => {
 				{loading ? 'Выполняю заказ...' : 'Оформить заказ'}
 			</Button>
 
-			<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
-				<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
-			</Modal>
+			{!error && (
+				<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
+					<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
+				</Modal>
+			)}
 		</div>
 	);
 };

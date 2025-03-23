@@ -7,15 +7,17 @@ export const OrderDetails: React.FC<{
 }> = ({ orderNumber }) => {
 	return (
 		<>
-			<p className='text text_type_digits-large'>{orderNumber}</p>
-			<p>идентификатор заказа</p>
-			<div>
-				<CheckMarkIcon type={'primary'} className={styles.done} />
+			<div className={styles.wrapperOrder}>
+				<p className='text text_type_digits-large'>{orderNumber}</p>
+				<p className={styles.idOrder}>идентификатор заказа</p>
+				<div>
+					<CheckMarkIcon type={'primary'} className={styles.done} />
+				</div>
+				<p className='text text_type_main-medium'>Ваш заказ начали готовить</p>
+				<p className={styles.reportInfo}>
+					Дождитесь готовности на орбитальной станции
+				</p>
 			</div>
-			<p className='text text_type_main-medium'>Ваш заказ начали готовить</p>
-			<p className='text text_type_main-medium text_color_inactive'>
-				Дождитесь готовности на орбитальной станции
-			</p>
 		</>
 	);
 };

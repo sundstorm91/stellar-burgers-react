@@ -10,7 +10,7 @@ import {
 } from '../../services/features/current-ingredient/current-ingredient-slice';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import { Modal } from '../modal/modal';
-import { IngredientDetails } from '../modal/ingredient-details';
+import { IngredientDetails } from '../burger-ingredients/ingredient-details';
 
 export const IngredientList: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);

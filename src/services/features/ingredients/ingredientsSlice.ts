@@ -32,7 +32,6 @@ export const fetchIngredients = createAsyncThunk<
 	if (!response.ok) {
 		return rejectWithValue('fetch ingredients error');
 	}
-	console.log(response);
 	return (await response.json()) as IngredientsApi;
 });
 
