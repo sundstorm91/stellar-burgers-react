@@ -22,9 +22,7 @@ export const OrderField: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const totalPrice = useSelector(selectTotalPrice);
 	const orderIngredient = useSelector(selectOrderIngredients);
-	const { loading, error, orderNumber } = useAppSelector(
-		(state) => state.order
-	);
+	const { error, orderNumber } = useAppSelector((state) => state.order);
 	const handleCreateOrder = () => {
 		dispatch(createOrder(orderIngredient));
 		setIsOrderModalOpen(true);
@@ -48,10 +46,10 @@ export const OrderField: React.FC = () => {
 				type='primary'
 				size='large'
 				onClick={handleCreateOrder}>
-				{loading ? 'Выполняю заказ...' : 'Оформить заказ'}
+				{error ? 'заказ не выполнен' : 'Оформить заказ'}
 			</Button>
 
-			{!error && (
+			{orderNumber && (
 				<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
 					<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
 				</Modal>
