@@ -24,15 +24,26 @@ export const fetchIngredients = createAsyncThunk<
 	IngredientsApi,
 	undefined,
 	{ rejectValue: string }
->('ingredients/fetchIngredients', async function (_, { rejectWithValue }) {
-	const response = await fetch(`${ingredientsApiConfig.baseUrl}/ingredients`, {
-		headers: ingredientsApiConfig.headers,
-	});
+>('ingredients/fetchIngredients', async (_, { rejectWithValue }) => {
+	try {
+		const response = await fetch(
+			`${ingredientsApiConfig.baseUrl}/ingredients`,
+			{
+				headers: ingredientsApiConfig.headers,
+			}
+		);
 
-	if (!response.ok) {
-		return rejectWithValue('fetch ingredients error');
+		if (!response.ok) {
+			throw new Error('Failed to fetch ingredients');
+		}
+
+		const data = await response.json();
+		return data as IngredientsApi;
+	} catch (error) {
+		return rejectWithValue(
+			error instanceof Error ? error.message : 'Unknown error'
+		);
 	}
-	return (await response.json()) as IngredientsApi;
 });
 
 const ingredientsSlice = createSlice({

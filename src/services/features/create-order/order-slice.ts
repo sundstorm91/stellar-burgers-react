@@ -23,20 +23,26 @@ const initialState: OrderState = {
 export const createOrder = createAsyncThunk(
 	'order/createOrder',
 	async (ingredientIds: string[], { rejectWithValue }) => {
-		const response = await fetch(`${ingredientsApiConfig.baseUrl}/orders`, {
-			method: 'POST',
-			headers: ingredientsApiConfig.headers,
-			body: JSON.stringify({
-				ingredients: ingredientIds,
-			}),
-		});
+		try {
+			const response = await fetch(`${ingredientsApiConfig.baseUrl}/orders`, {
+				method: 'POST',
+				headers: ingredientsApiConfig.headers,
+				body: JSON.stringify({
+					ingredients: ingredientIds,
+				}),
+			});
 
-		if (!response.ok) {
-			return rejectWithValue('Unable to create order');
+			if (!response.ok) {
+				throw new Error('Failed to create order!');
+			}
+
+			const data = await response.json();
+			return data as ResponseData;
+		} catch (error) {
+			return rejectWithValue(
+				error instanceof Error ? error.message : 'Unknown error'
+			);
 		}
-
-		const data = await response.json();
-		return data as ResponseData;
 	}
 );
 
