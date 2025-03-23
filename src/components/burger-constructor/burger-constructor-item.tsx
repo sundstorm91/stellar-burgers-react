@@ -8,9 +8,10 @@ import {
 } from '../../services/features/constructor/constructor-slice';
 import { useRef } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-export const BuilderItem: React.FC<{ ingredient: ConstructorIngredient }> = ({
-	ingredient,
-}) => {
+
+export const BurgerConstructorItem: React.FC<{
+	ingredient: ConstructorIngredient;
+}> = ({ ingredient }) => {
 	const dispatch = useAppDispatch();
 	const { constructorId, name, image, price } = ingredient;
 	const ref = useRef<HTMLLIElement | null>(null);

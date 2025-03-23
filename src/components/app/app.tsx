@@ -1,6 +1,6 @@
 import { AppHeader } from '../app-header/app-header';
-import { BurgerBuilder } from '../burger-constructor/builder';
-import { IngredientList } from '../burger-ingredients/ingredients-list';
+import { BurgerConstructor } from '../burger-constructor/burger-constructor';
+import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import styles from './app.module.css';
 
 export const App: React.FC = () => {
@@ -8,8 +8,8 @@ export const App: React.FC = () => {
 		<>
 			<AppHeader />
 			<main className={styles.main}>
-				<IngredientList />
-				<BurgerBuilder />
+				<BurgerIngredients />
+				<BurgerConstructor />
 			</main>
 		</>
 	);

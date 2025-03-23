@@ -6,11 +6,11 @@ import { useDrop } from 'react-dnd';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import styles from './builder.module.css';
 
-import { BuilderItem } from './builder-item';
+import { BurgerConstructorItem } from './burger-constructor-item';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { OrderField } from '../order/order-field';
 
-export const BurgerBuilder: React.FC = () => {
+export const BurgerConstructor: React.FC = () => {
 	const { bun, ingredients } = useAppSelector((state) => state.builder);
 	const dispatch = useAppDispatch();
 
@@ -96,7 +96,7 @@ export const BurgerBuilder: React.FC = () => {
 					) : (
 						<ul className={styles.itemWrapper}>
 							{ingredients.map((ingredient) => (
-								<BuilderItem
+								<BurgerConstructorItem
 									ingredient={ingredient}
 									key={ingredient.constructorId}
 								/>

@@ -10,9 +10,9 @@ import {
 } from '../../services/features/current-ingredient/current-ingredient-slice';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import { Modal } from '../modal/modal';
-import { IngredientDetails } from '../burger-ingredients/ingredient-details';
+import { IngredientDetails } from './ingredient-details';
 
-export const IngredientList: React.FC = () => {
+export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
 	const dispatch = useAppDispatch();
 	const componentRefs = useRef<HTMLDivElement[]>([]);
