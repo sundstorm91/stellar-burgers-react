@@ -23,7 +23,7 @@ export const Modal: React.FC<{
 		return () => {
 			document.removeEventListener('keydown', handleEscape);
 		};
-	});
+	}, [isOpen, onClose]);
 
 	if (!isOpen) return null;
 
