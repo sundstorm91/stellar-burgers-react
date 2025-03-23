@@ -1,6 +1,7 @@
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import styles from './modal.module.css';
 import Overlay from './modal-overlay';
+import { useEffect } from 'react';
 
 export const Modal: React.FC<{
 	isOpen: boolean;
@@ -8,10 +9,25 @@ export const Modal: React.FC<{
 	children: React.ReactNode;
 }> = ({ isOpen, onClose, children }) => {
 	const modalRoot = document.getElementById('modal-root');
+	useEffect(() => {
+		const handleEscape = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				onClose();
+			}
+		};
+
+		if (isOpen) {
+			document.addEventListener('keydown', handleEscape);
+		}
+
+		return () => {
+			document.removeEventListener('keydown', handleEscape);
+		};
+	});
 
 	if (!isOpen) return null;
 
-	return ReactDOM.createPortal(
+	return createPortal(
 		<>
 			<Overlay onClick={onClose} />
 			<div className={styles.modal}>
