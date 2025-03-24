@@ -73,7 +73,7 @@ export const BurgerConstructor: React.FC = () => {
 					{bun ? (
 						<ConstructorElement
 							type='top'
-							text={bun.name}
+							text={`${bun.name}(верх)`}
 							thumbnail={bun.image}
 							price={bun.price}
 							isLocked={true}
@@ -108,10 +108,11 @@ export const BurgerConstructor: React.FC = () => {
 				<div ref={bunBottomDrop} className={styles.bunIndent}>
 					{bun ? (
 						<ConstructorElement
-							text={bun.name}
+							text={`${bun.name}(низ)`}
 							thumbnail={bun.image}
 							price={bun.price}
 							isLocked={true}
+							type='bottom'
 						/>
 					) : (
 						<div
