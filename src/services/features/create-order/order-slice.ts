@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ingredientsApiConfig } from '../ingredients/ingredientsSlice';
+import { checkResponse } from '../../../utils/api-utils';
 
 interface OrderState {
 	orderNumber: number | null;
@@ -20,29 +21,17 @@ const initialState: OrderState = {
 	loading: false,
 	error: null,
 };
+
 export const createOrder = createAsyncThunk(
 	'order/createOrder',
-	async (ingredientIds: string[], { rejectWithValue }) => {
-		try {
-			const response = await fetch(`${ingredientsApiConfig.baseUrl}/orders`, {
-				method: 'POST',
-				headers: ingredientsApiConfig.headers,
-				body: JSON.stringify({
-					ingredients: ingredientIds,
-				}),
-			});
-
-			if (!response.ok) {
-				throw new Error('Failed to create order!');
-			}
-
-			const data = await response.json();
-			return data as ResponseData;
-		} catch (error) {
-			return rejectWithValue(
-				error instanceof Error ? error.message : 'Unknown error'
-			);
-		}
+	async (ingredientIds: Array<string>) => {
+		return fetch(`${ingredientsApiConfig.baseUrl}/orders`, {
+			headers: ingredientsApiConfig.headers,
+			method: 'POST',
+			body: JSON.stringify({
+				ingredients: ingredientIds,
+			}),
+		}).then(checkResponse);
 	}
 );
 

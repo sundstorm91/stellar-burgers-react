@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IngredientsApi } from '../../../types/data-types';
+import { checkResponse } from '../../../utils/api-utils';
 
 export const ingredientsApiConfig = {
 	baseUrl: 'https://norma.nomoreparties.space/api',
@@ -20,31 +21,14 @@ const initialState: ingredientsState = {
 	error: null,
 };
 
-export const fetchIngredients = createAsyncThunk<
-	IngredientsApi,
-	undefined,
-	{ rejectValue: string }
->('ingredients/fetchIngredients', async (_, { rejectWithValue }) => {
-	try {
-		const response = await fetch(
-			`${ingredientsApiConfig.baseUrl}/ingredients`,
-			{
-				headers: ingredientsApiConfig.headers,
-			}
-		);
-
-		if (!response.ok) {
-			throw new Error('Failed to fetch ingredients');
-		}
-
-		const data = await response.json();
-		return data as IngredientsApi;
-	} catch (error) {
-		return rejectWithValue(
-			error instanceof Error ? error.message : 'Unknown error'
-		);
+export const fetchIngredients = createAsyncThunk(
+	'ingredients/fetchIngredients',
+	async () => {
+		return fetch(`${ingredientsApiConfig.baseUrl}/ingredients`, {
+			headers: ingredientsApiConfig.headers,
+		}).then(checkResponse);
 	}
-});
+);
 
 const ingredientsSlice = createSlice({
 	name: 'ingredients',
@@ -64,7 +48,7 @@ const ingredientsSlice = createSlice({
 			})
 			.addCase(fetchIngredients.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload!;
+				state.error = action.error.message!;
 			});
 	},
 });
