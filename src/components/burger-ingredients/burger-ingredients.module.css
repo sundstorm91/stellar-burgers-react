@@ -16,28 +16,131 @@
 	font-weight: 700;
 	font-size: 36px;
 	font-family: 'JetBrainsMono', sans-serif, 'Arial';
-
-	/* line-height: 40px; */
 	letter-spacing: 0%;
 }
 
 .headline {
-	color: rgb(242 242 243 / 100%);
+	color: rgba(242, 242, 243, 1);
 	font-weight: 700;
 	font-size: 24px;
 	font-family: 'JetBrainsMono', sans-serif, 'Arial';
-
-	/* line-height: 30px; */
 	letter-spacing: 0%;
 }
 
 .wrapper {
-	/* scrollbar-width: thin;
-  scrollbar-color: hsl(0 0% 50%); */
 	height: 756px;
 	overflow: auto;
 }
 
 .switchWrapper {
 	display: flex;
+}
+
+.ingredientsField {
+	position: relative;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	column-gap: 24px;
+}
+
+
+.ingredientItem {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	max-width: 272px;
+	background-color: inherit;
+	cursor: pointer;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.description {
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
+	letter-spacing: 0%;
+	text-align: center;
+}
+
+.typeWrapper {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.done {
+	width: 48px;
+	height: 48px;
+}
+
+
+.tableTitle {
+	width: 640px;
+	color: rgb(242 242 243 / 100%);
+	font-weight: 700;
+	font-size: 36px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+	text-align: start;
+	/* margin: 40px 40px 0px 40px; */
+}
+
+.nameProduct {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+.descriptionWrapper {
+	display: flex;
+	flex-direction: row;
+	column-gap: 20px;
+}
+
+.tab {
+	display: flex;
+	flex-direction: row;
+	margin: 0 0 60px;
+	color: rgb(133 133 173 / 100%);
+	column-gap: 20px;
+}
+
+.tab td {
+	display: flex;
+	flex-direction: column;
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0;
+}
+
+tr {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.identityOrder {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+#number {
+	margin: 120px 0 0;
+}
+
+#info {
+	margin: 0 0 120px;
 }

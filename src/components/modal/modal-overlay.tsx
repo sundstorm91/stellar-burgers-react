@@ -1,20 +1,16 @@
 import React from 'react';
-/* import Portal from './portal'; */
 import styles from './modal.module.css';
 
 interface OverlayProps {
-	isOpen: boolean;
-	onClose: () => void;
+	onClick: () => void;
 }
-const ModalOverlay: React.FC<OverlayProps> = ({ isOpen, onClose }) => {
-	if (!isOpen) return null;
-
+const Overlay: React.FC<OverlayProps> = ({ onClick }) => {
 	return (
 		<div
 			className={styles.modalOverlay}
-			onClick={onClose}
+			onClick={onClick}
 			aria-hidden='true'></div>
 	);
 };
 
-export default ModalOverlay;
+export default Overlay;
