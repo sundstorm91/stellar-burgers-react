@@ -1,16 +1,14 @@
+import { Route, Routes } from 'react-router-dom';
 import { AppHeader } from '../app-header/app-header';
-import { BurgerConstructor } from '../burger-constructor/burger-constructor';
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
-import styles from './app.module.css';
+import { Home } from '../../pages/Home';
 
 export const App: React.FC = () => {
 	return (
 		<>
 			<AppHeader />
-			<main className={styles.main}>
-				<BurgerIngredients />
-				<BurgerConstructor />
-			</main>
+			<Routes>
+				<Route path='/' element={<Home />} />
+			</Routes>
 		</>
 	);
 };
