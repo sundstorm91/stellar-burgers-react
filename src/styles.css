@@ -5,3 +5,7 @@
 	height: 100vh;
 	margin: 0 auto;
 }
+
+a {
+	text-decoration: none;
+}

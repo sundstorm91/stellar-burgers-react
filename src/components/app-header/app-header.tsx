@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './app-header.module.css';
 import {
 	BurgerIcon,
@@ -33,7 +34,9 @@ export const AppHeader = () => {
 					</div>
 					<div className={styles.personalAccount}>
 						<ProfileIcon type={'secondary'} />
-						<span className={styles.personalAccountText}>Личный кабинет</span>
+						<Link to='/login'>
+							<span className={styles.personalAccountText}>Личный кабинет</span>
+						</Link>
 					</div>
 				</nav>
 			</header>

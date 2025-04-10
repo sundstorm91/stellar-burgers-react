@@ -1,6 +1,67 @@
+@font-face {
+	font-family: 'JetBrainsMono';
+	font-style: normal;
+	src: url('../fonts/jet-brains/JetBrainsMono-VariableFont_wght.ttf');
+}
+
 .main {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	column-gap: 20px;
 }
+
+.container {
+	margin: 180px 0px 0px 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 80px;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 24px;
+}
+
+.auxFields {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 16px;
+}
+
+.title {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+
+}
+
+.auxFields p {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: rgba(133, 133, 173, 1);
+	margin: 0px 0px 0px 0px;
+	cursor: default;
+}
+
+.auxFields p span {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: rgba(76, 76, 255, 1);
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.auxFields p span:hover {
+	color: white;
+}
+
+
+
+
