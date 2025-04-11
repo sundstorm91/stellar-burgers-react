@@ -11,6 +11,7 @@ import {
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 import { Modal } from '../modal/modal';
 import { IngredientDetails } from './ingredient-details';
+import { Link, useLocation } from 'react-router-dom';
 
 export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
@@ -19,6 +20,8 @@ export const BurgerIngredients: React.FC = () => {
 	const currentIngredient = useAppSelector(
 		(state) => state.currentIngredient.currentIngredient
 	);
+
+	const location = useLocation();
 
 	const handleIngredientClick = (ingredient: ConstructorIngredient) => {
 		dispatch(setCurrentIngredient(ingredient));
@@ -131,12 +134,17 @@ export const BurgerIngredients: React.FC = () => {
 																	(item) => item._id === ingredient._id
 															  ).length;
 													return (
-														<IngredientItem
-															ingredient={ingredient}
+														<Link
+															to={`ingredients/${ingredient._id}`}
 															key={ingredient._id}
-															count={count}
-															onClick={handleIngredientClick}
-														/>
+															state={{ backgroundLocation: location }}>
+															<IngredientItem
+																ingredient={ingredient}
+																key={ingredient._id}
+																count={count}
+																onClick={handleIngredientClick}
+															/>
+														</Link>
 													);
 												})}
 											</div>
