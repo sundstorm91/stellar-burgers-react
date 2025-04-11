@@ -154,9 +154,9 @@ export const BurgerIngredients: React.FC = () => {
 							</>
 						</div>
 					</div>
-					<Modal isOpen={!!currentIngredient} onClose={handleCloseModal}>
+					{/* <Modal isOpen={!!currentIngredient} onClose={handleCloseModal}>
 						<IngredientDetails currentIngredient={currentIngredient!} />
-					</Modal>
+					</Modal> */}
 				</section>
 			</>
 		);

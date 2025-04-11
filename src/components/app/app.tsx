@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { AppHeader } from '../app-header/app-header';
 import { Home } from '../../pages/Home';
 import { Login } from '../../pages/Login';
@@ -8,6 +8,8 @@ import { ResetPassword } from '../../pages/ResetPassword';
 import { ForgotPassword } from '../../pages/ForgotPassword';
 import { NotFoundPage } from '../../pages/NotFound';
 import { ReactElement } from 'react';
+import { Modal } from '../modal/modal';
+import { CurrentIngredient } from '../../pages/CurrentIngredient';
 
 const Layout = (): ReactElement => {
 	return (
@@ -20,16 +22,34 @@ const Layout = (): ReactElement => {
 	);
 };
 export const App: React.FC = () => {
+	const location = useLocation();
+	const state = location.state as { backgroundLocation?: Location };
+
 	return (
-		<Routes>
-			<Route path='/' element={<Layout />}>
-				<Route index element={<Home />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='/register' element={<Register />} />
-				<Route path='/reset-password' element={<ResetPassword />} />
-				<Route path='/forgot-password' element={<ForgotPassword />} />
-				<Route path='*' element={<NotFoundPage />} />
-			</Route>
-		</Routes>
+		<>
+			<Routes location={state?.backgroundLocation || location}>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/ingredients/:id' element={<CurrentIngredient />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/reset-password' element={<ResetPassword />} />
+					<Route path='/forgot-password' element={<ForgotPassword />} />
+					<Route path='*' element={<NotFoundPage />} />
+				</Route>
+			</Routes>
+
+			{state?.backgroundLocation && (
+				<Routes>
+					<Route
+						path='/ingredients/:id'
+						element={
+							<Modal>
+								<CurrentIngredient />
+							</Modal>
+						}></Route>
+				</Routes>
+			)}
+		</>
 	);
 };

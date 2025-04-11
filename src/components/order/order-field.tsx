@@ -49,11 +49,11 @@ export const OrderField: React.FC = () => {
 				{error ? 'заказ не выполнен' : 'Оформить заказ'}
 			</Button>
 
-			{orderNumber && (
+			{/* {orderNumber && (
 				<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
 					<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
 				</Modal>
-			)}
+			)} */}
 		</div>
 	);
 };
