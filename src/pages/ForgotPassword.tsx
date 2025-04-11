@@ -1,8 +1,6 @@
 import {
 	Button,
 	EmailInput,
-	Input,
-	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 

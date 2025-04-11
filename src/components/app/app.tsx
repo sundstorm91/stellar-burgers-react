@@ -6,6 +6,7 @@ import styles from './app.module.css';
 import { Register } from '../../pages/Register';
 import { ResetPassword } from '../../pages/ResetPassword';
 import { ForgotPassword } from '../../pages/ForgotPassword';
+import { NotFoundPage } from '../../pages/NotFound';
 
 export const App: React.FC = () => {
 	return (
@@ -18,6 +19,7 @@ export const App: React.FC = () => {
 					<Route path='/register' element={<Register />} />
 					<Route path='/reset-password' element={<ResetPassword />} />
 					<Route path='/forgot-password' element={<ForgotPassword />} />
+					<Route path='*' element={<NotFoundPage />} />
 				</Routes>
 			</main>
 		</>
