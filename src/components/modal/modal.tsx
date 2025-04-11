@@ -10,11 +10,9 @@ export const Modal: React.FC<{
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	// Проверяем, есть ли backgroundLocation в состоянии location
 	const backgroundLocation = location.state?.backgroundLocation;
 
 	const onClose = () => {
-		// Возвращаемся назад в истории навигации
 		navigate(-1);
 	};
 
@@ -31,7 +29,6 @@ export const Modal: React.FC<{
 		};
 	}, []); */
 
-	// Если нет backgroundLocation, не показываем модальное окно
 	if (!backgroundLocation) return null;
 
 	return createPortal(
