@@ -20,3 +20,14 @@ export const forgotPassword = async (email: string) => {
 		body: JSON.stringify({ email }),
 	}).then(checkResponse);
 };
+
+export const resetPassword = async (password: string, token: string) => {
+	return await fetch(`${ingredientsApiConfig.baseUrl}/password-reset/reset`, {
+		method: 'POST',
+		headers: ingredientsApiConfig.headers,
+		body: JSON.stringify({
+			password: `${password}`,
+			token: `${token}`,
+		}),
+	}).then(checkResponse);
+};
