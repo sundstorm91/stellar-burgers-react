@@ -19,6 +19,33 @@
 	row-gap: 80px;
 }
 
+.profileWrapper {
+	display: flex;
+	align-items: center;
+	column-gap: 60px;
+}
+
+.switchField {
+	width: 320px;
+}
+
+
+
+.switchField p {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+	cursor: pointer;
+}
+
+.profileDescription {
+	color: rgba(133, 133, 173, 1);
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 400;
+	font-size: 16px;
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;

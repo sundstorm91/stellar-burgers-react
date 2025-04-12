@@ -10,6 +10,7 @@ import { NotFoundPage } from '../../pages/NotFound';
 import { ReactElement } from 'react';
 import { Modal } from '../modal/modal';
 import { CurrentIngredient } from '../../pages/CurrentIngredient';
+import { Profile } from '../../pages/Profile';
 
 const Layout = (): ReactElement => {
 	return (
@@ -35,6 +36,7 @@ export const App: React.FC = () => {
 					<Route path='/register' element={<Register />} />
 					<Route path='/reset-password' element={<ResetPassword />} />
 					<Route path='/forgot-password' element={<ForgotPassword />} />
+					<Route path='/profile' element={<Profile />} />
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
