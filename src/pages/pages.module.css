@@ -27,11 +27,22 @@
 
 .switchField {
 	width: 320px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
 }
 
 
 
-.switchField p {
+.profileNormalLink {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(133, 133, 173, 1);
+	cursor: pointer;
+}
+
+.profileActiveLink {
 	font-family: 'JetBrainsMono', sans-serif, Arial;
 	font-weight: 700;
 	font-size: 24px;
