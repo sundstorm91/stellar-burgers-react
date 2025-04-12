@@ -1,18 +1,40 @@
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useEffect } from 'react';
+import { fetchIngredients } from '../services/features/ingredients/ingredientsSlice';
+import styles from './pages.module.css';
+import { IngredientDetails } from '../components/burger-ingredients/ingredient-details';
 
 export const CurrentIngredient: React.FC = () => {
 	const { id } = useParams<'id'>();
-	const { ingredients } = useAppSelector((state) => state.ingredients);
+	const { ingredients, error, loading } = useAppSelector(
+		(state) => state.ingredients
+	);
+	const dispatch = useAppDispatch();
+
 	function getIngredientById(id: string) {
 		return ingredients.data.find((item) => item._id === id);
 	}
-	console.log(id)
+
 	const ingredient = getIngredientById(id!);
-	return (
-		<div className='image-view'>
-			<h2>{ingredient?.name}</h2>
-			<div>{ingredient?._id}</div>
-		</div>
-	);
+
+	useEffect(() => {
+		dispatch(fetchIngredients());
+	}, [dispatch]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
+	if (ingredients) {
+		return (
+			<div className={styles.wrapperIngredient}>
+				<IngredientDetails currentIngredient={ingredient!} />
+			</div>
+		);
+	}
 };

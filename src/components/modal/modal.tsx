@@ -1,35 +1,27 @@
 import { createPortal } from 'react-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './modal.module.css';
 import Overlay from './modal-overlay';
-import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/hook';
+import { IngredientDetails } from '../burger-ingredients/ingredient-details';
 
-export const Modal: React.FC<{
-	children: React.ReactNode;
-}> = ({ children }) => {
+export const Modal: React.FC = () => {
+	const { ingredients } = useAppSelector((state) => state.ingredients);
 	const navigate = useNavigate();
-	const location = useLocation();
+	const { id } = useParams<'id'>();
 
-	const backgroundLocation = location.state?.backgroundLocation;
+	function getIngredientById(id: string | undefined) {
+		if (!id) return undefined;
+		return ingredients.data.find((item) => item._id === id);
+	}
+
+	const ingredient = getIngredientById(id);
 
 	const onClose = () => {
 		navigate(-1);
 	};
 
-	/* useEffect(() => {
-		const handleEscape = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') {
-				onClose();
-			}
-		};
-
-		document.addEventListener('keydown', handleEscape);
-		return () => {
-			document.removeEventListener('keydown', handleEscape);
-		};
-	}, []); */
-
-	if (!backgroundLocation) return null;
+	if (!ingredient) return null;
 
 	return createPortal(
 		<>
@@ -39,7 +31,7 @@ export const Modal: React.FC<{
 					<button className={styles.modalClose} onClick={onClose}>
 						&times;
 					</button>
-					{children}
+					<IngredientDetails currentIngredient={ingredient} />
 				</div>
 			</div>
 		</>,

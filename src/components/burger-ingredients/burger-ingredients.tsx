@@ -4,31 +4,20 @@ import { fetchIngredients } from '../../services/features/ingredients/ingredient
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { IngredientItem } from './ingredient-item';
-import {
-	clearCurrentIngredient,
-	setCurrentIngredient,
-} from '../../services/features/current-ingredient/current-ingredient-slice';
+import { setCurrentIngredient } from '../../services/features/current-ingredient/current-ingredient-slice';
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
-import { Modal } from '../modal/modal';
-import { IngredientDetails } from './ingredient-details';
+
 import { Link, useLocation } from 'react-router-dom';
 
 export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
 	const dispatch = useAppDispatch();
 	const componentRefs = useRef<HTMLDivElement[]>([]);
-	const currentIngredient = useAppSelector(
-		(state) => state.currentIngredient.currentIngredient
-	);
 
 	const location = useLocation();
 
 	const handleIngredientClick = (ingredient: ConstructorIngredient) => {
 		dispatch(setCurrentIngredient(ingredient));
-	};
-
-	const handleCloseModal = () => {
-		dispatch(clearCurrentIngredient());
 	};
 
 	const { bun, ingredients: fillings } = useAppSelector(
@@ -135,8 +124,8 @@ export const BurgerIngredients: React.FC = () => {
 															  ).length;
 													return (
 														<Link
-															to={`ingredients/${ingredient._id}`}
 															key={ingredient._id}
+															to={`/ingredients/${ingredient._id}`}
 															state={{ backgroundLocation: location }}>
 															<IngredientItem
 																ingredient={ingredient}
@@ -154,9 +143,6 @@ export const BurgerIngredients: React.FC = () => {
 							</>
 						</div>
 					</div>
-					{/* <Modal isOpen={!!currentIngredient} onClose={handleCloseModal}>
-						<IngredientDetails currentIngredient={currentIngredient!} />
-					</Modal> */}
 				</section>
 			</>
 		);

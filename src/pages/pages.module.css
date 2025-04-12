@@ -63,5 +63,77 @@
 }
 
 
+.wrapperIngredient {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 120px 0px 0px 0px;
+}
+
+.tableTitle {
+	width: 640px;
+	color: rgb(242 242 243 / 100%);
+	font-weight: 700;
+	font-size: 36px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+	text-align: center;
+	/* margin: 40px 40px 0px 40px; */
+}
+
+.nameProduct {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+.descriptionWrapper {
+	display: flex;
+	flex-direction: row;
+	column-gap: 20px;
+}
+
+.tab {
+	display: flex;
+	flex-direction: row;
+	margin: 0 0 60px;
+	color: rgb(133 133 173 / 100%);
+	column-gap: 20px;
+}
+
+.tab td {
+	display: flex;
+	flex-direction: column;
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0;
+}
+
+tr {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.identityOrder {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+#number {
+	margin: 120px 0 0;
+}
+
+#info {
+	margin: 0 0 120px;
+}
+
+
+
 
 

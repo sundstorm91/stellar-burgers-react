@@ -41,13 +41,7 @@ export const App: React.FC = () => {
 
 			{state?.backgroundLocation && (
 				<Routes>
-					<Route
-						path='/ingredients/:id'
-						element={
-							<Modal>
-								<CurrentIngredient />
-							</Modal>
-						}></Route>
+					<Route path='/ingredients/:id' element={<Modal />}></Route>
 				</Routes>
 			)}
 		</>
