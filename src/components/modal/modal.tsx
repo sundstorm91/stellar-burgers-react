@@ -4,18 +4,13 @@ import styles from './modal.module.css';
 import Overlay from './modal-overlay';
 import { useAppSelector } from '../../hooks/hook';
 import { IngredientDetails } from '../burger-ingredients/ingredient-details';
-
+import { getIngredientById } from '../../utils/helpers';
 export const Modal: React.FC = () => {
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 	const navigate = useNavigate();
 	const { id } = useParams<'id'>();
 
-	function getIngredientById(id: string | undefined) {
-		if (!id) return undefined;
-		return ingredients.data.find((item) => item._id === id);
-	}
-
-	const ingredient = getIngredientById(id);
+	const ingredient = getIngredientById(id!, ingredients);
 
 	const onClose = () => {
 		navigate(-1);

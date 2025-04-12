@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { fetchIngredients } from '../services/features/ingredients/ingredientsSlice';
 import styles from './pages.module.css';
 import { IngredientDetails } from '../components/burger-ingredients/ingredient-details';
+import { getIngredientById } from '../utils/helpers';
 
 export const CurrentIngredient: React.FC = () => {
 	const { id } = useParams<'id'>();
@@ -12,11 +13,7 @@ export const CurrentIngredient: React.FC = () => {
 	);
 	const dispatch = useAppDispatch();
 
-	function getIngredientById(id: string) {
-		return ingredients.data.find((item) => item._id === id);
-	}
-
-	const ingredient = getIngredientById(id!);
+	const ingredient = getIngredientById(id!, ingredients);
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
