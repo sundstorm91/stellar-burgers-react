@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ingredientsApiConfig } from '../ingredients/ingredientsSlice';
+import { ingredientsApiConfig } from '../../../utils/api-utils';
 import { checkResponse } from '../../../utils/api-utils';
 
 interface OrderState {
