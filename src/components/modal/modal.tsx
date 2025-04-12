@@ -31,7 +31,7 @@ export const Modal: React.FC = () => {
 					<button className={styles.modalClose} onClick={onClose}>
 						&times;
 					</button>
-					<IngredientDetails currentIngredient={ingredient} />
+					<IngredientDetails currentIngredient={ingredient} isModal={true} />
 				</div>
 			</div>
 		</>,

@@ -33,7 +33,7 @@ export const CurrentIngredient: React.FC = () => {
 	if (ingredients) {
 		return (
 			<div className={styles.wrapperIngredient}>
-				<IngredientDetails currentIngredient={ingredient!} />
+				<IngredientDetails currentIngredient={ingredient!} isModal={false} />
 			</div>
 		);
 	}

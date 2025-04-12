@@ -40,6 +40,11 @@ interface IngredientComponentProps {
 	position?: PositionBun;
 }
 
+interface CurrentIngredient {
+	currentIngredient: Ingredients;
+	isModal?: boolean;
+}
+
 interface ModalProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -54,4 +59,5 @@ export type {
 	IngredientComponentProps,
 	ModalProps,
 	PositionBun,
+	CurrentIngredient,
 };
