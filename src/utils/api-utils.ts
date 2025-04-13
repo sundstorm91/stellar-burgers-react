@@ -7,6 +7,12 @@ export const ingredientsApiConfig = {
 	},
 };
 
+export interface UserData {
+	name: string;
+	email: string;
+	password: string;
+}
+
 export interface UpdateUserData {
 	name?: string;
 	email?: string;
@@ -119,6 +125,18 @@ export const logout = async (): Promise<LogoutResponse> => {
 		headers: ingredientsApiConfig.headers,
 		body: JSON.stringify({ token: refreshToken }),
 	}).then(checkResponse)) as LogoutResponse;
+};
+
+export const register = async (userData: {
+	email: string;
+	password: string;
+	name: string;
+}) => {
+	return await fetch(`${ingredientsApiConfig.baseUrl}/auth/register`, {
+		method: 'POST',
+		headers: ingredientsApiConfig.headers,
+		body: JSON.stringify(userData),
+	}).then(checkResponse);
 };
 
 export const getUser = async (): Promise<User> => {
