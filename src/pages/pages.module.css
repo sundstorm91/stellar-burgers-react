@@ -64,6 +64,13 @@
 	row-gap: 24px;
 }
 
+.form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 24px
+}
+
 .auxFields {
 	display: flex;
 	flex-direction: column;
