@@ -5,25 +5,19 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
 import { registerUser } from '../services/features/user/user-slice';
-import { unwrapResult } from '@reduxjs/toolkit';
 
 export const Register: React.FC = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
 		name: '',
 	});
-
-	/* {
-		"email": "test-data@yandex.ru",
-		"password": "password",
-		"name": "Username"
-	}  */
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -37,21 +31,23 @@ export const Register: React.FC = () => {
 		e.preventDefault();
 		setIsLoading(true);
 		setError('');
-
 		try {
 			const result = await dispatch(registerUser(formData));
 
-			// Проверка успешности через unwrap()
-			unwrapResult(result);
-			// Регистрация успешна
-			console.log('Пользователь зарегистрирован:', result.payload);
-		} catch (error) {
-			// Автоматически попадаем сюда при rejected
-			setError(error instanceof Error ? error.message : `${error}`);
+			if (registerUser.fulfilled.match(result)) {
+				// Регистрация успешна
+				console.log('Пользователь зарегистрирован:', result.payload);
+				navigate('/');
+			} else if (registerUser.rejected.match(result)) {
+				setError(result.payload as string);
+			}
 		} finally {
 			setIsLoading(false);
 		}
 	};
+	/* 	afonya
+		ksandr1g@mail.ru
+		1234567 	*/
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
@@ -76,8 +72,9 @@ export const Register: React.FC = () => {
 						onChange={handleChange}
 						name='password'
 					/>
-					<Button htmlType={'button'} size='large' disabled={!formData.email}>
-						Зарегистрироваться
+					<Button htmlType={'submit'} size='large' disabled={isLoading}>
+						{' '}
+						{isLoading ? 'Регистрирую..' : 'Зарегистрировать'}
 					</Button>
 				</form>
 			</div>
