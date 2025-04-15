@@ -7,12 +7,7 @@ import styles from './pages.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
-import { loginUser, setUser } from '../services/features/user/user-slice';
-import {
-	checkResponse,
-	fetchWithRefresh,
-	ingredientsApiConfig,
-} from '../utils/api-utils';
+import { loginUser } from '../services/features/user/user-slice';
 
 /* export const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
@@ -69,6 +64,7 @@ export const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+
 	const [error, setError] = useState<string | null>(null);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -105,29 +101,16 @@ export const Login: React.FC = () => {
 		e.preventDefault();
 
 		try {
-			setIsLoading(true);
+			// Диспатчим thunk и ждём завершения
+			const resultAction = await dispatch(loginUser({ email, password }));
 
-			// 1. Выполняем запрос авторизации
-			const { user, accessToken, refreshToken } = await fetchWithRefresh(
-				`${ingredientsApiConfig.baseUrl}/auth/login`,
-				{
-					method: 'POST',
-					headers: ingredientsApiConfig.headers,
-					body: JSON.stringify({ email, password }),
-					/* В ЛОКАЛСОРАДЖ положи! */
-				}
-			);
-
-			// 2. Сохраняем пользователя в хранилище (Redux/Zustand)
-			dispatch(setUser(user)); // Пример для Redux
-
-			// 3. Перенаправляем
-			navigate('/');
-		} catch (error) {
-			// Обработка ошибок
-			setError(error instanceof Error ? error.message : 'Ошибка авторизации');
-		} finally {
-			setIsLoading(false);
+			// Если успешно - перенаправляем
+			if (loginUser.fulfilled.match(resultAction)) {
+				navigate('/');
+			}
+		} catch (err) {
+			// Ошибка уже обработана в slice
+			console.error('Ошибка авторизации:', err);
 		}
 	};
 

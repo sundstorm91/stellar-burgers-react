@@ -106,7 +106,7 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 	}
 };
 
-export const login = async (credential: {
+/* export const login = async (credential: {
 	email: string;
 	password: string;
 }) => {
@@ -116,7 +116,7 @@ export const login = async (credential: {
 		body: JSON.stringify(credential),
 	});
 	return checkResponse(response);
-};
+}; */
 
 export const logout = async (): Promise<LogoutResponse> => {
 	const refreshToken = localStorage.getItem('refreshToken');
@@ -214,4 +214,17 @@ export const updateUser = async (userData: UpdateUserData): Promise<User> => {
 		}
 		throw error;
 	}
+};
+
+export const updateUserData = (
+	data: UpdateUserData
+): Promise<UpdateUserData> => {
+	return fetchWithRefresh(`${ingredientsApiConfig.baseUrl}/auth/user`, {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+		},
+		body: JSON.stringify(data),
+	});
 };

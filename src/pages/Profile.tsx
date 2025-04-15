@@ -4,9 +4,26 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { fetchUser, logoutUser } from '../services/features/user/user-slice';
+import { useEffect, useState } from 'react';
 
 export const Profile: React.FC = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const handleLogout = async (e: React.MouseEvent) => {
+		e.preventDefault();
+
+		try {
+			await dispatch(logoutUser()).unwrap();
+			navigate('/login');
+		} catch (error) {
+			console.error('Logout failed:', error);
+		}
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.profileWrapper}>
@@ -30,12 +47,9 @@ export const Profile: React.FC = () => {
 						История заказов
 					</NavLink>
 					<NavLink
-						to='/quit' /* ! */
-						className={({ isActive }) =>
-							isActive
-								? `${styles.profileActiveLink}`
-								: ` ${styles.profileNormalLink}`
-						}>
+						to='#'
+						className={styles.profileNormalLink}
+						onClick={handleLogout}>
 						Выход
 					</NavLink>
 

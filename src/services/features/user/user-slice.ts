@@ -2,10 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User, UserState } from './types';
 import {
 	AuthResponse,
+	fetchWithRefresh,
 	getUser,
-	login,
+	ingredientsApiConfig,
 	logout,
 	register,
+	UpdateUserData,
+	updateUserData,
 	UserData,
 } from '../../../utils/api-utils';
 
@@ -20,7 +23,7 @@ interface LoginCredentials {
 	email: string;
 	password: string;
 }
-
+/*
 export const loginUser = createAsyncThunk(
 	'user/login',
 	async (credentials: LoginCredentials, { rejectWithValue }) => {
@@ -31,6 +34,29 @@ export const loginUser = createAsyncThunk(
 			localStorage.setItem('refreshToken', res.refreshToken);
 
 			return res.user;
+		} catch (error) {
+			return rejectWithValue(error instanceof Error ? error.message : error);
+		}
+	}
+); */
+
+export const loginUser = createAsyncThunk(
+	'auth/login',
+	async (credentials: LoginCredentials, { rejectWithValue }) => {
+		try {
+			const response = (await fetchWithRefresh(
+				`${ingredientsApiConfig.baseUrl}/auth/login`,
+				{
+					method: 'POST',
+					headers: ingredientsApiConfig.headers,
+					body: JSON.stringify(credentials),
+				}
+			)) as AuthResponse;
+
+			localStorage.setItem('accessToken', response.accessToken);
+			localStorage.setItem('refreshToken', response.refreshToken);
+
+			return response.user;
 		} catch (error) {
 			return rejectWithValue(error instanceof Error ? error.message : error);
 		}
@@ -72,6 +98,17 @@ export const fetchUser = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			return await getUser();
+		} catch (error) {
+			return rejectWithValue(error instanceof Error ? error.message : error);
+		}
+	}
+);
+
+export const updateUser = createAsyncThunk(
+	'user/update',
+	async (data: UpdateUserData, { rejectWithValue }) => {
+		try {
+			return await updateUserData(data);
 		} catch (error) {
 			return rejectWithValue(error instanceof Error ? error.message : error);
 		}
@@ -124,9 +161,16 @@ export const userSlice = createSlice({
 			/* getUser */
 			.addCase(fetchUser.pending, (state) => {
 				state.isLoading = true;
+				state.error = null;
 			})
-			.addCase(fetchUser.fulfilled, (state) => {
+			.addCase(fetchUser.fulfilled, (state, action) => {
 				state.isLoading = false;
+				state.user = action.payload;
+			})
+
+			.addCase(fetchUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload as string;
 			})
 
 			/* register */
@@ -143,6 +187,24 @@ export const userSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.payload as string;
 			});
+
+		// Обработчики для updateUser
+
+		/* .addCase(updateUser.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(
+				updateUser.fulfilled,
+				(state, action: PayloadAction<UpdateUserData>) => {
+					state.isLoading = false;
+					state.user = action.payload;
+				}
+			)
+			.addCase(updateUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload as string;
+			}); */
 	},
 });
 
