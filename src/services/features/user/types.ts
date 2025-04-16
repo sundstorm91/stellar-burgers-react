@@ -8,4 +8,5 @@ export interface UserState {
 	isAuthChecked: boolean;
 	isLoading: boolean;
 	error: string | null;
+	isUpdated?: false;
 }

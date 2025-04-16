@@ -14,8 +14,8 @@ export interface UserData {
 }
 
 export interface UpdateUserData {
-	name?: string;
-	email?: string;
+	name: string;
+	email: string;
 	password?: string;
 }
 

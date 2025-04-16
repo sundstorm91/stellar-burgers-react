@@ -17,6 +17,7 @@ const initialState: UserState = {
 	isAuthChecked: false,
 	isLoading: false,
 	error: null,
+	isUpdated: false,
 };
 
 interface LoginCredentials {
@@ -170,6 +171,7 @@ export const userSlice = createSlice({
 
 			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
+				state.user = null;
 				state.error = action.payload as string;
 			})
 
@@ -186,25 +188,21 @@ export const userSlice = createSlice({
 			.addCase(registerUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
-			});
+			})
 
-		// Обработчики для updateUser
-
-		/* .addCase(updateUser.pending, (state) => {
+			// Добавляем в extraReducers builder
+			.addCase(updateUser.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
 			})
-			.addCase(
-				updateUser.fulfilled,
-				(state, action: PayloadAction<UpdateUserData>) => {
-					state.isLoading = false;
-					state.user = action.payload;
-				}
-			)
+			.addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
+				state.isLoading = false;
+				state.user = action.payload;
+			})
 			.addCase(updateUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
-			}); */
+			});
 	},
 });
 
