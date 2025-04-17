@@ -7,8 +7,6 @@ import {
 	ingredientsApiConfig,
 	logout,
 	register,
-	UpdateUserData,
-	updateUserData,
 	UserData,
 } from '../../../utils/api-utils';
 
@@ -17,29 +15,12 @@ const initialState: UserState = {
 	isAuthChecked: false,
 	isLoading: false,
 	error: null,
-	isUpdated: false,
 };
 
 interface LoginCredentials {
 	email: string;
 	password: string;
 }
-/*
-export const loginUser = createAsyncThunk(
-	'user/login',
-	async (credentials: LoginCredentials, { rejectWithValue }) => {
-		try {
-			const res: AuthResponse = await login(credentials);
-
-			localStorage.setItem('accessToken', res.accessToken);
-			localStorage.setItem('refreshToken', res.refreshToken);
-
-			return res.user;
-		} catch (error) {
-			return rejectWithValue(error instanceof Error ? error.message : error);
-		}
-	}
-); */
 
 export const loginUser = createAsyncThunk(
 	'auth/login',
@@ -100,18 +81,9 @@ export const fetchUser = createAsyncThunk(
 		try {
 			return await getUser();
 		} catch (error) {
-			return rejectWithValue(error instanceof Error ? error.message : error);
-		}
-	}
-);
-
-export const updateUser = createAsyncThunk(
-	'user/update',
-	async (data: UpdateUserData, { rejectWithValue }) => {
-		try {
-			return await updateUserData(data);
-		} catch (error) {
-			return rejectWithValue(error instanceof Error ? error.message : error);
+			return rejectWithValue(
+				error instanceof Error ? error.message : 'Неизвестная ошибка'
+			);
 		}
 	}
 );
@@ -159,22 +131,6 @@ export const userSlice = createSlice({
 				state.user = null;
 			})
 
-			/* getUser */
-			.addCase(fetchUser.pending, (state) => {
-				state.isLoading = true;
-				state.error = null;
-			})
-			.addCase(fetchUser.fulfilled, (state, action) => {
-				state.isLoading = false;
-				state.user = action.payload;
-			})
-
-			.addCase(fetchUser.rejected, (state, action) => {
-				state.isLoading = false;
-				state.user = null;
-				state.error = action.payload as string;
-			})
-
 			/* register */
 			.addCase(registerUser.pending, (state) => {
 				state.isLoading = true;
@@ -190,18 +146,27 @@ export const userSlice = createSlice({
 				state.error = action.payload as string;
 			})
 
-			// Добавляем в extraReducers builder
-			.addCase(updateUser.pending, (state) => {
+			.addCase(fetchUser.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
 			})
-			.addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
-				state.isLoading = false;
+			.addCase(fetchUser.fulfilled, (state, action: PayloadAction<User>) => {
 				state.user = action.payload;
+				state.isLoading = false;
+				state.isAuthChecked = true;
 			})
-			.addCase(updateUser.rejected, (state, action) => {
+			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
+
+				// Очищаем токены при ошибке аутентификации
+				/* if (
+					action.payload?.includes('Токен') ||
+					action.payload?.includes('jwt')
+				) {
+					localStorage.removeItem('accessToken');
+					localStorage.removeItem('refreshToken');
+				} */
 			});
 	},
 });

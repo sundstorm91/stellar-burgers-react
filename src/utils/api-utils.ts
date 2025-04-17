@@ -61,8 +61,8 @@ export const resetPassword = async (password: string, token: string) => {
 	}).then(checkResponse);
 };
 
-export const refreshToken = () => {
-	return fetch(`${ingredientsApiConfig.baseUrl}/auth/token`, {
+export const refreshToken = async () => {
+	const res = await fetch(`${ingredientsApiConfig.baseUrl}/auth/token`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',
@@ -70,53 +70,64 @@ export const refreshToken = () => {
 		body: JSON.stringify({
 			token: localStorage.getItem('refreshToken'),
 		}),
-	})
-		.then(checkResponse)
+	});
+	const refreshData = await checkResponse(res);
+	if (!refreshData.success) {
+		return Promise.reject(refreshData);
+	}
+	localStorage.setItem('refreshToken', refreshData.refreshToken);
+	localStorage.setItem('accessToken', refreshData.accessToken);
 
-		.then((refreshData) => {
-			if (!refreshData.success) {
-				return Promise.reject(refreshData);
-			}
-			localStorage.setItem('refreshToken', refreshData.refreshToken);
-			localStorage.setItem('accessToken', refreshData.accessToken);
-			return refreshData;
-		});
+	return refreshData;
 };
 
 export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 	try {
 		const res = await fetch(url, options);
+
+		// Если статус ответа 403 - токен истёк или недействителен
+		if (res.status === 403) {
+			throw new Error('token_expired'); // Специальный флаг
+		}
 		return await checkResponse(res);
 	} catch (err) {
-		if ((err as Error).message === 'jwt expired') {
-			const refreshData = await refreshToken();
-			const newOptions = {
-				...options,
-				headers: {
-					...options.headers,
-					authorization: `Bearer ${refreshData.accessToken}`,
-				},
-			};
+		console.log('Ошибка запроса:', err);
 
-			const res = await fetch(url, newOptions);
-			return await checkResponse(res);
-		} else {
-			return Promise.reject(err);
+		// Проверяем, что токен истёк (через статус 403 или сообщение)
+		const isTokenExpired =
+			err instanceof Error &&
+			(err.message === 'token_expired' ||
+				err.message.includes('jwt expired') ||
+				err.message.includes('403'));
+
+		if (isTokenExpired) {
+			console.log('Обновление токена...');
+
+			try {
+				// 1. Обновляем токены
+				const refreshData = await refreshToken();
+
+				// 2. Повторяем запрос с новым токеном
+				const newOptions = {
+					...options,
+					headers: {
+						...options.headers,
+						Authorization: `${refreshData.accessToken}`,
+					},
+				};
+
+				const retryResponse = await fetch(url, newOptions);
+				return await checkResponse(retryResponse);
+			} catch (refreshError) {
+				console.error('Ошибка обновления токена:', refreshError);
+				throw new Error('Не удалось обновить токен');
+			}
 		}
+
+		// Если ошибка не связана с токеном - пробрасываем дальше
+		throw err;
 	}
 };
-
-/* export const login = async (credential: {
-	email: string;
-	password: string;
-}) => {
-	const response = await fetch(`${ingredientsApiConfig.baseUrl}/auth/login`, {
-		method: 'POST',
-		headers: ingredientsApiConfig.headers,
-		body: JSON.stringify(credential),
-	});
-	return checkResponse(response);
-}; */
 
 export const logout = async (): Promise<LogoutResponse> => {
 	const refreshToken = localStorage.getItem('refreshToken');
@@ -139,92 +150,28 @@ export const register = async (userData: {
 	}).then(checkResponse);
 };
 
-export const getUser = async (): Promise<User> => {
+export const getUser = async () => {
 	const accessToken = localStorage.getItem('accessToken');
 
 	if (!accessToken) {
-		localStorage.removeItem('refreshToken');
-		throw new Error('No access token available');
+		throw new Error('Токен доступа не найден');
 	}
 
 	try {
-		const response = await fetchWithRefresh(
+		const response = (await fetchWithRefresh(
 			`${ingredientsApiConfig.baseUrl}/auth/user`,
 			{
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
+					Authorization: `${accessToken}`,
 				},
 			}
-		);
+		)) as AuthResponse;
 
 		return response.user;
 	} catch (error) {
-		if (
-			(error as Error).message.includes('404') ||
-			(error as Error).message.includes('User not found')
-		) {
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			throw new Error('User not found - session cleared');
-		}
-
-		if (
-			(error as Error).message.includes('401') ||
-			(error as Error).message.includes('403')
-		) {
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			throw new Error('Authorization failed - session cleared');
-		}
-
+		console.error('Ошибка в getUser:', error);
 		throw error;
 	}
-};
-
-export const updateUser = async (userData: UpdateUserData): Promise<User> => {
-	const accessToken = localStorage.getItem('accessToken');
-
-	if (!accessToken) {
-		throw new Error('Требуется авторизация');
-	}
-
-	try {
-		const response = await fetch(`${ingredientsApiConfig.baseUrl}/auth/user`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${accessToken}`,
-			},
-			body: JSON.stringify(userData),
-		});
-
-		const data = await checkResponse(response);
-		return data.user;
-	} catch (error) {
-		if (
-			(error as Error).message.includes('401') ||
-			(error as Error).message.includes('403')
-		) {
-			// Очищаем токены при ошибках авторизации
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			throw new Error('Сессия истекла - требуется повторный вход');
-		}
-		throw error;
-	}
-};
-
-export const updateUserData = (
-	data: UpdateUserData
-): Promise<UpdateUserData> => {
-	return fetchWithRefresh(`${ingredientsApiConfig.baseUrl}/auth/user`, {
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-		},
-		body: JSON.stringify(data),
-	});
 };

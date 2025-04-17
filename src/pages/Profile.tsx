@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 export const Profile: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
+	const { user, isLoading, error } = useAppSelector((state) => state.user);
 	const handleLogout = async (e: React.MouseEvent) => {
 		e.preventDefault();
 
@@ -23,6 +23,10 @@ export const Profile: React.FC = () => {
 			console.error('Logout failed:', error);
 		}
 	};
+
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.container}>
@@ -55,6 +59,7 @@ export const Profile: React.FC = () => {
 
 					<div className={styles.profileDescription}>
 						В этом разделе вы можете изменить свои персональные данные
+						{}
 					</div>
 				</div>
 				<div className={styles.wrapper}>
