@@ -175,3 +175,34 @@ export const getUser = async () => {
 		throw error;
 	}
 };
+
+export const updateUserData = async (data: UpdateUserData): Promise<User> => {
+	const accessToken = localStorage.getItem('accessToken');
+
+	if (!accessToken) {
+		throw new Error('Токен доступа не найден');
+	}
+
+	try {
+		const response = await fetchWithRefresh(
+			`${ingredientsApiConfig.baseUrl}/auth/user`,
+			{
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `${accessToken}`,
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		if (!response.success) {
+			throw new Error(response.message || 'Ошибка обновления данных');
+		}
+
+		return response.user;
+	} catch (error) {
+		console.error('Ошибка в updateUserData:', error);
+		throw error;
+	}
+};

@@ -7,6 +7,8 @@ import {
 	ingredientsApiConfig,
 	logout,
 	register,
+	updateUserData,
+	UpdateUserData,
 	UserData,
 } from '../../../utils/api-utils';
 
@@ -81,12 +83,43 @@ export const fetchUser = createAsyncThunk(
 		try {
 			return await getUser();
 		} catch (error) {
+			// Очищаем токены при ошибках аутентификации
+			if (
+				error instanceof Error &&
+				(error.message.includes('403') ||
+					error.message.includes('jwt') ||
+					error.message.includes('token'))
+			) {
+				localStorage.removeItem('accessToken');
+				localStorage.removeItem('refreshToken');
+			}
 			return rejectWithValue(
 				error instanceof Error ? error.message : 'Неизвестная ошибка'
 			);
 		}
 	}
 );
+
+export const updateUser = createAsyncThunk<
+	User, // Тип возвращаемого значения при успехе
+	UpdateUserData, // Тип входного параметра
+	{ rejectValue: string } // Тип ошибки
+>('user/updateUser', async (userData, { rejectWithValue }) => {
+	try {
+		return await updateUserData(userData); // Вызываем API-функцию
+	} catch (error) {
+		if (
+			error instanceof Error &&
+			(error.message.includes('jwt expired') || error.message.includes('403'))
+		) {
+			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
+		}
+		return rejectWithValue(
+			error instanceof Error ? error.message : 'Ошибка обновления'
+		);
+	}
+});
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -158,15 +191,23 @@ export const userSlice = createSlice({
 			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
+			})
 
-				// Очищаем токены при ошибке аутентификации
-				/* if (
-					action.payload?.includes('Токен') ||
-					action.payload?.includes('jwt')
-				) {
-					localStorage.removeItem('accessToken');
-					localStorage.removeItem('refreshToken');
-				} */
+			/* update */
+			.addCase(updateUser.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+
+			.addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
+				state.isLoading = false;
+				state.user = action.payload;
+				state.isAuthChecked = true;
+			})
+
+			.addCase(updateUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload as string;
 			});
 	},
 });
