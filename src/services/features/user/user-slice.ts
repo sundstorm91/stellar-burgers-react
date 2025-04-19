@@ -136,11 +136,11 @@ export const userSlice = createSlice({
 		},
 	},
 	selectors: {
-		selectUser: (state) => state.user,
-		selectIsAuthChecked: (state) => state.isAuthChecked,
-		selectIsLoading: (state) => state.isLoading,
-		selectError: (state) => state.error,
-		selectIsAuthenticated: (state) => {
+		getUserSelector: (state) => state.user,
+		getIsAuthCheckedSelector: (state) => state.isAuthChecked,
+		getIsLoadingSelector: (state) => state.isLoading,
+		getErrorSelector: (state) => state.error,
+		getIsAuthenticatedSelector: (state) => {
 			return (
 				state.isAuthChecked &&
 				state.user !== null &&
@@ -223,3 +223,10 @@ export const userSlice = createSlice({
 
 export const { setUser, setIsAuthChecked, clearError } = userSlice.actions;
 export default userSlice.reducer;
+export const {
+	getErrorSelector,
+	getIsAuthCheckedSelector,
+	getIsAuthenticatedSelector,
+	getIsLoadingSelector,
+	getUserSelector,
+} = userSlice.selectors;
