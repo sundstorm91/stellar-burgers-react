@@ -27,32 +27,30 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 		return <Spinner />;
 	}
 
-	if (!onlyUnAuth && !user && isAuthChecked) {
-		console.log(
-			'Сработал переход 1 на логин, потому что юзер не авторизирован'
-		);
+	if (!onlyUnAuth && !user) {
+		console.log('переход 1');
 		return <Navigate to='/login' state={{ from: location }} />;
 	}
 
+	// Защита для маршрутов только для неавторизованных
 	if (onlyUnAuth && user) {
-		// Если есть информация о предыдущей странице и это не страница входа/регистрации
+		const from = location.state?.from?.pathname || '/profile';
+		console.log('!', from);
+
+		// Не разрешаем редирект на страницы авторизации
 		if (
-			location.state?.from &&
-			!['/login', '/register', '/forgot-password'].includes(
-				location.state.from.pathname
+			!['/login', '/register', '/forgot-password', '/reset-password'].includes(
+				from
 			)
 		) {
-			console.log(
-				'Переход 2.1: есть инфа о предыдущей странице, но это не страница входа или регистрации'
-			);
-			return <Navigate to={location.state.from} replace />;
+			console.log(`Redirect authorized user back to ${from}`);
+			return <Navigate to={from} replace />;
 		}
-		console.log('переход 2.2', location);
-		// Иначе - в профиль
+
+		console.log('Redirect authorized user to profile (default)');
 		return <Navigate to='/profile' replace />;
 	}
-
-	console.log('сработал переход 3 прямо в компонент');
+	console.log('переход 3');
 	return component;
 };
 

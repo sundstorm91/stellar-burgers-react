@@ -56,11 +56,11 @@ export const Register: React.FC = () => {
 		ksandr1g@mail.ru
 		1234567 	*/
 
-	useEffect(() => {
+	/* useEffect(() => {
 		if (user) {
 			navigate('/profile', { replace: true });
 		}
-	}, [user, navigate]);
+	}, [user, navigate]); */
 
 	return (
 		<div className={styles.container}>
