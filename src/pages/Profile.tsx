@@ -7,14 +7,20 @@ import {
 import styles from './pages.module.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
-import { fetchUser, logoutUser, updateUser } from '../services/features/user/user-slice';
+import {
+	fetchUser,
+	logoutUser,
+	updateUser,
+} from '../services/features/user/user-slice';
 import { useEffect, useState } from 'react';
+import { User } from '../services/features/user/types';
 
 export const Profile: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
+	const [originalUserData, setOriginalUserData] = useState<User | null>(null);
 	const { user, isLoading, error } = useAppSelector((state) => state.user);
+
 	const handleLogout = async (e: React.MouseEvent) => {
 		e.preventDefault();
 
@@ -31,8 +37,20 @@ export const Profile: React.FC = () => {
 
 		try {
 			await dispatch(updateUser(formData)).unwrap();
+			setOriginalUserData(formData);
+			setFormData((prev) => ({ ...prev, password: '' }));
 		} catch (error) {
 			console.error('Update failed:', error);
+		}
+	};
+
+	const handleCancel = () => {
+		if (originalUserData) {
+			setFormData({
+				name: originalUserData.name,
+				email: originalUserData.email,
+				password: '',
+			});
 		}
 	};
 
@@ -53,6 +71,7 @@ export const Profile: React.FC = () => {
 
 	useEffect(() => {
 		if (user) {
+			setOriginalUserData(user);
 			setFormData({
 				name: user.name,
 				email: user.email,
@@ -60,6 +79,7 @@ export const Profile: React.FC = () => {
 			});
 		}
 	}, [user]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.profileWrapper}>
@@ -118,21 +138,24 @@ export const Profile: React.FC = () => {
 						icon='HideIcon'
 					/>
 
-					{(formData.name || formData.email || formData.password) &&
-					(formData.name !== user?.name ||
-						formData.email !== user?.email ||
-						formData.password !== '') ? (
-						<Button
-							htmlType={'submit'}
-							size='large'
-							disabled={isLoading}
-							style={{ position: 'absolute', bottom: '-100px' }}>
+					<div className={styles.buttonsField}>
+						<Button htmlType={'submit'} size='large' disabled={isLoading}>
 							{' '}
 							{isLoading ? 'Сохраняю..' : 'Сохранить'}
 						</Button>
-					) : (
-						''
-					)}
+
+						<Button
+							htmlType={'button'}
+							size={'large'}
+							onClick={handleCancel}
+							disabled={
+								formData.name === originalUserData?.name &&
+								formData.email === originalUserData?.email &&
+								formData.password === ''
+							}>
+							Отмена
+						</Button>
+					</div>
 				</form>
 			</div>
 		</div>

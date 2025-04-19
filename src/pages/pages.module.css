@@ -21,7 +21,6 @@
 
 .profileWrapper {
 	display: flex;
-	align-items: center;
 	column-gap: 60px;
 }
 
@@ -55,6 +54,7 @@
 	font-family: 'JetBrainsMono', sans-serif, Arial;
 	font-weight: 400;
 	font-size: 16px;
+	margin: 80px 0px 0px 0px;
 }
 
 .wrapper {
@@ -65,9 +65,10 @@
 	position: relative;
 }
 
-.button {
-	position: absolute;
-	bottom: 0px;
+.buttonsField {
+	display: flex;
+	flex-direction: row-reverse;
+	column-gap: 24px;
 }
 
 .form {
