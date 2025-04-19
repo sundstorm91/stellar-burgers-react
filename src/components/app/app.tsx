@@ -12,8 +12,12 @@ import { Modal } from '../modal/modal';
 import { CurrentIngredient } from '../../pages/CurrentIngredient';
 import { Profile } from '../../pages/Profile';
 import { OnlyAuth, OnlyUnAuth } from '../auth/ProtectedRouteElement';
-import { fetchUser } from '../../services/features/user/user-slice';
+import {
+	fetchUser,
+	getIsAuthCheckedSelector,
+} from '../../services/features/user/user-slice';
 import { useAppDispatch } from '../../hooks/hook';
+import { useSelector } from 'react-redux';
 
 const Layout = (): ReactElement => {
 	return (
@@ -29,9 +33,11 @@ export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
 	const dispatch = useAppDispatch();
+	const isAuthChecked = useSelector(getIsAuthCheckedSelector);
+
 	useEffect(() => {
 		dispatch(fetchUser());
-	}, [dispatch]);
+	}, [dispatch, isAuthChecked]);
 
 	return (
 		<>

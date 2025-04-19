@@ -174,7 +174,8 @@ export const userSlice = createSlice({
 			/* logout */
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.user = null;
-				state.isAuthChecked = false;
+				state.isAuthChecked = true; // Для избежания зависания
+				state.isLoading = false;
 			})
 
 			/* register */

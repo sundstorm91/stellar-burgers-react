@@ -1,11 +1,10 @@
 import {
-	fetchUser,
 	getIsAuthCheckedSelector,
 	getUserSelector,
 } from '../../services/features/user/user-slice';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/hook';
+import { Spinner } from '../spinner/spinner';
 
 interface ProtectedRouteProps {
 	onlyUnAuth?: boolean;
@@ -20,20 +19,12 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	onlyUnAuth = false,
 	component,
 }) => {
-	const dispatch = useAppDispatch();
 	const user = useSelector(getUserSelector);
 	const isAuthChecked = useSelector(getIsAuthCheckedSelector);
 	const location = useLocation();
 
 	if (!isAuthChecked) {
-		// Если это первый рендер или состояние после выхода
-		if (user === null) {
-			// Пытаемся проверить авторизацию
-			dispatch(fetchUser());
-			return <div>loading... isAuthChecked</div>;
-		}
-
-		return <div>loading... isAuthChecked</div>;
+		return <Spinner />;
 	}
 
 	if (!onlyUnAuth && !user && isAuthChecked) {
