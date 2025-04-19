@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
 	fetchUser,
 	logoutUser,
+	resetAuthState,
 	updateUser,
 } from '../services/features/user/user-slice';
 import { useEffect, useState } from 'react';
@@ -25,8 +26,12 @@ export const Profile: React.FC = () => {
 		e.preventDefault();
 
 		try {
-			await dispatch(logoutUser()).unwrap();
-			navigate('/login');
+			await dispatch(logoutUser())
+				.unwrap()
+				.then(() => {
+					navigate('/login');
+				});
+			dispatch(resetAuthState());
 		} catch (error) {
 			console.error('Logout failed:', error);
 		}
@@ -104,7 +109,7 @@ export const Profile: React.FC = () => {
 						История заказов
 					</NavLink>
 					<NavLink
-						to='#'
+						to='/login'
 						className={styles.profileNormalLink}
 						onClick={handleLogout}>
 						Выход

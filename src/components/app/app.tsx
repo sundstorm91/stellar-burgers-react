@@ -7,10 +7,13 @@ import { Register } from '../../pages/Register';
 import { ResetPassword } from '../../pages/ResetPassword';
 import { ForgotPassword } from '../../pages/ForgotPassword';
 import { NotFoundPage } from '../../pages/NotFound';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Modal } from '../modal/modal';
 import { CurrentIngredient } from '../../pages/CurrentIngredient';
 import { Profile } from '../../pages/Profile';
+import { OnlyAuth, OnlyUnAuth } from '../auth/ProtectedRouteElement';
+import { fetchUser } from '../../services/features/user/user-slice';
+import { useAppDispatch } from '../../hooks/hook';
 
 const Layout = (): ReactElement => {
 	return (
@@ -25,18 +28,25 @@ const Layout = (): ReactElement => {
 export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		dispatch(fetchUser());
+	}, [dispatch]);
 
 	return (
 		<>
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path='/login' element={<Login />} />
+					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route path='/ingredients/:id' element={<CurrentIngredient />} />
 					<Route path='/register' element={<Register />} />
 					<Route path='/reset-password' element={<ResetPassword />} />
 					<Route path='/forgot-password' element={<ForgotPassword />} />
-					<Route path='/profile' element={<Profile />} />
+					<Route
+						path='/profile'
+						element={<OnlyAuth component={<Profile />} />}
+					/>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>

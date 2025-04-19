@@ -6,11 +6,17 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
-import { registerUser } from '../services/features/user/user-slice';
+import {
+	getUserSelector,
+	registerUser,
+	setUser,
+} from '../services/features/user/user-slice';
+import { useSelector } from 'react-redux';
 
 export const Register: React.FC = () => {
+	const user = useSelector(getUserSelector);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [formData, setFormData] = useState({
@@ -37,7 +43,8 @@ export const Register: React.FC = () => {
 			if (registerUser.fulfilled.match(result)) {
 				// Регистрация успешна
 				console.log('Пользователь зарегистрирован:', result.payload);
-				navigate('/');
+				dispatch(setUser(formData));
+				navigate('/', { replace: true });
 			} else if (registerUser.rejected.match(result)) {
 				setError(result.payload as string);
 			}
@@ -48,6 +55,13 @@ export const Register: React.FC = () => {
 	/* 	afonya
 		ksandr1g@mail.ru
 		1234567 	*/
+
+	useEffect(() => {
+		if (user) {
+			navigate('/profile', { replace: true });
+		}
+	}, [user, navigate]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>

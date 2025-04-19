@@ -134,6 +134,12 @@ export const userSlice = createSlice({
 		clearError: (state) => {
 			state.error = null;
 		},
+		resetAuthState(state) {
+			state.user = null;
+			state.isAuthChecked = false; // сбрасываем флаг
+			state.isLoading = false;
+			state.error = null;
+		},
 	},
 	selectors: {
 		getUserSelector: (state) => state.user,
@@ -186,6 +192,7 @@ export const userSlice = createSlice({
 				state.error = action.payload as string;
 			})
 
+			/* fetchUser! */
 			.addCase(fetchUser.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
@@ -197,6 +204,8 @@ export const userSlice = createSlice({
 			})
 			.addCase(fetchUser.rejected, (state, action) => {
 				state.isLoading = false;
+				state.isAuthChecked = true; // !Для завершения проверки
+				state.user = null;
 				state.error = action.payload as string;
 			})
 
@@ -221,7 +230,8 @@ export const userSlice = createSlice({
 
 /* addmatchers для обработки ошибок! */
 
-export const { setUser, setIsAuthChecked, clearError } = userSlice.actions;
+export const { setUser, setIsAuthChecked, clearError, resetAuthState } =
+	userSlice.actions;
 export default userSlice.reducer;
 export const {
 	getErrorSelector,
