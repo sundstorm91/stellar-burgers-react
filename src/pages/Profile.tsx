@@ -40,7 +40,10 @@ export const Profile: React.FC = () => {
 			setOriginalUserData(formData);
 			setFormData((prev) => ({ ...prev, password: '' }));
 		} catch (error) {
-			console.error('Update failed:', error);
+			console.error(
+				'Update failed:',
+				error
+			); /* консоль!! отработать ошибки чз чек-респонс */
 		}
 	};
 

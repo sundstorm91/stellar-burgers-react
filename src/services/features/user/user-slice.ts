@@ -140,7 +140,13 @@ export const userSlice = createSlice({
 		selectIsAuthChecked: (state) => state.isAuthChecked,
 		selectIsLoading: (state) => state.isLoading,
 		selectError: (state) => state.error,
-		selectIsAuthenticated: (state) => state.user !== null,
+		selectIsAuthenticated: (state) => {
+			return (
+				state.isAuthChecked &&
+				state.user !== null &&
+				localStorage.getItem('accessToken') !== null
+			);
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -162,6 +168,7 @@ export const userSlice = createSlice({
 			/* logout */
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.user = null;
+				state.isAuthChecked = false;
 			})
 
 			/* register */
@@ -211,6 +218,8 @@ export const userSlice = createSlice({
 			});
 	},
 });
+
+/* addmatchers для обработки ошибок! */
 
 export const { setUser, setIsAuthChecked, clearError } = userSlice.actions;
 export default userSlice.reducer;
