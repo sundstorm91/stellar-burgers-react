@@ -49,7 +49,10 @@ export const App: React.FC = () => {
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
-					<Route path='/ingredients/:id' element={<CurrentIngredient />} />
+					<Route
+						path='/ingredients/:id'
+						element={<CurrentIngredient backgroundLocation={false} />}
+					/>
 					<Route
 						path='/register'
 						element={<OnlyUnAuth component={<Register />} />}
@@ -76,7 +79,13 @@ export const App: React.FC = () => {
 
 			{state?.backgroundLocation && (
 				<Routes>
-					<Route path='/ingredients/:id' element={<Modal />}></Route>
+					<Route
+						path='/ingredients/:id'
+						element={
+							<Modal>
+								<CurrentIngredient backgroundLocation={true} />
+							</Modal>
+						}></Route>
 				</Routes>
 			)}
 		</>

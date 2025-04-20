@@ -89,7 +89,6 @@
 	font-family: 'JetBrainsMono', sans-serif;
 	font-weight: 700;
 	font-size: 24px;
-
 }
 
 .auxFields p {
@@ -115,12 +114,7 @@
 }
 
 
-.wrapperIngredient {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 120px 0px 0px 0px;
-}
+
 
 .tableTitle {
 	width: 640px;
@@ -129,7 +123,7 @@
 	font-size: 36px;
 	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
 	letter-spacing: 0%;
-	text-align: center;
+	/* text-align: flex-start; */
 	/* margin: 40px 40px 0px 40px; */
 }
 

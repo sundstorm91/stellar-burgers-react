@@ -7,7 +7,9 @@ export const IngredientDetails: React.FC<CurrentIngredient> = ({
 	isModal,
 }) => {
 	return (
-		<>
+		<div
+			className={styles.container}
+			style={isModal ? { marginTop: '10px' } : { marginTop: '120px' }}>
 			<p
 				className={styles.tableTitle}
 				style={isModal ? { textAlign: 'start' } : { textAlign: 'center' }}>
@@ -49,6 +51,6 @@ export const IngredientDetails: React.FC<CurrentIngredient> = ({
 					</tr>
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
