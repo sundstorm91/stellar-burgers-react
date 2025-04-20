@@ -30,42 +30,37 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	if (!isAuthChecked) {
 		return <Spinner />;
 	}
-	console.log(wasPasswordResetRequested, 'request');
 	// Дополнительная защита для reset-password
 	if (needPasswordResetRequest) {
 		if (wasPasswordResetRequested) {
 			// Разрешаем доступ к reset-password, даже если пользователь не авторизован
 			return component;
 		}
-		console.log('Redirect to forgot-password - no reset request');
+
 		return <Navigate to='/forgot-password' replace />;
 	}
 
 	if (!onlyUnAuth && !user) {
-		console.log('переход 1');
+		console.log('протектед 1')
 		return <Navigate to='/login' state={{ from: location }} />;
 	}
 
 	// Защита для маршрутов только для неавторизованных
 	if (onlyUnAuth && user) {
 		const from = location.state?.from?.pathname || '/profile';
-		console.log('!', from);
-
+		console.log('протектед 2.1')
 		// Не разрешаем редирект на страницы авторизации
 		if (
 			!['/login', '/register', '/forgot-password', '/reset-password'].includes(
 				from
 			)
 		) {
-			console.log(`Redirect authorized user back to ${from}`);
+			console.log('протектед 2.2')
 			return <Navigate to={from} replace />;
 		}
-
-		console.log('Redirect authorized user to profile (default)');
 		return <Navigate to='/profile' replace />;
 	}
-
-	console.log('переход 3');
+	console.log('протектед 3');
 	return component;
 };
 
@@ -74,11 +69,6 @@ export const OnlyUnAuth: React.FC<OnlyUnAuthProps> = ({ component }) => (
 	<ProtectedRouteElement onlyUnAuth component={component} />
 );
 
-/* export const OnlyWithPasswordResetRequest: React.FC<
-	Omit<ProtectedRouteProps, 'needPasswordResetRequest'>
-> = ({ component }) => (
-	<ProtectedRouteElement needPasswordResetRequest component={component} />
-); */
 export const OnlyWithPasswordResetRequest = ({
 	component,
 }: {

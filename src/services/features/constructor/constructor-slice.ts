@@ -62,6 +62,17 @@ const burgerBuilderSlice = createSlice({
 		) => {
 			state.ingredients = action.payload;
 		},
+
+		saveConstructorState: (
+			state,
+			action: PayloadAction<{
+				bun: ConstructorIngredient | null;
+				ingredients: ConstructorIngredient[];
+			}>
+		) => {
+			state.bun = action.payload.bun;
+			state.ingredients = action.payload.ingredients;
+		},
 	},
 });
 
@@ -70,5 +81,6 @@ export const {
 	reorderIngredient,
 	removeIngredient,
 	updateIngredient,
+	saveConstructorState,
 } = burgerBuilderSlice.actions;
 export default burgerBuilderSlice.reducer;

@@ -105,5 +105,6 @@
 }
 
 .wrapperLogo {
+	cursor: pointer;
 	margin-right: 163px;
 }

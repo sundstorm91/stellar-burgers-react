@@ -30,7 +30,9 @@ export const AppHeader = () => {
 						</div>
 					</div>
 					<div className={styles.wrapperLogo}>
-						<Logo />
+						<Link to='/'>
+							<Logo />
+						</Link>
 					</div>
 					<div className={styles.personalAccount}>
 						<ProfileIcon type={'secondary'} />

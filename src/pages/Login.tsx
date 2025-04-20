@@ -4,28 +4,20 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
 import { loginUser } from '../services/features/user/user-slice';
+import { saveConstructorState } from '../services/features/constructor/constructor-slice';
 
 export const Login: React.FC = () => {
+	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-
+	const location = useLocation();
 	const [error, setError] = useState<string | null>(null);
 	const dispatch = useAppDispatch();
-
-	const handleSubmitLogin = async (e: React.FormEvent) => {
-		e.preventDefault();
-
-		try {
-			await dispatch(loginUser({ email, password }));
-		} catch (err) {
-			throw err;
-		}
-	};
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -37,6 +29,31 @@ export const Login: React.FC = () => {
 		if (error) setError(null); // Сбрасываем ошибку при изменении данных
 	};
 
+	const handleSubmitLogin = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		try {
+			await dispatch(loginUser({ email, password }));
+			const savedState = localStorage.getItem('burgerConstructor');
+
+			if (savedState) {
+				try {
+					const { bun, ingredients } = JSON.parse(savedState);
+
+					// 3. Восстанавливаем конструктор
+					dispatch(saveConstructorState({ bun, ingredients }));
+
+					// 4. Очищаем хранилище
+					localStorage.removeItem('burgerConstructor');
+				} catch (e) {
+					localStorage.removeItem('burgerConstructor');
+					throw e;
+				}
+			}
+		} catch (err) {
+			throw err;
+		}
+	};
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
