@@ -4,9 +4,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 import { useState } from 'react';
-import { forgotPassword } from '../utils/api-utils';
+import { useAppDispatch } from '../hooks/hook';
+import {
+	requestPasswordReset,
+	setPasswordResetRequested,
+} from '../services/features/user/user-slice';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 export const ForgotPassword: React.FC = () => {
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const [email, setEmail] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -18,8 +25,16 @@ export const ForgotPassword: React.FC = () => {
 		setError('');
 
 		try {
-			await forgotPassword(email);
+			await dispatch(requestPasswordReset(email))
+				.unwrap()
+				.then(() => dispatch(setPasswordResetRequested({ email })));
+
 			setSuccess(true);
+			console.log('nav to reset-password..');
+			navigate('/reset-password', {
+				state: { email }, // Передаём email для отображения
+				replace: true, // Чтобы нельзя было вернуться назад
+			});
 		} catch (err) {
 			setError('Произошла ошибка при отправке запроса');
 		} finally {
@@ -69,7 +84,10 @@ export const ForgotPassword: React.FC = () => {
 
 			<div className={styles.auxFields}>
 				<p className='text text_type_main-default text_color_inactive'>
-					Вспомнили пароль? <span className={styles.link}>Войти</span>
+					Вспомнили пароль?{' '}
+					<NavLink to='/login'>
+						<span className={styles.link}>Войти</span>
+					</NavLink>
 				</p>
 			</div>
 		</div>

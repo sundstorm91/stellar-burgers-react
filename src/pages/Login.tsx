@@ -4,7 +4,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
 import { loginUser } from '../services/features/user/user-slice';
@@ -72,7 +72,7 @@ export const Login: React.FC = () => {
 				</p>
 				<p>
 					Забыли пароль?{' '}
-					<Link to='/reset-password'>
+					<Link to='/forgot-password'>
 						<span>Восстановить пароль</span>
 					</Link>
 				</p>

@@ -11,7 +11,11 @@ import { ReactElement, useEffect } from 'react';
 import { Modal } from '../modal/modal';
 import { CurrentIngredient } from '../../pages/CurrentIngredient';
 import { Profile } from '../../pages/Profile';
-import { OnlyAuth, OnlyUnAuth } from '../auth/ProtectedRouteElement';
+import {
+	OnlyAuth,
+	OnlyUnAuth,
+	OnlyWithPasswordResetRequest,
+} from '../auth/ProtectedRouteElement';
 import {
 	fetchUser,
 	getIsAuthCheckedSelector,
@@ -54,7 +58,14 @@ export const App: React.FC = () => {
 						path='/forgot-password'
 						element={<OnlyUnAuth component={<ForgotPassword />} />}
 					/>
-					<Route path='/reset-password' element={<ResetPassword />} />
+					{/* <Route path='/reset-password' element={<ResetPassword />} /> */}
+					{/* Защищенный reset-password */}
+					<Route
+						path='/reset-password'
+						element={
+							<OnlyWithPasswordResetRequest component={<ResetPassword />} />
+						}
+					/>
 					<Route
 						path='/profile'
 						element={<OnlyAuth component={<Profile />} />}

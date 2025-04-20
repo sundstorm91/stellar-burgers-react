@@ -3,10 +3,12 @@ import { User, UserState } from './types';
 import {
 	AuthResponse,
 	fetchWithRefresh,
+	forgotPassword,
 	getUser,
 	ingredientsApiConfig,
 	logout,
 	register,
+	resetPassword,
 	updateUserData,
 	UpdateUserData,
 	UserData,
@@ -17,11 +19,20 @@ const initialState: UserState = {
 	isAuthChecked: false,
 	isLoading: false,
 	error: null,
+	passwordReset: {
+		wasRequested: false,
+		email: '',
+	},
 };
 
 interface LoginCredentials {
 	email: string;
 	password: string;
+}
+
+interface ResetPasswordProps {
+	password: string;
+	token: string;
 }
 
 export const loginUser = createAsyncThunk(
@@ -121,6 +132,32 @@ export const updateUser = createAsyncThunk<
 	}
 });
 
+export const requestPasswordReset = createAsyncThunk(
+	'auth/requestPasswordReset',
+	async (email: string, { rejectWithValue }) => {
+		try {
+			return await forgotPassword(email);
+		} catch (error) {
+			return rejectWithValue(
+				error instanceof Error ? error.message : 'Unknown error'
+			);
+		}
+	}
+);
+
+export const confirmPasswordReset = createAsyncThunk(
+	'auth/confirmPasswordReset',
+	async (sendData: ResetPasswordProps, { rejectWithValue }) => {
+		try {
+			return await resetPassword(sendData.password, sendData.token);
+		} catch (error) {
+			return rejectWithValue(
+				error instanceof Error ? error.message : 'Unknown error'
+			);
+		}
+	}
+);
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
@@ -139,6 +176,20 @@ export const userSlice = createSlice({
 			state.isAuthChecked = false; // сбрасываем флаг
 			state.isLoading = false;
 			state.error = null;
+
+			state.passwordReset.wasRequested = false;
+			state.passwordReset.email = '';
+		},
+		setPasswordResetRequested: (
+			state,
+			action: PayloadAction<{ email: string }>
+		) => {
+			state.passwordReset.wasRequested = true;
+			state.passwordReset.email = action.payload.email;
+		},
+		resetPasswordResetState: (state) => {
+			state.passwordReset.wasRequested = false;
+			state.passwordReset.email = '';
 		},
 	},
 	selectors: {
@@ -153,6 +204,8 @@ export const userSlice = createSlice({
 				localStorage.getItem('accessToken') !== null
 			);
 		},
+		getWasPasswordResetRequested: (state) => state.passwordReset.wasRequested,
+		getPasswordResetEmail: (state) => state.passwordReset.email,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -225,14 +278,35 @@ export const userSlice = createSlice({
 			.addCase(updateUser.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
+			})
+
+			/* access for reset-password! */
+			.addCase(requestPasswordReset.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(requestPasswordReset.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.passwordReset.wasRequested = true;
+				state.passwordReset.email = action.meta.arg; /* ???? */
+			})
+			.addCase(requestPasswordReset.rejected, (state) => {
+				state.isLoading = true;
+				state.error = null;
 			});
 	},
 });
 
 /* addmatchers для обработки ошибок! */
 
-export const { setUser, setIsAuthChecked, clearError, resetAuthState } =
-	userSlice.actions;
+export const {
+	setUser,
+	setIsAuthChecked,
+	clearError,
+	resetAuthState,
+	resetPasswordResetState,
+	setPasswordResetRequested,
+} = userSlice.actions;
 export default userSlice.reducer;
 export const {
 	getErrorSelector,
@@ -240,4 +314,6 @@ export const {
 	getIsAuthenticatedSelector,
 	getIsLoadingSelector,
 	getUserSelector,
+	getPasswordResetEmail,
+	getWasPasswordResetRequested,
 } = userSlice.selectors;

@@ -9,4 +9,8 @@ export interface UserState {
 	isAuthChecked: boolean;
 	isLoading: boolean;
 	error: string | null;
+	passwordReset: {
+		wasRequested: boolean;
+		email: string;
+	};
 }
