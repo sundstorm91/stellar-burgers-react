@@ -3,13 +3,15 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { resetPassword } from '@utils/api-utils';
+import { Spinner } from '../components/spinner/spinner';
 
 export const ResetPassword: React.FC = () => {
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState('');
+	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -37,6 +39,7 @@ export const ResetPassword: React.FC = () => {
 		try {
 			await resetPassword(password, token);
 			setSuccess(true);
+			setTimeout(() => navigate('/login', { replace: true }), 1000);
 		} catch (err) {
 			setError(
 				err instanceof Error ? err.message : 'Ошибка восстановления пароля'
@@ -52,9 +55,13 @@ export const ResetPassword: React.FC = () => {
 				<span className={styles.title}>Восстановление пароля</span>
 
 				{success ? (
-					<p className='text text_type_main-default mb-20'>
-						Пароль успешно изменен!
-					</p>
+					<>
+						<p className='text text_type_main-default mb-20'>
+							Пароль успешно изменен! Сейчас вы будете перенаправлены на
+							страницу авторизации..
+						</p>
+						<Spinner />
+					</>
 				) : (
 					<form onSubmit={handleSubmit} className={styles.wrapper}>
 						<Input
