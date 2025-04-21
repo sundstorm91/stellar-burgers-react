@@ -61,8 +61,7 @@ export const App: React.FC = () => {
 						path='/forgot-password'
 						element={<OnlyUnAuth component={<ForgotPassword />} />}
 					/>
-					{/* <Route path='/reset-password' element={<ResetPassword />} /> */}
-					{/* Защищенный reset-password */}
+
 					<Route
 						path='/reset-password'
 						element={

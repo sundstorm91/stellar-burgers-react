@@ -1,24 +1,22 @@
 import { createPortal } from 'react-dom';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './modal.module.css';
 import Overlay from './modal-overlay';
-import { useAppSelector } from '../../hooks/hook';
-import { getIngredientById } from '../../utils/helpers';
+import { useAppDispatch } from '../../hooks/hook';
+import { clearOrder } from '../../services/features/create-order/order-slice';
+import { clearConstructorState } from '../../services/features/constructor/constructor-slice';
 
 export const Modal: React.FC<{ children: React.ReactElement }> = ({
 	children,
 }) => {
-	const { ingredients } = useAppSelector((state) => state.ingredients);
 	const navigate = useNavigate();
-	const { id } = useParams<'id'>();
-
-	const ingredient = getIngredientById(id!, ingredients);
+	const dispatch = useAppDispatch();
 
 	const onClose = () => {
 		navigate(-1);
+		dispatch(clearConstructorState());
+		dispatch(clearOrder());
 	};
-
-	if (!ingredient) return null;
 
 	return createPortal(
 		<>

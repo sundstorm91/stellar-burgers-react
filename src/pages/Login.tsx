@@ -4,8 +4,8 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
 import { loginUser } from '../services/features/user/user-slice';
 import { saveConstructorState } from '../services/features/constructor/constructor-slice';
@@ -15,7 +15,6 @@ export const Login: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const location = useLocation();
 	const [error, setError] = useState<string | null>(null);
 	const dispatch = useAppDispatch();
 
@@ -40,20 +39,21 @@ export const Login: React.FC = () => {
 				try {
 					const { bun, ingredients } = JSON.parse(savedState);
 
-					// 3. Восстанавливаем конструктор
 					dispatch(saveConstructorState({ bun, ingredients }));
 
-					// 4. Очищаем хранилище
 					localStorage.removeItem('burgerConstructor');
-				} catch (e) {
+				} catch (err) {
 					localStorage.removeItem('burgerConstructor');
-					throw e;
+					throw err;
 				}
 			}
+
+			navigate('/', { state: { from: '/profile' } });
 		} catch (err) {
 			throw err;
 		}
 	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>

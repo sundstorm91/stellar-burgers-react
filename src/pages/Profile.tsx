@@ -5,7 +5,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
 	fetchUser,
@@ -20,7 +20,7 @@ export const Profile: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [originalUserData, setOriginalUserData] = useState<User | null>(null);
-	const { user, isLoading, error } = useAppSelector((state) => state.user);
+	const { user, isLoading } = useAppSelector((state) => state.user);
 
 	const handleLogout = async (e: React.MouseEvent) => {
 		e.preventDefault();
