@@ -7,7 +7,7 @@ export const ProfileLayout = () => {
 		<div className={styles.container}>
 			<div className={styles.profileWrapper}>
 				<ProfileNav />
-				<Outlet /> {/* Динамическая часть будет здесь */}
+				<Outlet />
 			</div>
 		</div>
 	);

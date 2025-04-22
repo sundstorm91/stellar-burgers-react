@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './modal.module.css';
 import Overlay from './modal-overlay';
+import { useCallback, useEffect } from 'react';
 
 export const Modal: React.FC<{
 	children: React.ReactElement;
@@ -9,7 +10,15 @@ export const Modal: React.FC<{
 }> = ({ children, onClose }) => {
 	const navigate = useNavigate();
 
-	/* useEffect(() => {
+	const handleClose = useCallback(() => {
+		if (onClose) {
+			onClose();
+		} else {
+			navigate(-1);
+		}
+	}, [onClose, navigate]);
+
+	useEffect(() => {
 		const handleEscape = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				handleClose();
@@ -17,15 +26,7 @@ export const Modal: React.FC<{
 		};
 		document.addEventListener('keydown', handleEscape);
 		return () => document.removeEventListener('keydown', handleEscape);
-	}, []) */
-
-	const handleClose = () => {
-		if (onClose) {
-			onClose();
-		} else {
-			navigate(-1);
-		}
-	};
+	}, [handleClose]);
 
 	return createPortal(
 		<>

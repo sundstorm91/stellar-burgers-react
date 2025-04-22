@@ -33,7 +33,7 @@ export const Profile: React.FC = () => {
 				});
 			dispatch(resetAuthState());
 		} catch (error) {
-			console.error('Logout failed:', error);
+			throw error;
 		}
 	};
 
@@ -45,7 +45,6 @@ export const Profile: React.FC = () => {
 			setOriginalUserData(formData);
 			setFormData((prev) => ({ ...prev, password: '' }));
 		} catch (error) {
-			console.log('Update failed:', error);
 			throw error;
 		}
 	};
