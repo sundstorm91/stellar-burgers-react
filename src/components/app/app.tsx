@@ -10,7 +10,6 @@ import { NotFoundPage } from '../../pages/NotFound';
 import { ReactElement, useEffect } from 'react';
 import { Modal } from '../modal/modal';
 import { CurrentIngredient } from '../../pages/CurrentIngredient';
-import { Profile } from '../../pages/Profile';
 import {
 	OnlyAuth,
 	OnlyUnAuth,
@@ -22,7 +21,10 @@ import {
 } from '../../services/features/user/user-slice';
 import { useAppDispatch } from '../../hooks/hook';
 import { useSelector } from 'react-redux';
-import { OrdersHistory } from '../../pages/OrdersHistory';
+import { ProfileLayout } from '../../pages/profile/ProfileLayout';
+import { ProfileView } from '../../pages/profile/ProfileView';
+import { OrdersHistory } from '../../pages/profile/OrdersHistory';
+import { OrderFeed } from '../../pages/OrderFeed';
 
 const Layout = (): ReactElement => {
 	return (
@@ -49,6 +51,7 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
+					<Route path='order-feed' element={<OrderFeed />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -68,8 +71,11 @@ export const App: React.FC = () => {
 							<OnlyWithPasswordResetRequest component={<ResetPassword />} />
 						}
 					/>
-					<Route path='/profile'>
-						<Route index element={<OnlyAuth component={<Profile />} />} />
+					<Route
+						path='/profile'
+						element={<OnlyAuth component={<ProfileLayout />} />}>
+						<Route index element={<OnlyAuth component={<ProfileView />} />} />
+
 						<Route
 							path='orders'
 							element={<OnlyAuth component={<OrdersHistory />} />}
