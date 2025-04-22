@@ -100,7 +100,7 @@ export const Profile: React.FC = () => {
 						Профиль
 					</NavLink>
 					<NavLink
-						to='/orders'
+						to='orders'
 						className={({ isActive }) =>
 							isActive
 								? `${styles.profileActiveLink}`

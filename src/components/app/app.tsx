@@ -22,7 +22,7 @@ import {
 } from '../../services/features/user/user-slice';
 import { useAppDispatch } from '../../hooks/hook';
 import { useSelector } from 'react-redux';
-import { OrderFeed } from '../../pages/OrderFeed';
+import { OrdersHistory } from '../../pages/OrdersHistory';
 
 const Layout = (): ReactElement => {
 	return (
@@ -49,7 +49,6 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path='/order-feed' element={<OrderFeed />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -63,17 +62,19 @@ export const App: React.FC = () => {
 						path='/forgot-password'
 						element={<OnlyUnAuth component={<ForgotPassword />} />}
 					/>
-
 					<Route
 						path='/reset-password'
 						element={
 							<OnlyWithPasswordResetRequest component={<ResetPassword />} />
 						}
 					/>
-					<Route
-						path='/profile'
-						element={<OnlyAuth component={<Profile />} />}
-					/>
+					<Route path='/profile'>
+						<Route index element={<OnlyAuth component={<Profile />} />} />
+						<Route
+							path='orders'
+							element={<OnlyAuth component={<OrdersHistory />} />}
+						/>
+					</Route>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
