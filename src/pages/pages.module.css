@@ -185,6 +185,14 @@ tr {
 	letter-spacing: 0%;
 }
 
+.nonFound {
+	margin: 200px 0px 0px 0px;
+	font-weight: 700;
+	font-size: 50px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
 
 
 
