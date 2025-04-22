@@ -8,6 +8,7 @@ import { setCurrentIngredient } from '../../services/features/current-ingredient
 import { ConstructorIngredient } from '../../services/features/constructor/constructor-slice';
 
 import { Link, useLocation } from 'react-router-dom';
+import { Spinner } from '../spinner/spinner';
 
 export const BurgerIngredients: React.FC = () => {
 	const [activeButton, setActiveButton] = useState<number | null>(null);
@@ -69,7 +70,7 @@ export const BurgerIngredients: React.FC = () => {
 	}, [dispatch]);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Spinner />;
 	}
 
 	if (error) {

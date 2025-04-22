@@ -2,28 +2,37 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './modal.module.css';
 import Overlay from './modal-overlay';
-import { useAppDispatch } from '../../hooks/hook';
-import { clearOrder } from '../../services/features/create-order/order-slice';
-import { clearConstructorState } from '../../services/features/constructor/constructor-slice';
 
-export const Modal: React.FC<{ children: React.ReactElement }> = ({
-	children,
-}) => {
+export const Modal: React.FC<{
+	children: React.ReactElement;
+	onClose?: () => void;
+}> = ({ children, onClose }) => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
 
-	const onClose = () => {
-		navigate(-1);
-		dispatch(clearConstructorState());
-		dispatch(clearOrder());
+	/* useEffect(() => {
+		const handleEscape = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				handleClose();
+			}
+		};
+		document.addEventListener('keydown', handleEscape);
+		return () => document.removeEventListener('keydown', handleEscape);
+	}, []) */
+
+	const handleClose = () => {
+		if (onClose) {
+			onClose();
+		} else {
+			navigate(-1);
+		}
 	};
 
 	return createPortal(
 		<>
-			<Overlay onClick={onClose} />
+			<Overlay onClick={handleClose} />
 			<div className={styles.modal}>
 				<div className={styles.modalContent}>
-					<button className={styles.modalClose} onClick={onClose}>
+					<button className={styles.modalClose} onClick={handleClose}>
 						&times;
 					</button>
 					{children}

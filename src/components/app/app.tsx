@@ -22,6 +22,7 @@ import {
 } from '../../services/features/user/user-slice';
 import { useAppDispatch } from '../../hooks/hook';
 import { useSelector } from 'react-redux';
+import { OrderFeed } from '../../pages/OrderFeed';
 
 const Layout = (): ReactElement => {
 	return (
@@ -48,6 +49,7 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
+					<Route path='/order-feed' element={<OrderFeed />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'

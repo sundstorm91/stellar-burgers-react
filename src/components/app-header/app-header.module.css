@@ -41,6 +41,15 @@
 	height: 24px;
 }
 
+.builderTextActive {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	width: 106px;
+	height: 24px;
+	color: rgba(242, 242, 243, 1);
+}
+
 .builderText span {
 	font-weight: 400;
 	font-size: 16px;
@@ -70,7 +79,6 @@
 }
 
 .orderFeedText span {
-	color: rgb(133 133 173 / 100%);
 	font-weight: 400;
 	font-size: 16px;
 	font-family: 'JetBrainsMono', 'Arial', sans-serif;
@@ -89,8 +97,7 @@
 	border-radius: 40px;
 }
 
-.personalAccountText {
-	color: rgb(133 133 173 / 100%);
+.personalAccountText span {
 	font-weight: 400;
 	font-size: 16px;
 	font-family: 'JetBrainsMono', 'Arial', sans-serif;
@@ -107,4 +114,22 @@
 .wrapperLogo {
 	cursor: pointer;
 	margin-right: 163px;
+}
+
+.defaultText {
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
+	letter-spacing: 0%;
+	color: rgba(133, 133, 173, 1);
+	cursor: pointer;
+}
+
+.activeText {
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', sans-serif;
+	letter-spacing: 0%;
+	color: rgba(242, 242, 243, 1);
+	cursor: pointer;
 }

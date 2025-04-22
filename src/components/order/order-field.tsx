@@ -8,7 +8,10 @@ import {
 	selectOrderIngredients,
 	selectTotalPrice,
 } from '../../services/features/create-order/selectors';
-import { createOrder } from '../../services/features/create-order/order-slice';
+import {
+	clearOrder,
+	createOrder,
+} from '../../services/features/create-order/order-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useState } from 'react';
 import { OrderDetails } from './order-details';
@@ -16,6 +19,7 @@ import { Modal } from '../modal/modal';
 import { RootState } from '@services/store/store';
 import { getUserSelector } from '../../services/features/user/user-slice';
 import { useNavigate } from 'react-router-dom';
+import { clearConstructorState } from '../../services/features/constructor/constructor-slice';
 
 export const OrderField: React.FC = () => {
 	const navigate = useNavigate();
@@ -36,9 +40,14 @@ export const OrderField: React.FC = () => {
 			navigate('/login', { replace: true });
 		}
 
-		/* navigate('/order-modal', { state: { background: location } }); */
 		dispatch(createOrder(orderIngredient));
 		setIsOrderModalOpen(true);
+	};
+
+	const handleClose = () => {
+		setIsOrderModalOpen(false);
+		dispatch(clearOrder());
+		dispatch(clearConstructorState());
 	};
 
 	return (
@@ -57,7 +66,7 @@ export const OrderField: React.FC = () => {
 				{error ? 'заказ не выполнен' : 'Оформить заказ'}
 			</Button>{' '}
 			{isOrderModalOpen && (
-				<Modal>
+				<Modal onClose={handleClose}>
 					<OrderDetails />
 				</Modal>
 			)}

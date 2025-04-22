@@ -113,9 +113,6 @@
 	color: white;
 }
 
-
-
-
 .tableTitle {
 	width: 640px;
 	color: rgb(242 242 243 / 100%);
@@ -169,6 +166,7 @@ tr {
 	font-size: 24px;
 	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
 	letter-spacing: 0%;
+
 }
 
 #number {
@@ -177,6 +175,14 @@ tr {
 
 #info {
 	margin: 0 0 120px;
+}
+
+.orderFeed {
+	margin: 200px 0px 0px 0px;
+	font-weight: 700;
+	font-size: 50px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
 }
 
 
