@@ -86,23 +86,35 @@ export const ProfileForm = ({ initialUser }: ProfileFormProps) => {
 				icon='HideIcon'
 			/>
 
-			<div className={styles.buttonsField}>
+			{formData.name !== originalUserData?.name ||
+				formData.email !== originalUserData?.email ||
+				(formData.password !== '' && (
+					<div className={styles.buttonsField}>
+						<Button htmlType={'submit'} size='large'>
+							Сохранить
+						</Button>
+
+						<Button
+							htmlType={'button'}
+							size={'large'}
+							type={'secondary'}
+							onClick={handleCancel}>
+							Отменить
+						</Button>
+					</div>
+				))}
+		</form>
+	);
+};
+/* formData.name === originalUserData?.name &&
+						formData.email === originalUserData?.email &&
+						formData.password === '' */
+/* <div className={styles.buttonsField}>
 				<Button htmlType={'submit'} size='large'>
 					Сохранить
 				</Button>
 
-				<Button
-					htmlType={'button'}
-					size={'large'}
-					onClick={handleCancel}
-					disabled={
-						formData.name === originalUserData?.name &&
-						formData.email === originalUserData?.email &&
-						formData.password === ''
-					}>
+				<Button htmlType={'button'} size={'large'} onClick={handleCancel}>
 					Отмена
 				</Button>
-			</div>
-		</form>
-	);
-};
+			</div> */
