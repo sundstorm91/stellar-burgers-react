@@ -41,7 +41,6 @@ export const ProfileForm = ({ initialUser }: ProfileFormProps) => {
 			setOriginalUserData(formData);
 			setFormData((prev) => ({ ...prev, password: '' }));
 		} catch (error) {
-			console.log('Update failed:', error);
 			throw error;
 		}
 	};
@@ -86,35 +85,23 @@ export const ProfileForm = ({ initialUser }: ProfileFormProps) => {
 				icon='HideIcon'
 			/>
 
-			{formData.name !== originalUserData?.name ||
+			{(formData.name !== originalUserData?.name ||
 				formData.email !== originalUserData?.email ||
-				(formData.password !== '' && (
-					<div className={styles.buttonsField}>
-						<Button htmlType={'submit'} size='large'>
-							Сохранить
-						</Button>
+				formData.password !== '') && (
+				<div className={styles.buttonsField}>
+					<Button htmlType={'submit'} size='large'>
+						Сохранить
+					</Button>
 
-						<Button
-							htmlType={'button'}
-							size={'large'}
-							type={'secondary'}
-							onClick={handleCancel}>
-							Отменить
-						</Button>
-					</div>
-				))}
+					<Button
+						htmlType={'button'}
+						size={'large'}
+						type={'secondary'}
+						onClick={handleCancel}>
+						Отменить
+					</Button>
+				</div>
+			)}
 		</form>
 	);
 };
-/* formData.name === originalUserData?.name &&
-						formData.email === originalUserData?.email &&
-						formData.password === '' */
-/* <div className={styles.buttonsField}>
-				<Button htmlType={'submit'} size='large'>
-					Сохранить
-				</Button>
-
-				<Button htmlType={'button'} size={'large'} onClick={handleCancel}>
-					Отмена
-				</Button>
-			</div> */
