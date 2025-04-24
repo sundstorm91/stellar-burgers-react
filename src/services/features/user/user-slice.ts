@@ -88,37 +88,12 @@ export const logoutUser = createAsyncThunk(
 	}
 );
 
-/* export const fetchUser = createAsyncThunk(
-	'user/fetchUser',
-	async (_, { rejectWithValue }) => {
-		try {
-			return await getUser();
-		} catch (error) {
-			console.log('данный кэтч отработал!!!', error)
-			// Очищаем токены при ошибках аутентификации
-			if (
-				error instanceof Error &&
-				(error.message.includes('403') ||
-					error.message.includes('jwt') ||
-					error.message.includes('token'))
-			) {
-				localStorage.removeItem('accessToken');
-				localStorage.removeItem('refreshToken');
-			}
-			return rejectWithValue(
-				error instanceof Error ? error.message : 'Неизвестная ошибка'
-			);
-		}
-	}
-); */
-
 export const fetchUser = createAsyncThunk(
 	'user/fetchUser',
 	async (_, { rejectWithValue }) => {
 		try {
 			return await getUser();
 		} catch (error) {
-			// Очищаем токены ТОЛЬКО если refreshToken полностью провалился
 			if (
 				error instanceof Error &&
 				error.message === 'Failed to refresh token'
