@@ -40,7 +40,6 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	}
 
 	if (!onlyUnAuth && !user) {
-		console.log('!onlyUnAuth && !user', location);
 		return <Navigate to='/login' state={{ from: location }} />;
 	}
 
