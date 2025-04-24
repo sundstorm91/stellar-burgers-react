@@ -30,10 +30,9 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	if (!isAuthChecked) {
 		return <Spinner />;
 	}
-	// Дополнительная защита для reset-password
+
 	if (needPasswordResetRequest) {
 		if (wasPasswordResetRequested) {
-			// Разрешаем доступ к reset-password, даже если пользователь не авторизован
 			return component;
 		}
 
@@ -41,26 +40,15 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	}
 
 	if (!onlyUnAuth && !user) {
-		console.log('протектед 1')
+		console.log('!onlyUnAuth && !user', location);
 		return <Navigate to='/login' state={{ from: location }} />;
 	}
 
-	// Защита для маршрутов только для неавторизованных
 	if (onlyUnAuth && user) {
-		const from = location.state?.from?.pathname || '/profile';
-		console.log('протектед 2.1')
-		// Не разрешаем редирект на страницы авторизации
-		if (
-			!['/login', '/register', '/forgot-password', '/reset-password'].includes(
-				from
-			)
-		) {
-			console.log('протектед 2.2')
-			return <Navigate to={from} replace />;
-		}
-		return <Navigate to='/profile' replace />;
+		const { from } = location.state ?? { from: { pathname: '/' } };
+		return <Navigate to={from} />;
 	}
-	console.log('протектед 3');
+	console.log('default => component');
 	return component;
 };
 

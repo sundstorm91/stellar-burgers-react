@@ -6,17 +6,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
-import {
-	getUserSelector,
-	registerUser,
-	setUser,
-} from '../services/features/user/user-slice';
-import { useSelector } from 'react-redux';
+import { registerUser, setUser } from '../services/features/user/user-slice';
 
 export const Register: React.FC = () => {
-	const user = useSelector(getUserSelector);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [formData, setFormData] = useState({
@@ -42,7 +36,6 @@ export const Register: React.FC = () => {
 
 			if (registerUser.fulfilled.match(result)) {
 				// Регистрация успешна
-				console.log('Пользователь зарегистрирован:', result.payload);
 				dispatch(setUser(formData));
 				navigate('/', { replace: true });
 			} else if (registerUser.rejected.match(result)) {
@@ -52,15 +45,6 @@ export const Register: React.FC = () => {
 			setIsLoading(false);
 		}
 	};
-	/* 	afonya
-		ksandr1g@mail.ru
-		1234567 	*/
-
-	/* useEffect(() => {
-		if (user) {
-			navigate('/profile', { replace: true });
-		}
-	}, [user, navigate]); */
 
 	return (
 		<div className={styles.container}>

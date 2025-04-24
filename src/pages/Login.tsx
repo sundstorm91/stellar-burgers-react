@@ -48,7 +48,7 @@ export const Login: React.FC = () => {
 				}
 			}
 
-			navigate('/', { state: { from: '/profile' } });
+			/* navigate('/', { state: { from: '/profile' } }); */
 		} catch (err) {
 			throw err;
 		}

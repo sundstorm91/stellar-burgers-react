@@ -20,7 +20,7 @@ export const ProfileNav = () => {
 				});
 			dispatch(resetAuthState());
 		} catch (error) {
-			console.error('Logout failed:', error);
+			throw error;
 		}
 	};
 

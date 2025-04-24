@@ -59,20 +59,6 @@ export const AppHeader = () => {
 								</>
 							)}
 						</NavLink>
-
-						{/* <NavLink
-							to='/order-feed'
-							className={({ isActive }) =>
-								isActive
-									? `${styles.orderFeed} ${styles.active}`
-									: styles.orderFeed
-							}>
-							<ListIcon type={'secondary'} />
-
-							<div className={styles.orderFeedText}>
-								<span>Лента заказов</span>
-							</div>
-						</NavLink> */}
 					</div>
 					<div className={styles.wrapperLogo}>
 						<Link to='/'>
@@ -81,7 +67,7 @@ export const AppHeader = () => {
 					</div>
 
 					<NavLink
-						to='/login'
+						to='/profile'
 						className={
 							isProfileActive
 								? `${styles.personalAccount} ${styles.active}`

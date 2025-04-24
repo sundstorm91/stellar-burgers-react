@@ -30,7 +30,7 @@ export const ForgotPassword: React.FC = () => {
 				.then(() => dispatch(setPasswordResetRequested({ email })));
 
 			setSuccess(true);
-			console.log('nav to reset-password..');
+
 			navigate('/reset-password', {
 				state: { email }, // Передаём email для отображения
 				replace: true, // Чтобы нельзя было вернуться назад
