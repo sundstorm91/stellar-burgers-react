@@ -91,8 +91,6 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 		}
 		return await checkResponse(res);
 	} catch (err) {
-		console.log('Ошибка запроса:', err);
-
 		// Проверяем, что токен истёк (через статус 403 или сообщение)
 		const isTokenExpired =
 			err instanceof Error &&
@@ -101,8 +99,6 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 				err.message.includes('403'));
 
 		if (isTokenExpired) {
-			console.log('Обновление токена...');
-
 			try {
 				// 1. Обновляем токены
 				const refreshData = await refreshToken();

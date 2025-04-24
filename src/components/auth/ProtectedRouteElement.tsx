@@ -48,7 +48,6 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 		const { from } = location.state ?? { from: { pathname: '/' } };
 		return <Navigate to={from} />;
 	}
-	console.log('default => component');
 	return component;
 };
 
