@@ -1,10 +1,22 @@
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order.module.css';
+import { useAppSelector } from '../../hooks/hook';
+import { Spinner } from '../spinner/spinner';
 
-export const OrderDetails: React.FC<{
-	orderNumber: number | null;
-	isSuccess: boolean;
-}> = ({ orderNumber }) => {
+export const OrderDetails: React.FC = () => {
+	const { orderNumber, error, loading } = useAppSelector(
+		(state) => state.order
+	);
+
+	if (loading) {
+		return (
+			<div className={styles.wrapperOrder}>
+				<p className='text text_type_main-medium'>Оформляем ваш заказ...</p>
+				<Spinner />
+			</div>
+		);
+	}
+	if (error) return <p>{error}</p>;
 	return (
 		<>
 			<div className={styles.wrapperOrder}>

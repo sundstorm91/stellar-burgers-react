@@ -16,21 +16,38 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { useState } from 'react';
 import { OrderDetails } from './order-details';
 import { Modal } from '../modal/modal';
+import { RootState } from '@services/store/store';
+import { getUserSelector } from '../../services/features/user/user-slice';
+import { useNavigate } from 'react-router-dom';
+import { clearConstructorState } from '../../services/features/constructor/constructor-slice';
 
 export const OrderField: React.FC = () => {
+	const navigate = useNavigate();
+	const user = useSelector(getUserSelector);
+	const { bun, ingredients } = useSelector((state: RootState) => state.builder);
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 	const dispatch = useAppDispatch();
 	const totalPrice = useSelector(selectTotalPrice);
 	const orderIngredient = useSelector(selectOrderIngredients);
-	const { error, orderNumber } = useAppSelector((state) => state.order);
+	const { error } = useAppSelector((state) => state.order);
+
 	const handleCreateOrder = () => {
+		if (!user) {
+			localStorage.setItem(
+				'burgerConstructor',
+				JSON.stringify({ bun, ingredients })
+			);
+			navigate('/login', { replace: true });
+		}
+
 		dispatch(createOrder(orderIngredient));
 		setIsOrderModalOpen(true);
 	};
 
-	const handleCloseOrderModal = () => {
+	const handleClose = () => {
 		setIsOrderModalOpen(false);
 		dispatch(clearOrder());
+		dispatch(clearConstructorState());
 	};
 
 	return (
@@ -47,11 +64,10 @@ export const OrderField: React.FC = () => {
 				size='large'
 				onClick={handleCreateOrder}>
 				{error ? 'заказ не выполнен' : 'Оформить заказ'}
-			</Button>
-
-			{orderNumber && (
-				<Modal isOpen={isOrderModalOpen} onClose={handleCloseOrderModal}>
-					<OrderDetails orderNumber={orderNumber} isSuccess={!error} />
+			</Button>{' '}
+			{isOrderModalOpen && (
+				<Modal onClose={handleClose}>
+					<OrderDetails />
 				</Modal>
 			)}
 		</div>

@@ -1,13 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IngredientsApi } from '../../../types/data-types';
-import { checkResponse } from '../../../utils/api-utils';
-
-export const ingredientsApiConfig = {
-	baseUrl: 'https://norma.nomoreparties.space/api',
-	headers: {
-		'Content-Type': 'application/json',
-	},
-};
+import { checkResponse, ingredientsApiConfig } from '../../../utils/api-utils';
 
 interface ingredientsState {
 	ingredients: IngredientsApi;

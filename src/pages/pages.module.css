@@ -1,0 +1,199 @@
+@font-face {
+	font-family: 'JetBrainsMono';
+	font-style: normal;
+	src: url('../fonts/jet-brains/JetBrainsMono-VariableFont_wght.ttf');
+}
+
+.main {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	column-gap: 20px;
+}
+
+.container {
+	margin: 180px 0px 0px 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 80px;
+}
+
+.profileWrapper {
+	display: flex;
+	column-gap: 60px;
+}
+
+.switchField {
+	width: 320px;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+
+
+.profileNormalLink {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(133, 133, 173, 1);
+	cursor: pointer;
+}
+
+.profileActiveLink {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+	cursor: pointer;
+}
+
+.profileDescription {
+	color: rgba(133, 133, 173, 1);
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 400;
+	font-size: 16px;
+	margin: 80px 0px 0px 0px;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 24px;
+	position: relative;
+}
+
+.buttonsField {
+	display: flex;
+	flex-direction: row-reverse;
+	column-gap: 24px;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 24px
+}
+
+.auxFields {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	row-gap: 16px;
+}
+
+.title {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+}
+
+.auxFields p {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: rgba(133, 133, 173, 1);
+	margin: 0px 0px 0px 0px;
+	cursor: default;
+}
+
+.auxFields p span {
+	font-family: 'JetBrainsMono', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: rgba(76, 76, 255, 1);
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.auxFields p span:hover {
+	color: white;
+}
+
+.tableTitle {
+	width: 640px;
+	color: rgb(242 242 243 / 100%);
+	font-weight: 700;
+	font-size: 36px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+	/* text-align: flex-start; */
+	/* margin: 40px 40px 0px 40px; */
+}
+
+.nameProduct {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+.descriptionWrapper {
+	display: flex;
+	flex-direction: row;
+	column-gap: 20px;
+}
+
+.tab {
+	display: flex;
+	flex-direction: row;
+	margin: 0 0 60px;
+	color: rgb(133 133 173 / 100%);
+	column-gap: 20px;
+}
+
+.tab td {
+	display: flex;
+	flex-direction: column;
+	font-weight: 400;
+	font-size: 16px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0;
+}
+
+tr {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.identityOrder {
+	font-weight: 700;
+	font-size: 24px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+
+}
+
+#number {
+	margin: 120px 0 0;
+}
+
+#info {
+	margin: 0 0 120px;
+}
+
+.orderFeed {
+	margin: 200px 0px 0px 0px;
+	font-weight: 700;
+	font-size: 50px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+.nonFound {
+	margin: 200px 0px 0px 0px;
+	font-weight: 700;
+	font-size: 50px;
+	font-family: 'JetBrainsMono', 'Arial', 'Helvetica', sans-serif;
+	letter-spacing: 0%;
+}
+
+
+
+
+

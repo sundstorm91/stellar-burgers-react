@@ -1,13 +1,20 @@
-import { CurrentIngredient } from '../../services/features/current-ingredient/current-ingredient-slice';
+import { CurrentIngredient } from '../../types/data-types';
 import styles from './burger-ingredients.module.css';
 import React from 'react';
 
 export const IngredientDetails: React.FC<CurrentIngredient> = ({
 	currentIngredient,
+	isModal,
 }) => {
 	return (
-		<>
-			<p className={styles.tableTitle}>Детали ингредиента</p>
+		<div
+			className={styles.container}
+			style={isModal ? { marginTop: '10px' } : { marginTop: '120px' }}>
+			<p
+				className={styles.tableTitle}
+				style={isModal ? { textAlign: 'start' } : { textAlign: 'center' }}>
+				Детали ингредиента
+			</p>
 			<img
 				className={styles.imageProduct}
 				src={currentIngredient?.image_large}
@@ -44,6 +51,6 @@ export const IngredientDetails: React.FC<CurrentIngredient> = ({
 					</tr>
 				</tbody>
 			</table>
-		</>
+		</div>
 	);
 };
