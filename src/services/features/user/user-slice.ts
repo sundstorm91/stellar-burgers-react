@@ -39,14 +39,14 @@ export const loginUser = createAsyncThunk(
 	'auth/login',
 	async (credentials: LoginCredentials, { rejectWithValue }) => {
 		try {
-			const response = (await fetchWithRefresh(
+			const response = await fetchWithRefresh<AuthResponse>(
 				`${ingredientsApiConfig.baseUrl}/auth/login`,
 				{
 					method: 'POST',
 					headers: ingredientsApiConfig.headers,
 					body: JSON.stringify(credentials),
 				}
-			)) as AuthResponse;
+			);
 
 			localStorage.setItem('accessToken', response.accessToken);
 			localStorage.setItem('refreshToken', response.refreshToken);

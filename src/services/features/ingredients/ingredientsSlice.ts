@@ -19,7 +19,7 @@ export const fetchIngredients = createAsyncThunk(
 	async () => {
 		return fetch(`${ingredientsApiConfig.baseUrl}/ingredients`, {
 			headers: ingredientsApiConfig.headers,
-		}).then(checkResponse);
+		}).then(checkResponse<IngredientsApi>);
 	}
 );
 
