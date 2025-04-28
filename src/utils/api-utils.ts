@@ -102,23 +102,6 @@ export const refreshToken = async () => {
 	return refreshData;
 };
 
-/* export const refreshToken = async () => {
-	const res = await fetch(`${ingredientsApiConfig.baseUrl}/auth/token`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json;charset=utf-8',
-		},
-		body: JSON.stringify({
-			token: localStorage.getItem('refreshToken'),
-		}),
-	}).then(checkResponse<RefreshTokenResponse>);
-
-	localStorage.setItem('refreshToken', res.refreshToken);
-	localStorage.setItem('accessToken', res.accessToken);
-
-	return res;
-}; */
-
 export const fetchWithRefresh = async <T>(
 	url: string,
 	options: RequestInit
