@@ -34,7 +34,26 @@ export interface LogoutResponse {
 	message: string;
 }
 
-export const checkResponse = (res: Response) => {
+export interface ApiSuccessResponse {
+	success: boolean;
+	message: string;
+}
+
+export interface RefreshTokenResponse {
+	success: boolean;
+	accessToken: string;
+	refreshToken: string;
+}
+
+export interface GetUserResponse {
+	success: boolean;
+	user: {
+		email: string;
+		name: string;
+	};
+}
+
+export const checkResponse = <T>(res: Response): Promise<T> => {
 	if (res.ok) {
 		return res.json();
 	} else {
@@ -47,7 +66,7 @@ export const forgotPassword = async (email: string) => {
 		method: 'POST',
 		headers: ingredientsApiConfig.headers,
 		body: JSON.stringify({ email }),
-	}).then(checkResponse);
+	}).then(checkResponse<ApiSuccessResponse>);
 };
 
 export const resetPassword = async (password: string, token: string) => {
@@ -58,7 +77,7 @@ export const resetPassword = async (password: string, token: string) => {
 			password: `${password}`,
 			token: `${token}`,
 		}),
-	}).then(checkResponse);
+	}).then(checkResponse<ApiSuccessResponse>);
 };
 
 export const refreshToken = async () => {
@@ -71,17 +90,22 @@ export const refreshToken = async () => {
 			token: localStorage.getItem('refreshToken'),
 		}),
 	});
-	const refreshData = await checkResponse(res);
+
+	const refreshData = (await checkResponse(res)) as RefreshTokenResponse;
 	if (!refreshData.success) {
 		return Promise.reject(refreshData);
 	}
+
 	localStorage.setItem('refreshToken', refreshData.refreshToken);
 	localStorage.setItem('accessToken', refreshData.accessToken);
 
 	return refreshData;
 };
 
-export const fetchWithRefresh = async (url: string, options: RequestInit) => {
+export const fetchWithRefresh = async <T>(
+	url: string,
+	options: RequestInit
+) => {
 	try {
 		const res = await fetch(url, options);
 
@@ -89,7 +113,7 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 		if (res.status === 403) {
 			throw new Error('token_expired'); // Специальный флаг
 		}
-		return await checkResponse(res);
+		return (await checkResponse(res)) as T;
 	} catch (err) {
 		// Проверяем, что токен истёк (через статус 403 или сообщение)
 		const isTokenExpired =
@@ -113,7 +137,7 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 				};
 
 				const retryResponse = await fetch(url, newOptions);
-				return await checkResponse(retryResponse);
+				return (await checkResponse(retryResponse)) as T;
 			} catch (refreshError) {
 				console.error('Ошибка обновления токена:', refreshError);
 				throw new Error('Не удалось обновить токен');
@@ -125,13 +149,13 @@ export const fetchWithRefresh = async (url: string, options: RequestInit) => {
 	}
 };
 
-export const logout = async (): Promise<LogoutResponse> => {
+export const logout = async () => {
 	const refreshToken = localStorage.getItem('refreshToken');
-	return (await fetch(`${ingredientsApiConfig.baseUrl}/auth/logout`, {
+	return await fetch(`${ingredientsApiConfig.baseUrl}/auth/logout`, {
 		method: 'POST',
 		headers: ingredientsApiConfig.headers,
 		body: JSON.stringify({ token: refreshToken }),
-	}).then(checkResponse)) as LogoutResponse;
+	}).then(checkResponse<ApiSuccessResponse>);
 };
 
 export const register = async (userData: {
@@ -143,7 +167,7 @@ export const register = async (userData: {
 		method: 'POST',
 		headers: ingredientsApiConfig.headers,
 		body: JSON.stringify(userData),
-	}).then(checkResponse);
+	}).then(checkResponse<AuthResponse>);
 };
 
 export const getUser = async () => {
@@ -154,7 +178,7 @@ export const getUser = async () => {
 	}
 
 	try {
-		const response = (await fetchWithRefresh(
+		const response = await fetchWithRefresh<GetUserResponse>(
 			`${ingredientsApiConfig.baseUrl}/auth/user`,
 			{
 				method: 'GET',
@@ -163,7 +187,7 @@ export const getUser = async () => {
 					Authorization: `${accessToken}`,
 				},
 			}
-		)) as AuthResponse;
+		);
 
 		return response.user;
 	} catch (error) {
@@ -180,7 +204,7 @@ export const updateUserData = async (data: UpdateUserData): Promise<User> => {
 	}
 
 	try {
-		const response = await fetchWithRefresh(
+		const response = await fetchWithRefresh<GetUserResponse>(
 			`${ingredientsApiConfig.baseUrl}/auth/user`,
 			{
 				method: 'PATCH',
@@ -193,7 +217,7 @@ export const updateUserData = async (data: UpdateUserData): Promise<User> => {
 		);
 
 		if (!response.success) {
-			throw new Error(response.message || 'Ошибка обновления данных');
+			throw new Error('Ошибка обновления данных');
 		}
 
 		return response.user;

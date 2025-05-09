@@ -4,17 +4,15 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../hooks/hook';
 import { loginUser } from '../services/features/user/user-slice';
 import { saveConstructorState } from '../services/features/constructor/constructor-slice';
 
 export const Login: React.FC = () => {
-	const navigate = useNavigate();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const dispatch = useAppDispatch();
 
@@ -47,8 +45,6 @@ export const Login: React.FC = () => {
 					throw err;
 				}
 			}
-
-			/* navigate('/', { state: { from: '/profile' } }); */
 		} catch (err) {
 			throw err;
 		}
@@ -60,22 +56,11 @@ export const Login: React.FC = () => {
 				<span className={styles.title}>Вход</span>
 				{error && <div className={styles.error}>{error}</div>}
 				<form className={styles.form} onSubmit={handleSubmitLogin}>
-					<EmailInput
-						value={email}
-						onChange={handleEmailChange}
-						disabled={isLoading}
-					/>
+					<EmailInput value={email} onChange={handleEmailChange} />
 
-					<PasswordInput
-						value={password}
-						onChange={handlePasswordChange}
-						disabled={isLoading}
-					/>
+					<PasswordInput value={password} onChange={handlePasswordChange} />
 
-					<Button
-						htmlType='submit'
-						size='large'
-						disabled={!password || !email || isLoading}>
+					<Button htmlType='submit' size='large' disabled={!password || !email}>
 						Войти
 					</Button>
 				</form>

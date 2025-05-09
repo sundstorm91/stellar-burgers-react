@@ -31,16 +31,19 @@ export const createOrder = createAsyncThunk(
 	async (ingredientIds: string[], { rejectWithValue }) => {
 		const accessToken = localStorage.getItem('accessToken');
 		try {
-			return await fetchWithRefresh(`${ingredientsApiConfig.baseUrl}/orders`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `${accessToken}`,
-				},
-				method: 'POST',
-				body: JSON.stringify({
-					ingredients: ingredientIds,
-				}),
-			});
+			return await fetchWithRefresh<ResponseData>(
+				`${ingredientsApiConfig.baseUrl}/orders`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `${accessToken}`,
+					},
+					method: 'POST',
+					body: JSON.stringify({
+						ingredients: ingredientIds,
+					}),
+				}
+			);
 		} catch (error) {
 			return rejectWithValue(
 				error instanceof Error ? error.message : 'Неизвестная ошибка'
