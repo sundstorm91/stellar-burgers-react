@@ -50,33 +50,35 @@ export const Feed: React.FC = () => {
 						</div>
 					</div>
 				</div>
-				<div className={styles.reportWrapper}></div>
+				<div className={styles.reportWrapper}>
+					<div className={styles.statusField}>
+						{/* здесь реализация */}
+						<div className={styles.statusReady}>
+							<p className={styles.subTitle}>Готовы:</p>
+							<span className='text text_type_digits-default'>422612</span>
+							<span className='text text_type_digits-default'>355612</span>
+							<span className='text text_type_digits-default'>216612</span>
+							<span className='text text_type_digits-default'>003612</span>
+						</div>
+						{/* здесь реализация */}
+						<div className={styles.statusProccess}>
+							<p className={styles.subTitle}>В работе:</p>
+							<span className='text text_type_digits-default'>422612</span>
+							<span className='text text_type_digits-default'>355612</span>
+							<span className='text text_type_digits-default'>216612</span>
+							<span className='text text_type_digits-default'>003612</span>
+						</div>
+					</div>
+					<div className={styles.completeAllTime}>
+						<span className={styles.subTitle}>Выполнено за все время:</span>
+						<span className='text text_type_digits-large'>28752</span>
+					</div>
+					<div className={styles.completeToday}>
+						<span className={styles.subTitle}>Выполнено за сегодня:</span>
+						<span className='text text_type_digits-large'>138</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 };
-
-/* const MAX_ITEMS = 5;
-
-	const visibleItems = ingredients.data.slice(0, MAX_ITEMS);
-
-	const hiddenItems =
-		ingredients.data.length > MAX_ITEMS
-			? ingredients.data.length - MAX_ITEMS
-			: 0; */
-{
-	/* <ul className={styles.testWrapper}>
-				{visibleItems.map((item, idx) => (
-					<li
-						key={item._id}
-						className={styles.testItem}
-						style={{ zIndex: MAX_ITEMS - idx }}>
-						<img src={item.image_mobile} alt={item.name} />
-
-						{idx === MAX_ITEMS - 1 && hiddenItems > 0 && (
-							<div className={styles.counter}>+{hiddenItems}</div>
-						)}
-					</li>
-				))}
-			</ul> */
-}

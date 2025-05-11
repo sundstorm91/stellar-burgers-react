@@ -198,6 +198,8 @@ tr {
 	font-weight: 700;
 	font-size: 36px;
 	color: rgba(242, 242, 243, 1);
+	margin: 0;
+	padding: 0;
 }
 
 .feed {
@@ -210,6 +212,7 @@ tr {
 	display: flex;
 	flex-direction: column;
 	row-gap: 20px;
+	margin-top: 40px;
 }
 
 .feedWrapper {
@@ -260,11 +263,6 @@ tr {
 
 .ingredientIcons {
 	width: 436px;
-}
-
-
-.reportWrapper {
-
 }
 
 /* ! */
@@ -349,3 +347,50 @@ tr {
   line-height: 1;
 }
 
+/* !! */
+
+.reportWrapper {
+	display: flex;
+	flex-direction: column;
+	row-gap: 60px;
+}
+
+.statusField {
+	display: flex;
+	column-gap: 24px;
+}
+
+.statusReady {
+	display: flex;
+	flex-direction: column;
+}
+
+.subTitle {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+	margin: 0px 0px 24px 0px;
+}
+
+.statusReady span {
+	color: rgba(0, 204, 204, 1);
+}
+
+.statusProccess {
+	composes: statusReady;
+}
+
+.statusProccess span {
+	color: rgba(242, 242, 243, 1);
+}
+
+.completeAllTime {
+	display: flex;
+	flex-direction: column;
+}
+
+
+.completeToday {
+	composes: completeAllTime;
+}
