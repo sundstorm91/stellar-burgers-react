@@ -25,6 +25,7 @@ import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
 import { Feed } from '../../pages/Feed';
+import { CurrentOrder } from '../../pages/CurrentOrder';
 
 const Layout = (): ReactElement => {
 	return (
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
+					<Route path='/testFeed' element={<CurrentOrder />} />
 					<Route path='/feed' element={<Feed />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route

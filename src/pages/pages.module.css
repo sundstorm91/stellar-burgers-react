@@ -394,3 +394,35 @@ tr {
 .completeToday {
 	composes: completeAllTime;
 }
+
+/* currentOrder */
+
+.currentOrderContainer {
+	margin: 122px 0px 0px 0px;
+	display: flex;
+	flex-direction: column;
+}
+
+.currentOrderContainer span {
+	text-align: center;
+}
+
+.currentNameOrder {
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+	margin: 40px 0px 12px 0px;
+}
+
+.currentStatus {
+	color: rgba(0, 204, 204, 1);
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	margin: 0;
+}
+
+.subField {
+	composes: orderTitle;
+}
