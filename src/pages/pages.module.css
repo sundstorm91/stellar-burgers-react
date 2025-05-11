@@ -193,7 +193,159 @@ tr {
 	letter-spacing: 0%;
 }
 
+.feedTitle {
+	font-family: 'JetBrainsMono', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 36px;
+	color: rgba(242, 242, 243, 1);
+}
+
+.feed {
+	display: flex;
+	column-gap: 60px;
+	justify-content: center;
+}
+
+.feedContainer {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.feedWrapper {
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+}
+
+.orderContainer {
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(28, 28, 33, 1);
+	row-gap: 24px;
+	border-radius: 40px;
+	border: 2px dotted white;
+	padding: 24px;
+}
+
+.orderTitle {
+	display: flex;
+	justify-content: space-between;
+}
+
+.orderExecutionTime {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 400;
+	color: rgba(133, 133, 173, 1);
+	font-size: 16px;
+}
+
+.orderDescription {
+	font-family: 'JetBrainsMono', sans-serif, Arial;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+}
+
+.fieldIngredients {
+	display: flex;
+	column-gap: 24px;
+	align-items: center;
+}
+
+.ingredientPrice {
+	display: flex;
+	column-gap: 8px;
+}
+
+.ingredientIcons {
+	width: 436px;
+}
 
 
+.reportWrapper {
 
+}
+
+/* ! */
+
+.testContainer {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	font-size: 40px;
+
+	width: 536px;
+	height: 64px;
+}
+
+.testWrapper {
+  display: flex;
+  padding-left: 16px; /* Компенсация сдвига первого элемента */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.testItem {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-left: -16px; /* Сдвиг для наезжания */
+  border-radius: 50%;
+  background: #131316; /* Цвет как в BurgerConstructor */
+  transition: transform 0.3s ease;
+}
+
+/* Первый элемент без сдвига */
+.testItem:first-child {
+  margin-left: 0;
+}
+
+.testItem:hover {
+  transform: translateY(-10px);
+}
+
+.testItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Градиентная рамка */
+.testItem::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(45deg, #801ab2, #4c4cff);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Счетчик оверлеев (если нужно) */
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(28, 28, 33, 0.6);
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Iceland', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
 

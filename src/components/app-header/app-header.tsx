@@ -39,7 +39,7 @@ export const AppHeader = () => {
 						</NavLink>
 
 						<NavLink
-							to='/order-feed'
+							to='/feed'
 							className={({ isActive }) =>
 								isActive
 									? `${styles.orderFeed} ${styles.active}`
