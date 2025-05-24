@@ -7,71 +7,71 @@ import {
 import { AppDispatch, RootState } from '../store';
 
 export const middlewareCreator = (): Middleware => {
-	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
-		return (next) => {
-			return (action: unknown) => {
-				const sockets = new Map<TFeedType, WebSocket>();
+	const sockets = new Map<TFeedType, WebSocket>();
 
-				if (!isOrderFeedAction(action)) {
-					return next(action);
-				}
+	return (store: MiddlewareAPI<AppDispatch, RootState>) =>
+		(next) =>
+		(action: unknown) => {
+			if (!isOrderFeedAction(action)) {
+				return next(action);
+			}
 
-				const { feedType } = action.meta;
+			const { feedType } = action.meta;
+			const socket = sockets.get(feedType);
 
-				switch (action.type) {
-					case OrderFeedActionTypes.WS_CONNECT:
-						if (sockets.get(feedType)) sockets.get(feedType)?.close();
-						const { url } = action.payload;
-						sockets.set(feedType, new WebSocket(url));
+			switch (action.type) {
+				case OrderFeedActionTypes.WS_CONNECT:
+					socket?.close();
 
-						sockets.get(feedType)!.onopen = () => {
-							store.dispatch({
-								type: OrderFeedActionTypes.WS_OPEN,
-								meta: { feedType },
-							});
-						};
+					const newSocket = new WebSocket(action.payload.url);
+					sockets.set(feedType, newSocket);
 
-						sockets.get(feedType)!.onmessage = (event) => {
-							store.dispatch({
-								type: OrderFeedActionTypes.WS_MESSAGE,
-								payload: JSON.parse(event.data),
-								meta: { feedType },
-							});
-						};
+					newSocket.onopen = () => {
+						store.dispatch({
+							type: OrderFeedActionTypes.WS_OPEN,
+							meta: { feedType },
+						});
+					};
 
-						sockets.get(feedType)!.onclose = () => {
-							store.dispatch({
-								type: OrderFeedActionTypes.WS_CLOSE,
-								meta: { feedType },
-							});
-						};
+					newSocket.onmessage = (event) => {
+						store.dispatch({
+							type: OrderFeedActionTypes.WS_MESSAGE,
+							payload: JSON.parse(event.data),
+							meta: { feedType },
+						});
+					};
 
-						sockets.get(feedType)!.onerror = (error) => {
-							store.dispatch({
-								type: OrderFeedActionTypes.WS_ERROR,
-								payload: new Error(error.type),
-								meta: { feedType },
-							});
-						};
+					newSocket.onclose = () => {
+						store.dispatch({
+							type: OrderFeedActionTypes.WS_CLOSE,
+							meta: { feedType },
+						});
+						sockets.delete(feedType); // Очищаем ссылку
+					};
 
-						break;
+					newSocket.onerror = () => {
+						store.dispatch({
+							type: OrderFeedActionTypes.WS_ERROR,
+							payload: new Error('WebSocket connection failed'),
+							meta: { feedType },
+						});
+					};
+					break;
 
-					case OrderFeedActionTypes.WS_DISCONNECT:
-						if (sockets.get(feedType)) {
-							sockets.get(feedType)?.close();
-							/* sockets.get(feedType) = undefined */
-						}
+				case OrderFeedActionTypes.WS_DISCONNECT:
+					socket?.close();
+					sockets.delete(feedType);
+					break;
 
-						break;
-					case OrderFeedActionTypes.WS_SEND:
-						if (sockets.get(feedType)?.readyState === WebSocket.OPEN) {
-							sockets.get(feedType)?.send(JSON.stringify(action.payload));
-						}
-						break;
-				}
-			};
+				case OrderFeedActionTypes.WS_SEND:
+					if (socket?.readyState === WebSocket.OPEN) {
+						socket.send(JSON.stringify(action.payload));
+					}
+					break;
+			}
+
+			return next(action);
 		};
-	};
 };
 
 function isOrderFeedAction(action: unknown): action is OrderFeedActions {
