@@ -1,10 +1,16 @@
 import { Middleware, MiddlewareAPI } from 'redux';
 import { TFeedType } from '../../../types/data-types';
-import {
-	OrderFeedActions,
-	OrderFeedActionTypes,
-} from '../../features/websocket/types';
+
 import { AppDispatch, RootState } from '../store';
+import {
+	wsClose,
+	wsConnect,
+	wsDisconnect,
+	wsError,
+	wsMessage,
+	wsOpen,
+	wsSend,
+} from '../../features/websocket/actions';
 
 export const middlewareCreator = (): Middleware => {
 	const sockets = new Map<TFeedType, WebSocket>();
@@ -12,158 +18,99 @@ export const middlewareCreator = (): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) =>
 		(next) =>
 		(action: unknown) => {
-			if (!isOrderFeedAction(action)) {
-				return next(action);
+			// Проверяем, является ли action одним из наших ws-экшенов
+			if (
+				!isAction(action) ||
+				(!wsConnect.match(action) &&
+					!wsDisconnect.match(action) &&
+					!wsSend.match(action))
+			) {
+				return next(action as never); // Приводим к never, если action не наш
 			}
 
 			const { feedType } = action.meta;
 			const socket = sockets.get(feedType);
 
-			switch (action.type) {
-				case OrderFeedActionTypes.WS_CONNECT:
-					socket?.close();
+			if (wsConnect.match(action)) {
+				socket?.close();
 
-					const newSocket = new WebSocket(action.payload.url);
-					sockets.set(feedType, newSocket);
+				const { url } = action.payload;
+				const { authToken } = action.meta;
 
-					newSocket.onopen = () => {
-						store.dispatch({
-							type: OrderFeedActionTypes.WS_OPEN,
-							meta: { feedType },
-						});
-					};
+				const finalUrl =
+					feedType === 'private' && authToken
+						? `${url}?token=${authToken}`
+						: url;
 
-					newSocket.onmessage = (event) => {
-						store.dispatch({
-							type: OrderFeedActionTypes.WS_MESSAGE,
-							payload: JSON.parse(event.data),
-							meta: { feedType },
-						});
-					};
+				const newSocket = new WebSocket(finalUrl);
+				sockets.set(feedType, newSocket);
 
-					newSocket.onclose = () => {
-						store.dispatch({
-							type: OrderFeedActionTypes.WS_CLOSE,
-							meta: { feedType },
-						});
-						sockets.delete(feedType); // Очищаем ссылку
-					};
+				newSocket.onopen = () => store.dispatch(wsOpen(feedType));
+				newSocket.onmessage = (event) => handleMessage(event, feedType, store);
+				newSocket.onclose = () => handleClose(feedType, store, sockets);
+				newSocket.onerror = (event) => handleError(event, feedType, store);
+			}
 
-					newSocket.onerror = () => {
-						store.dispatch({
-							type: OrderFeedActionTypes.WS_ERROR,
-							payload: new Error('WebSocket connection failed'),
-							meta: { feedType },
-						});
-					};
-					break;
+			if (wsDisconnect.match(action)) {
+				socket?.close();
+				sockets.delete(feedType);
+			}
 
-				case OrderFeedActionTypes.WS_DISCONNECT:
-					socket?.close();
-					sockets.delete(feedType);
-					break;
-
-				case OrderFeedActionTypes.WS_SEND:
-					if (socket?.readyState === WebSocket.OPEN) {
-						socket.send(JSON.stringify(action.payload));
-					}
-					break;
+			if (wsSend.match(action) && socket?.readyState === WebSocket.OPEN) {
+				socket.send(JSON.stringify(action.payload));
 			}
 
 			return next(action);
 		};
 };
 
-function isOrderFeedAction(action: unknown): action is OrderFeedActions {
+const handleClose = (
+	feedType: TFeedType,
+	store: MiddlewareAPI<AppDispatch, RootState>,
+	sockets: Map<TFeedType, WebSocket>
+) => {
+	store.dispatch(wsClose(feedType));
+	sockets.delete(feedType);
+};
+
+const handleError = (
+	event: Event,
+	feedType: TFeedType,
+	store: MiddlewareAPI<AppDispatch, RootState>
+) => {
+	const error = new Error('WebSocket error');
+	if ('message' in event) error.message = String(event.message);
+	store.dispatch(wsError(feedType, error));
+};
+
+// Type guard для проверки, что action имеет meta с feedType
+function isAction(
+	action: unknown
+): action is { meta: { feedType: TFeedType } } {
 	return (
-		typeof action === 'object' &&
-		action !== null &&
-		'type' in action &&
-		Object.values(OrderFeedActionTypes).includes(
-			(action as { type: OrderFeedActionTypes }).type
-		)
+		(typeof action === 'object' &&
+			action !== null &&
+			'meta' in action &&
+			typeof (action as { meta: unknown }).meta === 'object' &&
+			(action as { meta: { feedType?: unknown } }).meta?.feedType ===
+				'public') ||
+		(action as { meta: { feedType?: unknown } }).meta?.feedType === 'private'
 	);
 }
 
-/*
-export const middlewareCreator =
-	(): Middleware => (store: MiddlewareAPI) => (next) => (action: unknown) => {
-		const sockets: Record<TFeedType, WebSocket | null> = {
-			public: null,
-			private: null,
-		};
-
-		// Type guard для проверки OrderFeedActions
-		if (!isOrderFeedAction(action)) return next(action);
-
-		const { feedType } = action.meta;
-
-		switch (action.type) {
-			case OrderFeedActionTypes.WS_CONNECT: {
-				if (sockets[feedType]) sockets[feedType]?.close();
-
-				const { url } = action.payload;
-				sockets[feedType] = new WebSocket(url);
-
-				sockets[feedType].onopen = () => {
-					store.dispatch({
-						type: OrderFeedActionTypes.WS_OPEN,
-						meta: { feedType },
-					});
-				};
-
-				sockets[feedType]!.onmessage = (event) => {
-					store.dispatch({
-						type: OrderFeedActionTypes.WS_MESSAGE,
-						payload: JSON.parse(event.data),
-						meta: { feedType },
-					});
-				};
-
-				sockets[feedType]!.onclose = () => {
-					store.dispatch({
-						type: OrderFeedActionTypes.WS_CLOSE,
-						meta: { feedType },
-					});
-				};
-
-				sockets[feedType]!.onerror = (error) => {
-					store.dispatch({
-						type: OrderFeedActionTypes.WS_ERROR,
-						payload: new Error(error.type),
-						meta: { feedType },
-					});
-				};
-
-				break;
-			}
-
-			case OrderFeedActionTypes.WS_DISCONNECT: {
-				if (sockets[feedType]) {
-					sockets[feedType]?.close();
-					sockets[feedType] = null;
-				}
-				break;
-			}
-
-			case OrderFeedActionTypes.WS_SEND: {
-				if (sockets[feedType]?.readyState === WebSocket.OPEN) {
-					sockets[feedType]?.send(JSON.stringify(action.payload));
-				}
-				break;
-			}
-
-			default:
-				return next(action);
-		}
-	};
-
-function isOrderFeedAction(action: unknown): action is OrderFeedActions {
-	return (
-		typeof action === 'object' &&
-		action !== null &&
-		'type' in action &&
-		Object.values(OrderFeedActionTypes).includes((action as any).type)
-	);
-}
- */
+const handleMessage = (
+	event: MessageEvent,
+	feedType: TFeedType,
+	store: MiddlewareAPI<AppDispatch, RootState>
+) => {
+	try {
+		const data = JSON.parse(event.data);
+		store.dispatch(wsMessage({ feedType, data }));
+	} catch (err) {
+		const error =
+			err instanceof Error
+				? err
+				: new Error('Failed to parse WebSocket message');
+		store.dispatch(wsError(feedType, error));
+	}
+};

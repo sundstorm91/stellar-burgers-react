@@ -5,6 +5,8 @@ import orderReducer from '../features/create-order/order-slice';
 import currentIngredient from '../features/current-ingredient/current-ingredient-slice';
 import userReducer from '../features/user/user-slice';
 import { middlewareCreator } from './middleware/middleware-creator';
+import wsReducer from '../features/websocket/ws-slice';
+
 export const store = configureStore({
 	reducer: {
 		ingredients: ingredientsReducer,
@@ -12,6 +14,7 @@ export const store = configureStore({
 		order: orderReducer,
 		currentIngredient: currentIngredient,
 		user: userReducer,
+		websocket: wsReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(middlewareCreator()),
