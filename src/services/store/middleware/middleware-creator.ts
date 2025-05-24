@@ -11,6 +11,7 @@ import {
 	wsOpen,
 	wsSend,
 } from '../../features/websocket/actions';
+import { WSErrorPayload } from '../../features/websocket/types';
 
 export const middlewareCreator = (): Middleware => {
 	const sockets = new Map<TFeedType, WebSocket>();
@@ -78,9 +79,13 @@ const handleError = (
 	feedType: TFeedType,
 	store: MiddlewareAPI<AppDispatch, RootState>
 ) => {
-	const error = new Error('WebSocket error');
-	if ('message' in event) error.message = String(event.message);
-	store.dispatch(wsError(feedType, error));
+	const payloadError: WSErrorPayload = {
+		name: 'WebsocketError',
+		message: 'message' in event ? String(event.message) : 'Connection failed',
+		eventType: event.type,
+	};
+
+	store.dispatch(wsError(feedType, payloadError));
 };
 
 // Type guard для проверки, что action имеет meta с feedType

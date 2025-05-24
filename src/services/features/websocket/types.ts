@@ -25,3 +25,13 @@ export type TWSState = {
 		data?: TOrdersData | null;
 	};
 };
+
+export type WSErrorPayload = {
+	name: string;
+	message: string;
+	eventType: string;
+	originalMessage?: string;
+	code?: number; // Коды из CloseEvent
+	reason?: string; // Причина закрытия
+	wasClean?: boolean; // Для close событий
+};

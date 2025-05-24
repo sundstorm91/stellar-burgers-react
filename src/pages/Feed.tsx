@@ -1,9 +1,41 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import styles from './pages.module.css';
+import { useEffect } from 'react';
+import {
+	wsConnect,
+	wsDisconnect,
+} from '../services/features/websocket/actions';
+import { ingredientsApiConfig } from '../utils/api-utils';
 
 export const Feed: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
+	const { data, connected, error, connecting } = useAppSelector(
+		(state) => state.websocket.public
+	);
+
+	useEffect(() => {
+		dispatch(
+			wsConnect({
+				url: ingredientsApiConfig.orderAllUrl,
+				feedType: 'public',
+			})
+		);
+		return () => {
+			dispatch(wsDisconnect('public'));
+		};
+	}, [dispatch]);
+
+	if (error) {
+		return <div>Произошла ошибка: {error.message}</div>;
+	}
+
+	if (data) {
+		console.log('УСПЕШНО!!!');
+		console.log(data);
+	}
+
 	const MAX_ITEMS = 5;
 
 	const visibleItems = ingredients.data.slice(0, MAX_ITEMS);
