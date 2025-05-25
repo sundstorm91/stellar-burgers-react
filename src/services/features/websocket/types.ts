@@ -1,4 +1,4 @@
-import { TFeedType } from '../../../types/data-types';
+import { Ingredients, TFeedType } from '../../../types/data-types';
 
 export type TOrder = {
 	_id: string;
@@ -16,6 +16,13 @@ export type TOrdersData = {
 	total: number;
 	totalToday: number;
 };
+
+export interface OrderStats {
+	total: number;
+	totalToday: number;
+	done: number[];
+	pending: number[];
+} /* ! */
 
 export type TWSState = {
 	[key in TFeedType]: {
@@ -35,3 +42,8 @@ export type WSErrorPayload = {
 	reason?: string; // Причина закрытия
 	wasClean?: boolean; // Для close событий
 };
+
+export interface ProcessedOrder extends TOrder {
+	ingredientsData: (Ingredients | undefined)[];
+	totalPrice: number;
+}

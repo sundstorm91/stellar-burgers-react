@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { TFeedType } from '../../../types/data-types';
+import { TOrdersData } from './types';
 
 export const wsOpen = createAction(
 	'WS_OPEN',
@@ -78,13 +79,7 @@ export const wsSend = createAction(
 
 export const wsMessage = createAction(
 	'WS_MESSAGE',
-	<T>(params: {
-		feedType: TFeedType;
-		data: T;
-	}): {
-		payload: T;
-		meta: { feedType: TFeedType };
-	} => ({
+	(params: { feedType: TFeedType; data: TOrdersData }) => ({
 		payload: params.data,
 		meta: { feedType: params.feedType },
 	})

@@ -85,12 +85,6 @@ const handleError = (
 		eventType: event.type,
 	};
 
-	/* if ('code' in event) {
-		payloadError.code = event.code;
-		payloadError.reason = event.reason;
-		payloadError.wasClean = event.wasClean;
-	} */
-
 	store.dispatch(wsError(feedType, payloadError));
 };
 
@@ -115,8 +109,9 @@ const handleMessage = (
 	store: MiddlewareAPI<AppDispatch, RootState>
 ) => {
 	try {
+		console.log('Получено сырое сообщение', event.data);
 		const data = JSON.parse(event.data);
-		console.log(event.data, '!');
+		/* console.log(event.data, '!'); */
 		store.dispatch(wsMessage({ feedType, data }));
 	} catch (err) {
 		const error =

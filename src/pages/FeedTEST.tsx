@@ -8,12 +8,12 @@ import {
 } from '../services/features/websocket/actions';
 import { ingredientsApiConfig } from '../utils/api-utils';
 
-export const Feed: React.FC = () => {
+export const FeedTest: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data, connected, error, connecting } = useAppSelector(
+	/* const { data, connected, error, connecting } = useAppSelector(
 		(state) => state.websocket.public
-	);
+	); */
 
 	useEffect(() => {
 		dispatch(
@@ -26,10 +26,6 @@ export const Feed: React.FC = () => {
 			dispatch(wsDisconnect('public'));
 		};
 	}, [dispatch]);
-
-	if (error) {
-		return <div>Произошла ошибка: {error.message}</div>;
-	}
 
 	const MAX_ITEMS = 5;
 
@@ -80,7 +76,6 @@ export const Feed: React.FC = () => {
 				</div>
 				<div className={styles.reportWrapper}>
 					<div className={styles.statusField}>
-						{/* здесь реализация */}
 						<div className={styles.statusReady}>
 							<p className={styles.subTitle}>Готовы:</p>
 							<span className='text text_type_digits-default'>422612</span>
@@ -88,7 +83,7 @@ export const Feed: React.FC = () => {
 							<span className='text text_type_digits-default'>216612</span>
 							<span className='text text_type_digits-default'>003612</span>
 						</div>
-						{/* здесь реализация */}
+
 						<div className={styles.statusProccess}>
 							<p className={styles.subTitle}>В работе:</p>
 							<span className='text text_type_digits-default'>422612</span>
@@ -97,10 +92,12 @@ export const Feed: React.FC = () => {
 							<span className='text text_type_digits-default'>003612</span>
 						</div>
 					</div>
+
 					<div className={styles.completeAllTime}>
 						<span className={styles.subTitle}>Выполнено за все время:</span>
 						<span className='text text_type_digits-large'>28752</span>
 					</div>
+
 					<div className={styles.completeToday}>
 						<span className={styles.subTitle}>Выполнено за сегодня:</span>
 						<span className='text text_type_digits-large'>138</span>

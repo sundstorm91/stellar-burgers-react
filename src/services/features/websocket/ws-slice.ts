@@ -62,18 +62,21 @@ const wsSlice = createSlice({
 			})
 
 			// обработка входящих сообщений
+
 			.addCase(wsMessage, (state, action) => {
+				// Проверяем только payload (данные заказов)
 				if (
 					typeof action.payload === 'object' &&
 					action.payload !== null &&
-					'feedType' in action.payload &&
-					'data' in action.payload
+					'orders' in action.payload
 				) {
-					const { feedType, data } = action.payload as {
-						feedType: TFeedType;
-						data: TOrdersData;
-					};
+					const { feedType } = action.meta; // feedType берём из meta
+					const data = action.payload as TOrdersData;
+
 					state[feedType].data = data;
+					console.log('Data saved to Redux:', { feedType, data }); // Логируем
+				} else {
+					console.error('Invalid wsMessage payload:', action.payload);
 				}
 			})
 

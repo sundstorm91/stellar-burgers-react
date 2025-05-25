@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux';
 import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
-import { Feed } from '../../pages/Feed';
+import { Feed } from '../../pages/feed/FeedPublic';
 import { CurrentOrder } from '../../pages/CurrentOrder';
 
 const Layout = (): ReactElement => {
