@@ -4,6 +4,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from '../../pages.module.css';
 import { ProcessedOrder } from '../../../services/features/websocket/types';
+import { nanoid } from '@reduxjs/toolkit';
 
 export const OrderCard: React.FC<{
 	order: ProcessedOrder;
@@ -27,7 +28,7 @@ export const OrderCard: React.FC<{
 					<ul className={styles.testWrapper}>
 						{visibleItems.map((item, idx) => (
 							<li
-								key={item?._id}
+								key={`${item?._id}_${nanoid()}`}
 								className={styles.testItem}
 								style={{ zIndex: maxItems - idx }}>
 								<img src={item?.image_mobile} alt={item?.name} />
