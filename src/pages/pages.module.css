@@ -216,9 +216,12 @@ tr {
 }
 
 .feedWrapper {
+	width: 608px;
 	display: flex;
 	flex-direction: column;
 	row-gap: 16px;
+	height: 756px;
+	overflow: auto;
 }
 
 .orderContainer {

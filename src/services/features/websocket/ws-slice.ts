@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TFeedType } from '../../../types/data-types';
 import {
 	wsClose,
 	wsConnect,

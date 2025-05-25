@@ -109,8 +109,8 @@ export const Feed: React.FC = () => {
 		setOrderStats({
 			total: data.total || 0,
 			totalToday: data.totalToday || 0,
-			done: doneOrders.slice(0, 10),
-			pending: pendingOrders.slice(0, 10),
+			done: doneOrders.slice(0, 7),
+			pending: pendingOrders.slice(0, 7),
 		});
 	}, [data, ingredients.data]);
 

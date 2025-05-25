@@ -1,4 +1,7 @@
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	CurrencyIcon,
+	FormattedDate,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from '../../pages.module.css';
 import { ProcessedOrder } from '../../../services/features/websocket/types';
 
@@ -8,13 +11,12 @@ export const OrderCard: React.FC<{
 }> = ({ order, maxItems }) => {
 	const visibleItems = order.ingredientsData.slice(0, maxItems);
 	const hiddenItems = Math.max(order.ingredientsData.length - maxItems, 0);
-
 	return (
 		<div className={styles.orderContainer}>
 			<div className={styles.orderTitle}>
 				<div className='text text_type_digits-default'>#{order.number}</div>
 				<div className={styles.orderExecutionTime}>
-					{/* {formatDate(order.createdAt)} */}
+					{<FormattedDate date={new Date(order.createdAt)} />}
 				</div>
 			</div>
 
