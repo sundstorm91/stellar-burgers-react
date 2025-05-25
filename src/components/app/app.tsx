@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux';
 import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
-import { Feed } from '../../pages/feed/FeedPublic';
+import { FeedPublic } from '../../pages/feed/FeedPublic';
 import { CurrentOrder } from '../../pages/CurrentOrder';
 
 const Layout = (): ReactElement => {
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
 					<Route path='/testFeed' element={<CurrentOrder />} />
-					<Route path='/feed' element={<Feed />} />
+					<Route path='/feed' element={<FeedPublic />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'

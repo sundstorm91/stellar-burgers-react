@@ -14,7 +14,7 @@ import { OrderCard } from './components/orderCard';
 import { OrderStatus } from './components/orderStatus';
 import { store } from '../../services/store/store';
 
-export const Feed: React.FC = () => {
+export const FeedPublic: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 	const { data, connected, error, connecting } = useAppSelector(
