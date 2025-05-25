@@ -31,11 +31,6 @@ export const Feed: React.FC = () => {
 		return <div>Произошла ошибка: {error.message}</div>;
 	}
 
-	if (data) {
-		console.log('УСПЕШНО!!!');
-		console.log(data);
-	}
-
 	const MAX_ITEMS = 5;
 
 	const visibleItems = ingredients.data.slice(0, MAX_ITEMS);
@@ -44,6 +39,7 @@ export const Feed: React.FC = () => {
 		ingredients.data.length > MAX_ITEMS
 			? ingredients.data.length - MAX_ITEMS
 			: 0;
+
 	return (
 		<div className={styles.feedContainer}>
 			<h2 className={styles.feedTitle}>Лента заказов</h2>

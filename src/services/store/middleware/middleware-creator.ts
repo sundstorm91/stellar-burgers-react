@@ -58,7 +58,7 @@ export const middlewareCreator = (): Middleware => {
 			}
 
 			if (wsSend.match(action) && socket?.readyState === WebSocket.OPEN) {
-				socket.send(JSON.stringify(action.payload));
+				socket.send(JSON.stringify(action.payload)); /* ! */
 			}
 
 			return next(action);
@@ -85,6 +85,12 @@ const handleError = (
 		eventType: event.type,
 	};
 
+	/* if ('code' in event) {
+		payloadError.code = event.code;
+		payloadError.reason = event.reason;
+		payloadError.wasClean = event.wasClean;
+	} */
+
 	store.dispatch(wsError(feedType, payloadError));
 };
 
@@ -110,6 +116,7 @@ const handleMessage = (
 ) => {
 	try {
 		const data = JSON.parse(event.data);
+		console.log(event.data, '!');
 		store.dispatch(wsMessage({ feedType, data }));
 	} catch (err) {
 		const error =
