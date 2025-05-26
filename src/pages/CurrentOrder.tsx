@@ -4,10 +4,10 @@ import styles from './pages.module.css';
 export const CurrentOrder: React.FC = () => {
 	return (
 		<div className={styles.currentOrderContainer}>
-			<span className='text text_type_digits-default'>0345333</span>
-			<p className={styles.currentNameOrder}>
-				Black Hole Singularity острый бургер
-			</p>
+			<span className='text text_type_digits-default'>
+				#{/* {order.number} */}
+			</span>
+			<p className={styles.currentNameOrder}>{/* {order} */}</p>
 			<p className={styles.currentStatus}>Выполнен</p>
 
 			<div>
