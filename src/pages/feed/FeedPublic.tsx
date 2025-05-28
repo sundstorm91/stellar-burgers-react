@@ -13,6 +13,7 @@ import {
 import { OrderCard } from './components/orderCard';
 import { OrderStatus } from './components/orderStatus';
 import { store } from '../../services/store/store';
+import { enrichOrders, splitOrders } from '../../utils/order-utils';
 
 export const FeedPublic: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -69,34 +70,11 @@ export const FeedPublic: React.FC = () => {
 
 		console.log('Начало обработки данных...');
 
-		const enrichedOrders = data.orders.map((order) => {
-			const ingredientsData = order.ingredients.map((id) =>
-				ingredients.data.find((ing) => ing._id === id)
-			);
-
-			console.log('Обработка заказа:', {
-				orderId: order._id,
-				foundIngredients: ingredientsData.filter(Boolean).length,
-				totalItems: order.ingredients.length,
-			});
-
-			return {
-				...order,
-				ingredientsData,
-				totalPrice: order.ingredients.reduce((sum, id) => {
-					const ingredient = ingredients.data.find((ing) => ing._id === id);
-					return sum + (ingredient?.price || 0);
-				}, 0),
-			};
-		});
+		const fillingOrders = enrichOrders(data?.orders, ingredients);
 
 		const doneOrders: number[] = [];
 		const pendingOrders: number[] = [];
-
-		data.orders.forEach((order) => {
-			if (order.status === 'done') doneOrders.push(order.number);
-			else if (order.status === 'pending') pendingOrders.push(order.number);
-		});
+		splitOrders(data?.orders, doneOrders, pendingOrders);
 
 		console.log('Статистика по заказам:', {
 			total: data.total,
@@ -104,15 +82,14 @@ export const FeedPublic: React.FC = () => {
 			doneCount: doneOrders.length,
 			pendingCount: pendingOrders.length,
 		});
-
-		setProcessedOrders(enrichedOrders.slice(0, 20));
+		setProcessedOrders(fillingOrders.slice(0, 20));
 		setOrderStats({
 			total: data.total || 0,
 			totalToday: data.totalToday || 0,
 			done: doneOrders.slice(0, 7),
 			pending: pendingOrders.slice(0, 7),
 		});
-	}, [data, ingredients.data]);
+	}, [data, ingredients, ingredients.data]);
 
 	// 5. Логирование готовых к отображению данных
 	useEffect(() => {
@@ -124,6 +101,7 @@ export const FeedPublic: React.FC = () => {
 		}
 	}, [processedOrders]);
 
+	/* 6. ТЕСТ */
 	useEffect(() => {
 		if (data) {
 			console.log('Полная структура data:', JSON.parse(JSON.stringify(data)));
