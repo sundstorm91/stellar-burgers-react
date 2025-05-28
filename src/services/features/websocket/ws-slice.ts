@@ -69,11 +69,11 @@ const wsSlice = createSlice({
 					action.payload !== null &&
 					'orders' in action.payload
 				) {
-					const { feedType } = action.meta; // feedType берём из meta
+					const { feedType } = action.meta;
 					const data = action.payload as TOrdersData;
 
 					state[feedType].data = data;
-					console.log('Data saved to Redux:', { feedType, data }); // Логируем
+					console.log('Data saved to Redux:', { feedType, data });
 				} else {
 					console.error('Invalid wsMessage payload:', action.payload);
 				}

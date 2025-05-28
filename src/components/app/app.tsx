@@ -52,8 +52,8 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path='/testFeed' element={<CurrentOrder />} />
 					<Route path='/feed' element={<FeedPublic />} />
+					<Route path='/feed/:id' element={<CurrentOrder />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -87,6 +87,7 @@ export const App: React.FC = () => {
 				</Route>
 			</Routes>
 
+			{/* Модальные роуты */}
 			{state?.backgroundLocation && (
 				<Routes>
 					<Route
@@ -95,7 +96,16 @@ export const App: React.FC = () => {
 							<Modal>
 								<CurrentIngredient backgroundLocation={true} />
 							</Modal>
-						}></Route>
+						}
+					/>
+					<Route
+						path='/feed/:id'
+						element={
+							<Modal>
+								<CurrentOrder />
+							</Modal>
+						}
+					/>
 				</Routes>
 			)}
 		</>

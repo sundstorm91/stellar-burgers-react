@@ -13,7 +13,6 @@ import {
 import { OrderCard } from './components/orderCard';
 import { OrderStatus } from './components/orderStatus';
 import { store } from '../../services/store/store';
-import { Link } from 'react-router-dom';
 
 export const FeedPublic: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -142,12 +141,7 @@ export const FeedPublic: React.FC = () => {
 				{/* Заказы */}
 				<div className={styles.feedWrapper}>
 					{processedOrders.map((order) => (
-						<Link
-							to={`/feed/${order._id}`}
-							key={order._id}
-							state={{ background: location }}>
-							<OrderCard key={order._id} order={order} maxItems={5} />
-						</Link>
+						<OrderCard key={order._id} order={order} maxItems={5} />
 					))}
 				</div>
 				{/* Статистика */}
