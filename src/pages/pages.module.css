@@ -289,8 +289,9 @@ tr {
   height: 64px;
   margin-left: -16px; /* Сдвиг для наезжания */
   border-radius: 50%;
-  background: #131316; /* Цвет как в BurgerConstructor */
+  background: #131316;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 /* Первый элемент без сдвига */
@@ -298,9 +299,6 @@ tr {
   margin-left: 0;
 }
 
-.testItem:hover {
-  transform: translateY(-10px);
-}
 
 .testItem img {
   width: 100%;
@@ -436,3 +434,30 @@ tr {
     flex-direction: column;
     row-gap: 24px;
 }
+
+/* currentOrder */
+
+.ingredientsOrder {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+}
+
+.ingredientsOrderItem {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	column-gap: 16px;
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: rgba(242, 242, 243, 1);
+}
+
+.orderPrice {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+

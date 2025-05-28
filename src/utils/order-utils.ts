@@ -6,9 +6,7 @@ export const enrichOrders = (
 	allIngredients: IngredientsApi
 ) => {
 	return orders.map((order) => {
-		const ingredientsData = order.ingredients.map((id) =>
-			allIngredients.data.find((ing) => ing._id === id)
-		);
+		const ingredientsData = fillIngredients(order, allIngredients);
 
 		console.log('Обработка заказа:', {
 			orderId: order._id,
@@ -16,10 +14,7 @@ export const enrichOrders = (
 			totalItems: order.ingredients.length,
 		});
 
-		const totalPrice = order.ingredients.reduce((sum, id) => {
-			const ingredient = allIngredients.data.find((ing) => ing._id === id);
-			return sum + (ingredient?.price || 0);
-		}, 0);
+		const totalPrice = calcTotalPrice(order, allIngredients);
 
 		return {
 			...order,
@@ -38,4 +33,17 @@ export function splitOrders(
 		if (order.status === 'done') doneOrders.push(order.number);
 		else if (order.status === 'pending') pendingOrders.push(order.number);
 	});
+}
+
+export function fillIngredients(order: TOrder, allIngredients: IngredientsApi) {
+	return order.ingredients.map((id) =>
+		allIngredients.data.find((ing) => ing._id === id)
+	);
+}
+
+export function calcTotalPrice(order: TOrder, allIngredients: IngredientsApi) {
+	return order.ingredients.reduce((sum, id) => {
+		const ingredient = allIngredients.data.find((ing) => ing._id === id);
+		return sum + (ingredient?.price || 0);
+	}, 0);
 }
