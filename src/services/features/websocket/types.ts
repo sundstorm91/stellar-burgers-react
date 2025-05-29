@@ -47,3 +47,7 @@ export interface ProcessedOrder extends TOrder {
 	ingredientsData: (Ingredients | undefined)[];
 	totalPrice: number;
 }
+
+export type TGroupedIngredient = Ingredients & {
+	count: number; // Добавляем новое поле
+};

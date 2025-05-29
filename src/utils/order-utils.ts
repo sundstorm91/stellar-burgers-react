@@ -1,5 +1,9 @@
-import { ProcessedOrder, TOrder } from '../services/features/websocket/types';
-import { IngredientsApi } from '../types/data-types';
+import {
+	ProcessedOrder,
+	TGroupedIngredient,
+	TOrder,
+} from '../services/features/websocket/types';
+import { Ingredients, IngredientsApi } from '../types/data-types';
 
 export const enrichOrders = (
 	orders: TOrder[],
@@ -39,6 +43,40 @@ export function fillIngredients(order: TOrder, allIngredients: IngredientsApi) {
 	return order.ingredients.map((id) =>
 		allIngredients.data.find((ing) => ing._id === id)
 	);
+}
+
+export function groupOrder(order: TOrder, allIngredients: IngredientsApi) {
+	// Сначала создаем массив всех ингредиентов (с возможными дубликатами)
+	const allOrderIngredients = order.ingredients
+		.map((id) => allIngredients.data.find((ing) => ing._id === id))
+		.filter(Boolean); // Фильтруем, чтобы убрать возможные undefined
+
+	// Создаем объект для подсчета количества каждого ингредиента
+	const ingredientCountMap: Record<string, number> = {};
+
+	order.ingredients.forEach((id) => {
+		ingredientCountMap[id] = (ingredientCountMap[id] || 0) + 1;
+	});
+
+	// Создаем массив уникальных ингредиентов с полем count
+	const uniqueIngredients = allOrderIngredients.reduce((acc, ingredient) => {
+		if (!ingredient) return acc;
+
+		// Проверяем, есть ли уже этот ингредиент в аккумуляторе
+		const existingIngredient = acc.find((item) => item._id === ingredient._id);
+
+		if (!existingIngredient) {
+			// Если нет, добавляем с полем count
+			acc.push({
+				...ingredient,
+				count: ingredientCountMap[ingredient._id] || 1,
+			});
+		}
+
+		return acc;
+	}, [] as (Ingredients & { count: number })[]);
+
+	return uniqueIngredients;
 }
 
 export function calcTotalPrice(order: TOrder, allIngredients: IngredientsApi) {

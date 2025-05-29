@@ -5,7 +5,7 @@ import {
 import styles from './pages.module.css';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/hook';
-import { calcTotalPrice, fillIngredients } from '../utils/order-utils';
+import { calcTotalPrice, groupOrder } from '../utils/order-utils';
 import { nanoid } from '@reduxjs/toolkit';
 
 export const CurrentOrder: React.FC = () => {
@@ -14,9 +14,9 @@ export const CurrentOrder: React.FC = () => {
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 
 	const order = data?.orders.find((o) => o._id === id);
-
-	const ingredientsData = fillIngredients(order!, ingredients);
+	const ingredientsData = groupOrder(order!, ingredients);
 	const totalPrice = calcTotalPrice(order!, ingredients);
+
 	/* Если заказа нет в Redux, загружаем отдельно
 		const { data: apiOrder, loading } = useGetOrderQuery(id!, {
 		skip: !!order || !id,
@@ -44,13 +44,13 @@ export const CurrentOrder: React.FC = () => {
 								</div>
 								<div>{item?.name}</div>
 								<div className={styles.orderPrice}>
-									{item?.price} <CurrencyIcon type='primary' />
+									{item?.count} x {item?.price} <CurrencyIcon type='primary' />
 								</div>
 							</li>
 						);
 					})}
 				</ul>
-				{/*  */}
+
 				<div className={styles.subField}>
 					<div className={styles.orderExecutionTime}>
 						{<FormattedDate date={new Date(order!.createdAt)} />}
