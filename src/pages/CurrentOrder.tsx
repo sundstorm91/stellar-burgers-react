@@ -4,16 +4,29 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from '../hooks/hook';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import { calcTotalPrice, groupOrder } from '../utils/order-utils';
 import { nanoid } from '@reduxjs/toolkit';
+import { useEffect } from 'react';
+import { Spinner } from '../components/spinner/spinner';
 
 export const CurrentOrder: React.FC = () => {
 	const { id } = useParams<'id'>();
+	const dispatch = useAppDispatch();
 	const { data } = useAppSelector((state) => state.websocket.public);
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 
 	const order = data?.orders.find((o) => o._id === id);
+	/* useEffect(() => {
+		if (!order) {
+			dispatch()
+		}
+	}, [dispatch]); */
+
+	if (!order) {
+		return <Spinner />;
+	}
+
 	const ingredientsData = groupOrder(order!, ingredients);
 	const totalPrice = calcTotalPrice(order!, ingredients);
 

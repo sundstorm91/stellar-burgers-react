@@ -1,9 +1,6 @@
-import {
-	ProcessedOrder,
-	TGroupedIngredient,
-	TOrder,
-} from '../services/features/websocket/types';
+import { ProcessedOrder, TOrder } from '../services/features/websocket/types';
 import { Ingredients, IngredientsApi } from '../types/data-types';
+import { ingredientsApiConfig } from './api-utils';
 
 export const enrichOrders = (
 	orders: TOrder[],
@@ -85,3 +82,28 @@ export function calcTotalPrice(order: TOrder, allIngredients: IngredientsApi) {
 		return sum + (ingredient?.price || 0);
 	}, 0);
 }
+
+export const fetchOrderById = async (orderId: string): Promise<TOrder> => {
+	const response = await fetch(`${ingredientsApiConfig.orders}?id=${orderId}`);
+	const data = await response.json();
+
+	if (!data.orders || data.orders.length === 0) {
+		throw new Error('Order not found');
+	}
+	return data
+		.orders[0] as TOrder /* Для понимания typescript'y чтобы он понимал какой ответ придет от сервера */;
+};
+
+export const fetchOrderByNumber = async (
+	orderNumber: number
+): Promise<TOrder> => {
+	const response = await fetch(
+		`${ingredientsApiConfig.orders}?number=${orderNumber}`
+	);
+	const data = await response.json();
+	if (!data.orders || data.orders.length === 0) {
+		throw new Error('Order not found');
+	}
+	return data
+		.orders[0] as TOrder /* Для понимания typescript'y чтобы он понимал какой ответ придет от сервера */;
+};
