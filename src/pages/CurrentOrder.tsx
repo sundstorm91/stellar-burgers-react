@@ -9,40 +9,51 @@ import { calcTotalPrice, groupOrder } from '../utils/order-utils';
 import { nanoid } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Spinner } from '../components/spinner/spinner';
+import { getCurrentOrder } from '../services/features/create-order/order-slice';
+import { fetchIngredients } from '../services/features/ingredients/ingredientsSlice';
 
 export const CurrentOrder: React.FC = () => {
-	const { number } = useParams<'number'>();
+	const { number } = useParams<{ number: string }>();
 	const dispatch = useAppDispatch();
 	const { data } = useAppSelector((state) => state.websocket.public);
 	const { ingredients } = useAppSelector((state) => state.ingredients);
+	const { currentOrder, fetchLoading, fetchError } = useAppSelector(
+		(state) => state.order
+	);
 
-	const order = data?.orders.find((o) => o.number === Number(number));
+	const wsOrder = data?.orders.find((o) => o.number === Number(number));
 
-	/* useEffect(() => {
-		if (!order) {
-			dispatch()
+	useEffect(() => {
+		if (!wsOrder && !currentOrder && !fetchLoading && !fetchError) {
+			dispatch(getCurrentOrder(Number(number)));
 		}
-	}, [dispatch]); */
+	}, [wsOrder, currentOrder, fetchLoading, fetchError, number, dispatch]);
 
-	if (!order) {
-		return <Spinner />;
+	useEffect(() => {
+		if (ingredients.data.length === 0) {
+			dispatch(fetchIngredients());
+		}
+	}, [dispatch, ingredients]);
+
+	const targetOrder = wsOrder ?? currentOrder;
+
+	if (!targetOrder) {
+		if (fetchLoading) return <Spinner />;
+		if (fetchError) return <div>Ошибка: {fetchError}</div>;
+		return null;
 	}
 
-	const ingredientsData = groupOrder(order!, ingredients);
-	const totalPrice = calcTotalPrice(order!, ingredients);
-
-	/* Если заказа нет в Redux, загружаем отдельно
-		const { data: apiOrder, loading } = useGetOrderQuery(id!, {
-		skip: !!order || !id,
-  });
-  	const currentOrder = order || apiOrder; */
+	const ingredientsData = groupOrder(targetOrder, ingredients);
+	const totalPrice = calcTotalPrice(targetOrder, ingredients);
 
 	return (
 		<div className={styles.currentOrderContainer}>
-			<span className='text text_type_digits-default'>#{order?.number}</span>
-			<p className={styles.currentNameOrder}>{order?.name}</p>
+			<span className='text text_type_digits-default'>
+				#{targetOrder.number}
+			</span>
+			<p className={styles.currentNameOrder}>{targetOrder.name}</p>
 			<p className={styles.currentStatus}>
-				{order?.status === 'done' ? 'Выполнен' : 'В работе'}
+				{targetOrder.status === 'done' ? 'Выполнен' : 'В работе'}
 			</p>
 
 			<div>
@@ -67,7 +78,7 @@ export const CurrentOrder: React.FC = () => {
 
 				<div className={styles.subField}>
 					<div className={styles.orderExecutionTime}>
-						{<FormattedDate date={new Date(order!.createdAt)} />}
+						{<FormattedDate date={new Date(targetOrder.createdAt)} />}
 					</div>
 					<div className={styles.ingredientPrice}>
 						<div className='text text_type_digits-default'>{totalPrice}</div>
