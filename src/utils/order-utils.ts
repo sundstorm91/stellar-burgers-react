@@ -84,7 +84,7 @@ export function calcTotalPrice(order: TOrder, allIngredients: IngredientsApi) {
 }
 
 export const fetchOrderById = async (orderId: string): Promise<TOrder> => {
-	const response = await fetch(`${ingredientsApiConfig.orders}?id=${orderId}`);
+	const response = await fetch(`${ingredientsApiConfig.orders}/${orderId}`);
 	const data = await response.json();
 
 	if (!data.orders || data.orders.length === 0) {
@@ -97,9 +97,7 @@ export const fetchOrderById = async (orderId: string): Promise<TOrder> => {
 export const fetchOrderByNumber = async (
 	orderNumber: number
 ): Promise<TOrder> => {
-	const response = await fetch(
-		`${ingredientsApiConfig.orders}?number=${orderNumber}`
-	);
+	const response = await fetch(`${ingredientsApiConfig.orders}/${orderNumber}`);
 	const data = await response.json();
 	if (!data.orders || data.orders.length === 0) {
 		throw new Error('Order not found');

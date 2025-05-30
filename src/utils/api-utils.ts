@@ -7,7 +7,7 @@ export const ingredientsApiConfig = {
 	},
 	orderAllUrl: 'wss://norma.nomoreparties.space/orders/all',
 	orderCurrentUrl: 'wss://norma.nomoreparties.space/orders',
-	orders: 'https://norma.nomoreparties.space/api/orders/',
+	orders: 'https://norma.nomoreparties.space/api/orders',
 };
 
 export interface UserData {

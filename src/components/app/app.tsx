@@ -53,7 +53,7 @@ export const App: React.FC = () => {
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
 					<Route path='/feed' element={<FeedPublic />} />
-					<Route path='/feed/:id' element={<CurrentOrder />} />
+					<Route path='/feed/:number' element={<CurrentOrder />} />
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
 						}
 					/>
 					<Route
-						path='/feed/:id'
+						path='/feed/:number'
 						element={
 							<Modal>
 								<CurrentOrder />

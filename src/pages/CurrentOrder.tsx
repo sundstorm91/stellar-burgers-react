@@ -11,12 +11,13 @@ import { useEffect } from 'react';
 import { Spinner } from '../components/spinner/spinner';
 
 export const CurrentOrder: React.FC = () => {
-	const { id } = useParams<'id'>();
+	const { number } = useParams<'number'>();
 	const dispatch = useAppDispatch();
 	const { data } = useAppSelector((state) => state.websocket.public);
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 
-	const order = data?.orders.find((o) => o._id === id);
+	const order = data?.orders.find((o) => o.number === Number(number));
+
 	/* useEffect(() => {
 		if (!order) {
 			dispatch()

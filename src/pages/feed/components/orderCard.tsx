@@ -15,7 +15,7 @@ export const OrderCard: React.FC<{
 	const visibleItems = order.ingredientsData.slice(0, maxItems);
 	const hiddenItems = Math.max(order.ingredientsData.length - maxItems, 0);
 	return (
-		<Link to={`/feed/${order._id}`} state={{ backgroundLocation: location }}>
+		<Link to={`/feed/${order.number}`} state={{ backgroundLocation: location }}>
 			<div className={styles.orderContainer}>
 				<div className={styles.orderTitle}>
 					<div className='text text_type_digits-default'>#{order.number}</div>
