@@ -394,9 +394,10 @@ tr {
 /* currentOrder */
 
 .currentOrderContainer {
-	margin: 122px 0px 0px 0px;
+	margin: 122px 0px 40px 0px;
 	display: flex;
 	flex-direction: column;
+	padding: 5px 10px 5px 10px
 }
 
 .currentOrderContainer span {
@@ -408,7 +409,15 @@ tr {
 	font-weight: 700;
 	font-size: 24px;
 	color: rgba(242, 242, 243, 1);
-	margin: 40px 0px 12px 0px;
+	margin: 50px 0px 12px 0px;
+}
+
+.currentTitleOrder {
+	font-family: 'JetBrainsMono', Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+	color: rgba(242, 242, 243, 1);
+	margin: 60px 0px 24px 0px;
 }
 
 .currentStatus {
@@ -441,6 +450,10 @@ tr {
 	display: flex;
 	flex-direction: column;
 	list-style: none;
+	margin-bottom: 40px;
+	max-height: 250px;
+	overflow-y: auto;
+
 }
 
 .ingredientsOrderItem {
@@ -452,6 +465,7 @@ tr {
 	font-weight: 400;
 	font-size: 16px;
 	color: rgba(242, 242, 243, 1);
+	cursor: pointer;
 }
 
 .orderPrice {

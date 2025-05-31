@@ -12,7 +12,7 @@ import { Spinner } from '../components/spinner/spinner';
 import { getCurrentOrder } from '../services/features/create-order/order-slice';
 import { fetchIngredients } from '../services/features/ingredients/ingredientsSlice';
 
-export const CurrentOrder: React.FC = () => {
+export const CurrentOrder: React.FC<{ isModal: boolean }> = ({ isModal }) => {
 	const { number } = useParams<{ number: string }>();
 	const dispatch = useAppDispatch();
 	const { data } = useAppSelector((state) => state.websocket.public);
@@ -47,7 +47,9 @@ export const CurrentOrder: React.FC = () => {
 	const totalPrice = calcTotalPrice(targetOrder, ingredients);
 
 	return (
-		<div className={styles.currentOrderContainer}>
+		<div
+			className={styles.currentOrderContainer}
+			style={isModal ? { margin: '20px 0px 20px 0px' } : { margin: '' }}>
 			<span className='text text_type_digits-default'>
 				#{targetOrder.number}
 			</span>
@@ -57,19 +59,19 @@ export const CurrentOrder: React.FC = () => {
 			</p>
 
 			<div>
-				<h2>Состав:</h2>
+				<h2 className={styles.currentTitleOrder}>Состав:</h2>
 				<ul className={styles.ingredientsOrder}>
 					{ingredientsData.map((item) => {
 						return (
 							<li
-								key={`${item?._id}_${nanoid()}`}
+								key={`${item._id}_${nanoid()}`}
 								className={styles.ingredientsOrderItem}>
 								<div className={styles.testItem}>
-									<img src={item?.image_mobile} alt={item?.name} />
+									<img src={item?.image_mobile} alt={item.name} />
 								</div>
-								<div>{item?.name}</div>
+								<div>{item.name}</div>
 								<div className={styles.orderPrice}>
-									{item?.count} x {item?.price} <CurrencyIcon type='primary' />
+									{item.count} x {item.price} <CurrencyIcon type='primary' />
 								</div>
 							</li>
 						);
