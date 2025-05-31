@@ -12,24 +12,15 @@ import {
 } from '../../services/features/websocket/types';
 import { OrderCard } from './components/orderCard';
 import { OrderStatus } from './components/orderStatus';
-import { store } from '../../services/store/store';
 import { enrichOrders, splitOrders } from '../../utils/order-utils';
 
 export const FeedPublic: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data, connected, error, connecting } = useAppSelector(
-		(state) => state.websocket.public
-	);
-	console.log('Redux state:', store.getState().websocket);
-	// 1. Логирование состояния подключения
-	useEffect(() => {
-		console.log('WebSocket status:', { connected, connecting, error });
-	}, [connected, connecting, error]);
+	const { data } = useAppSelector((state) => state.websocket.public);
 
 	// 2. Подключение к WebSocket
 	useEffect(() => {
-		console.log('Инициализация WebSocket соединения...');
 		dispatch(
 			wsConnect({
 				url: ingredientsApiConfig.orderAllUrl,
@@ -38,17 +29,9 @@ export const FeedPublic: React.FC = () => {
 		);
 
 		return () => {
-			console.log('Отключение WebSocket...');
 			dispatch(wsDisconnect('public'));
 		};
 	}, [dispatch]);
-
-	// 3. Логирование сырых данных
-	useEffect(() => {
-		if (data) {
-			console.log('Получены RAW данные от сервера:', data);
-		}
-	}, [data]);
 
 	// 4. Обработка данных
 	const [processedOrders, setProcessedOrders] = useState<ProcessedOrder[]>([]);
@@ -61,14 +44,8 @@ export const FeedPublic: React.FC = () => {
 
 	useEffect(() => {
 		if (!data?.orders || !ingredients.data) {
-			console.log('Нет данных для обработки:', {
-				hasOrders: !!data?.orders,
-				hasIngredients: !!ingredients.data,
-			});
 			return;
 		}
-
-		console.log('Начало обработки данных...');
 
 		const fillingOrders = enrichOrders(data?.orders, ingredients);
 
@@ -76,12 +53,6 @@ export const FeedPublic: React.FC = () => {
 		const pendingOrders: number[] = [];
 		splitOrders(data?.orders, doneOrders, pendingOrders);
 
-		console.log('Статистика по заказам:', {
-			total: data.total,
-			totalToday: data.totalToday,
-			doneCount: doneOrders.length,
-			pendingCount: pendingOrders.length,
-		});
 		setProcessedOrders(fillingOrders); /* ! */
 		setOrderStats({
 			total: data.total || 0,
@@ -90,26 +61,6 @@ export const FeedPublic: React.FC = () => {
 			pending: pendingOrders.slice(0, 7),
 		});
 	}, [data, ingredients, ingredients.data]);
-
-	// 5. Логирование готовых к отображению данных
-	useEffect(() => {
-		if (processedOrders.length > 0) {
-			console.log('Готовые к отображению заказы:', {
-				count: processedOrders.length,
-				sample: processedOrders[0],
-			});
-		}
-	}, [processedOrders]);
-
-	/* 6. ТЕСТ */
-	useEffect(() => {
-		if (data) {
-			console.log('Полная структура data:', JSON.parse(JSON.stringify(data)));
-		} else if (!data) {
-			console.log('data is null');
-			return;
-		}
-	}, [data]);
 
 	return (
 		<div className={styles.feedContainer}>

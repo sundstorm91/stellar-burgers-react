@@ -15,9 +15,8 @@ export const OrdersHistory: React.FC = () => {
 	const { data } = useAppSelector((state) => state.websocket.private);
 	const token = localStorage.getItem('accessToken')?.split(' ')[1];
 	const [processedOrders, setProcessedOrders] = useState<ProcessedOrder[]>([]);
-	// 2. Подключение к WebSocket
+
 	useEffect(() => {
-		console.log('Инициализация WebSocket соединения...');
 		dispatch(
 			wsConnect({
 				url: `${ingredientsApiConfig.orderCurrentUrl}`,
@@ -27,32 +26,19 @@ export const OrdersHistory: React.FC = () => {
 		);
 
 		return () => {
-			console.log('Отключение WebSocket...');
 			dispatch(wsDisconnect('private'));
 		};
 	}, [dispatch, token]);
 
 	useEffect(() => {
 		if (!data?.orders || !ingredients.data) {
-			console.log('Нет данных для обработки:', {
-				hasOrders: !!data?.orders,
-				hasIngredients: !!ingredients.data,
-			});
 			return;
 		}
-
-		console.log('Начало обработки данных...');
 
 		const enrichedOrders = data.orders.map((order) => {
 			const ingredientsData = order.ingredients.map((id) =>
 				ingredients.data.find((ing) => ing._id === id)
 			);
-
-			console.log('Обработка заказа:', {
-				orderId: order._id,
-				foundIngredients: ingredientsData.filter(Boolean).length,
-				totalItems: order.ingredients.length,
-			});
 
 			return {
 				...order,
@@ -63,7 +49,7 @@ export const OrdersHistory: React.FC = () => {
 				}, 0),
 			};
 		});
-		setProcessedOrders(enrichedOrders); /* ! */
+		setProcessedOrders(enrichedOrders);
 	}, [data, ingredients.data]);
 
 	return (
