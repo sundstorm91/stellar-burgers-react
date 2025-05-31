@@ -63,7 +63,7 @@ export const OrdersHistory: React.FC = () => {
 				}, 0),
 			};
 		});
-		setProcessedOrders(enrichedOrders.slice(0, 20));
+		setProcessedOrders(enrichedOrders); /* ! */
 	}, [data, ingredients.data]);
 
 	return (

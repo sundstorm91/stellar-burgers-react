@@ -12,6 +12,7 @@ import {
 	wsSend,
 } from '../../features/websocket/actions';
 import { WSErrorPayload } from '../../features/websocket/types';
+import { refreshToken } from '../../../utils/api-utils';
 
 export const middlewareCreator = (): Middleware => {
 	const sockets = new Map<TFeedType, WebSocket>();
@@ -47,7 +48,8 @@ export const middlewareCreator = (): Middleware => {
 				sockets.set(feedType, newSocket);
 
 				newSocket.onopen = () => store.dispatch(wsOpen(feedType));
-				newSocket.onmessage = (event) => handleMessage(event, feedType, store);
+				newSocket.onmessage = (event) =>
+					handleMessage(event, feedType, store, sockets); /* ! */
 				newSocket.onclose = () => handleClose(feedType, store, sockets);
 				newSocket.onerror = (event) => handleError(event, feedType, store);
 			}
@@ -106,12 +108,50 @@ function isAction(
 const handleMessage = (
 	event: MessageEvent,
 	feedType: TFeedType,
-	store: MiddlewareAPI<AppDispatch, RootState>
+	store: MiddlewareAPI<AppDispatch, RootState>,
+	sockets: Map<TFeedType, WebSocket>
 ) => {
 	try {
 		console.log('Получено сырое сообщение', event.data);
 		const data = JSON.parse(event.data);
-		/* console.log(event.data, '!'); */
+		if (data.message === 'Invalid or missing token') {
+			if (feedType === 'private') {
+				store
+					.dispatch(refreshToken)
+
+					.then((refreshedData) => {
+						console.log('REFRESHING DATA.....');
+						const currentSocket = sockets.get(feedType);
+						if (currentSocket) {
+							// Закрываем старое соединение
+							currentSocket.close();
+							console.log('ЗАКРЫЛИ СТАРОЕ..');
+							// Создаем новое соединение с обновленным токеном
+							const newUrl = new URL(currentSocket.url);
+							newUrl.searchParams.set(
+								'token',
+								refreshedData.accessToken.replace('Bearer ', '')
+							);
+
+							const newSocket = new WebSocket(newUrl.toString());
+							sockets.set(feedType, newSocket);
+							console.log('СОЗДАЛИ НОВОЕ, ОБНОВЛЯЕМ ОБРАБОТЧИКИ!');
+							// Настраиваем обработчики
+							newSocket.onopen = () => store.dispatch(wsOpen(feedType));
+							newSocket.onmessage = (event) =>
+								handleMessage(event, feedType, store, sockets);
+							newSocket.onclose = () => handleClose(feedType, store, sockets);
+							newSocket.onerror = (event) =>
+								handleError(event, feedType, store);
+						}
+					})
+					.catch((error) => {
+						store.dispatch(wsError(feedType, new Error(error)));
+						store.dispatch(wsDisconnect(feedType));
+					});
+			}
+			return; // Прекращаем обработку этого сообщения
+		}
 		store.dispatch(wsMessage({ feedType, data }));
 	} catch (err) {
 		const error =

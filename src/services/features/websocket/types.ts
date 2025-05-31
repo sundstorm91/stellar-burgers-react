@@ -1,9 +1,11 @@
 import { Ingredients, TFeedType } from '../../../types/data-types';
 
+export type TOrderStatus = 'done' | 'created' | 'pending';
+
 export type TOrder = {
 	_id: string;
 	ingredients: string[];
-	status: 'created' | 'pending' | 'done';
+	status: TOrderStatus;
 	name: string;
 	createdAt: string;
 	updatedAt: string;

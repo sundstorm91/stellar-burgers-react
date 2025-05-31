@@ -82,7 +82,7 @@ export const FeedPublic: React.FC = () => {
 			doneCount: doneOrders.length,
 			pendingCount: pendingOrders.length,
 		});
-		setProcessedOrders(fillingOrders.slice(0, 20));
+		setProcessedOrders(fillingOrders); /* ! */
 		setOrderStats({
 			total: data.total || 0,
 			totalToday: data.totalToday || 0,

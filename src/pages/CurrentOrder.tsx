@@ -9,8 +9,12 @@ import { calcTotalPrice, groupOrder } from '../utils/order-utils';
 import { nanoid } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Spinner } from '../components/spinner/spinner';
-import { getCurrentOrder } from '../services/features/create-order/order-slice';
+import {
+	clearCurrentOrder,
+	getCurrentOrder,
+} from '../services/features/create-order/order-slice';
 import { fetchIngredients } from '../services/features/ingredients/ingredientsSlice';
+import { getStatusText } from '../utils/helpers';
 
 export const CurrentOrder: React.FC<{ isModal: boolean }> = ({ isModal }) => {
 	const { number } = useParams<{ number: string }>();
@@ -35,6 +39,12 @@ export const CurrentOrder: React.FC<{ isModal: boolean }> = ({ isModal }) => {
 		}
 	}, [dispatch, ingredients]);
 
+	useEffect(() => {
+		return () => {
+			dispatch(clearCurrentOrder());
+		};
+	}, [dispatch]);
+
 	const targetOrder = wsOrder ?? currentOrder;
 
 	if (!targetOrder) {
@@ -55,7 +65,7 @@ export const CurrentOrder: React.FC<{ isModal: boolean }> = ({ isModal }) => {
 			</span>
 			<p className={styles.currentNameOrder}>{targetOrder.name}</p>
 			<p className={styles.currentStatus}>
-				{targetOrder.status === 'done' ? 'Выполнен' : 'В работе'}
+				{getStatusText(targetOrder.status)}
 			</p>
 
 			<div>

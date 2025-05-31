@@ -37,6 +37,7 @@ const Layout = (): ReactElement => {
 		</>
 	);
 };
+
 export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
