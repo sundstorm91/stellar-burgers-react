@@ -5,6 +5,9 @@ export const ingredientsApiConfig = {
 	headers: {
 		'Content-Type': 'application/json',
 	},
+	orderAllUrl: 'wss://norma.nomoreparties.space/orders/all',
+	orderCurrentUrl: 'wss://norma.nomoreparties.space/orders',
+	orders: 'https://norma.nomoreparties.space/api/orders',
 };
 
 export interface UserData {

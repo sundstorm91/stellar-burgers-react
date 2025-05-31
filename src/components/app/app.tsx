@@ -24,7 +24,8 @@ import { useSelector } from 'react-redux';
 import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
-import { OrderFeed } from '../../pages/OrderFeed';
+import { FeedPublic } from '../../pages/feed/FeedPublic';
+import { CurrentOrder } from '../../pages/CurrentOrder';
 
 const Layout = (): ReactElement => {
 	return (
@@ -36,6 +37,7 @@ const Layout = (): ReactElement => {
 		</>
 	);
 };
+
 export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
@@ -51,7 +53,11 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path='order-feed' element={<OrderFeed />} />
+					<Route path='/feed' element={<FeedPublic />} />
+					<Route
+						path='/feed/:number'
+						element={<CurrentOrder isModal={false} />}
+					/>
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -80,11 +86,20 @@ export const App: React.FC = () => {
 							path='orders'
 							element={<OnlyAuth component={<OrdersHistory />} />}
 						/>
+						<Route
+							path='/profile/orders/:number'
+							element={
+								<Modal>
+									<CurrentOrder isModal={false} />
+								</Modal>
+							}
+						/>
 					</Route>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
 
+			{/* Модальные роуты */}
 			{state?.backgroundLocation && (
 				<Routes>
 					<Route
@@ -93,7 +108,25 @@ export const App: React.FC = () => {
 							<Modal>
 								<CurrentIngredient backgroundLocation={true} />
 							</Modal>
-						}></Route>
+						}
+					/>
+					<Route
+						path='/feed/:number'
+						element={
+							<Modal>
+								<CurrentOrder isModal={true} />
+							</Modal>
+						}
+					/>
+
+					<Route
+						path='/profile/orders/:number'
+						element={
+							<Modal>
+								<CurrentOrder isModal={true} />
+							</Modal>
+						}
+					/>
 				</Routes>
 			)}
 		</>

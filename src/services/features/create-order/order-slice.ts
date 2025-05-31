@@ -3,12 +3,17 @@ import {
 	fetchWithRefresh,
 	ingredientsApiConfig,
 } from '../../../utils/api-utils';
+import { fetchOrderByNumber } from '@utils/order-utils';
+import { TOrder } from '../websocket/types';
 
 interface OrderState {
 	orderName: string | null;
 	orderNumber: number | null;
 	loading: boolean;
 	error: string | null;
+	currentOrder: TOrder | null;
+	fetchLoading: boolean;
+	fetchError: string | null;
 }
 
 export interface ResponseData {
@@ -24,6 +29,9 @@ const initialState: OrderState = {
 	orderNumber: null,
 	loading: false,
 	error: null,
+	currentOrder: null,
+	fetchLoading: false,
+	fetchError: null,
 };
 
 export const createOrder = createAsyncThunk(
@@ -52,6 +60,19 @@ export const createOrder = createAsyncThunk(
 	}
 );
 
+export const getCurrentOrder = createAsyncThunk(
+	'order/CurrentOrder',
+	async (orderNumber: number, { rejectWithValue }) => {
+		try {
+			return await fetchOrderByNumber(orderNumber);
+		} catch (error) {
+			return rejectWithValue(
+				error instanceof Error ? error.message : 'Unknown error'
+			);
+		}
+	}
+);
+
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
@@ -61,6 +82,11 @@ const orderSlice = createSlice({
 			state.orderName = null;
 			state.error = null;
 			state.loading = false;
+		},
+		clearCurrentOrder: (state) => {
+			state.currentOrder = null;
+			state.fetchError = null;
+			state.fetchLoading = false;
 		},
 	},
 	extraReducers: (builder) => {
@@ -81,9 +107,25 @@ const orderSlice = createSlice({
 			.addCase(createOrder.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload as string;
+			})
+			/* currentOrder */
+			.addCase(getCurrentOrder.pending, (state) => {
+				state.fetchLoading = true;
+				state.fetchError = null;
+			})
+			.addCase(
+				getCurrentOrder.fulfilled,
+				(state, action: PayloadAction<TOrder>) => {
+					state.fetchLoading = false;
+					state.currentOrder = action.payload;
+				}
+			)
+			.addCase(getCurrentOrder.rejected, (state, action) => {
+				state.fetchLoading = false;
+				state.fetchError = action.payload as string;
 			});
 	},
 });
 
-export const { clearOrder } = orderSlice.actions;
+export const { clearOrder, clearCurrentOrder } = orderSlice.actions;
 export default orderSlice.reducer;

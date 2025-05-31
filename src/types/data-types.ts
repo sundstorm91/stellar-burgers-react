@@ -51,6 +51,8 @@ interface ModalProps {
 	children: React.ReactNode;
 }
 
+type TFeedType = 'private' | 'public';
+
 export type {
 	Ingredients,
 	IngredientsApi,
@@ -60,4 +62,5 @@ export type {
 	ModalProps,
 	PositionBun,
 	CurrentIngredient,
+	TFeedType,
 };
