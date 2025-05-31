@@ -437,11 +437,12 @@ tr {
 .orderFeed {
 	margin: 40px 0px 0px 0px;
 	width: 644px;
-	height: 700px;
+	height: 844px;
 	overflow: auto;
 	display: flex;
     flex-direction: column;
     row-gap: 24px;
+	padding: 10px;
 }
 
 /* currentOrder */

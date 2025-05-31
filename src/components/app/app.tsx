@@ -85,6 +85,14 @@ export const App: React.FC = () => {
 							path='orders'
 							element={<OnlyAuth component={<OrdersHistory />} />}
 						/>
+						<Route
+							path='/profile/orders/:number'
+							element={
+								<Modal>
+									<CurrentOrder isModal={false} />
+								</Modal>
+							}
+						/>
 					</Route>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
@@ -103,6 +111,15 @@ export const App: React.FC = () => {
 					/>
 					<Route
 						path='/feed/:number'
+						element={
+							<Modal>
+								<CurrentOrder isModal={true} />
+							</Modal>
+						}
+					/>
+
+					<Route
+						path='/profile/orders/:number'
 						element={
 							<Modal>
 								<CurrentOrder isModal={true} />

@@ -10,12 +10,15 @@ import { Link, useLocation } from 'react-router-dom';
 export const OrderCard: React.FC<{
 	order: ProcessedOrder;
 	maxItems: number;
-}> = ({ order, maxItems }) => {
+	routePrefix: 'feed' | 'profile/orders';
+}> = ({ order, maxItems, routePrefix }) => {
 	const location = useLocation();
 	const visibleItems = order.ingredientsData.slice(0, maxItems);
 	const hiddenItems = Math.max(order.ingredientsData.length - maxItems, 0);
 	return (
-		<Link to={`/feed/${order.number}`} state={{ backgroundLocation: location }}>
+		<Link
+			to={`/${routePrefix}/${order.number}`}
+			state={{ backgroundLocation: location }}>
 			<div className={styles.orderContainer}>
 				<div className={styles.orderTitle}>
 					<div className='text text_type_digits-default'>#{order.number}</div>

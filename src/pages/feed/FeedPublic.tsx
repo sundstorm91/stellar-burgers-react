@@ -119,7 +119,12 @@ export const FeedPublic: React.FC = () => {
 				{/* Заказы */}
 				<div className={styles.feedWrapper}>
 					{processedOrders.map((order) => (
-						<OrderCard key={order._id} order={order} maxItems={5} />
+						<OrderCard
+							key={order._id}
+							order={order}
+							maxItems={5}
+							routePrefix='feed'
+						/>
 					))}
 				</div>
 				{/* Статистика */}

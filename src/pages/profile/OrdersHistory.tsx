@@ -12,9 +12,7 @@ import { ProcessedOrder } from '../../services/features/websocket/types';
 export const OrdersHistory: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data, connected, connecting, error } = useAppSelector(
-		(state) => state.websocket.private
-	);
+	const { data } = useAppSelector((state) => state.websocket.private);
 	const token = localStorage.getItem('accessToken')?.split(' ')[1];
 	const [processedOrders, setProcessedOrders] = useState<ProcessedOrder[]>([]);
 	// 2. Подключение к WebSocket
@@ -71,7 +69,12 @@ export const OrdersHistory: React.FC = () => {
 	return (
 		<div className={styles.orderFeed}>
 			{processedOrders.map((order) => (
-				<OrderCard key={order._id} order={order} maxItems={5} />
+				<OrderCard
+					key={order._id}
+					order={order}
+					maxItems={5}
+					routePrefix='profile/orders'
+				/>
 			))}
 		</div>
 	);
