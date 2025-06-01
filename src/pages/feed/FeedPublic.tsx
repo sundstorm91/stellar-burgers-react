@@ -17,19 +17,14 @@ import { enrichOrders, splitOrders } from '../../utils/order-utils';
 export const FeedPublic: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data } = useAppSelector((state) => state.websocket.public);
+	const { data } = useAppSelector((state) => state.websocket);
 
 	// 2. Подключение к WebSocket
 	useEffect(() => {
-		dispatch(
-			wsConnect({
-				url: ingredientsApiConfig.orderAllUrl,
-				feedType: 'public',
-			})
-		);
+		dispatch(wsConnect(ingredientsApiConfig.orderAllUrl));
 
 		return () => {
-			dispatch(wsDisconnect('public'));
+			dispatch(wsDisconnect());
 		};
 	}, [dispatch]);
 

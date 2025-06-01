@@ -12,21 +12,15 @@ import { ProcessedOrder } from '../../services/features/websocket/types';
 export const OrdersHistory: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data } = useAppSelector((state) => state.websocket.private);
+	const { data } = useAppSelector((state) => state.websocket);
 	const token = localStorage.getItem('accessToken')?.split(' ')[1];
 	const [processedOrders, setProcessedOrders] = useState<ProcessedOrder[]>([]);
 
 	useEffect(() => {
-		dispatch(
-			wsConnect({
-				url: `${ingredientsApiConfig.orderCurrentUrl}`,
-				feedType: 'private',
-				authToken: token!,
-			})
-		);
+		dispatch(wsConnect(ingredientsApiConfig.orderAllUrl));
 
 		return () => {
-			dispatch(wsDisconnect('private'));
+			dispatch(wsDisconnect());
 		};
 	}, [dispatch, token]);
 

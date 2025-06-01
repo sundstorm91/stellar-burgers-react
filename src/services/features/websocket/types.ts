@@ -27,12 +27,10 @@ export interface OrderStats {
 } /* ! */
 
 export type TWSState = {
-	[key in TFeedType]: {
-		connected: boolean;
-		connecting: boolean;
-		error?: Error | null;
-		data?: TOrdersData | null;
-	};
+	connected: boolean;
+	connecting: boolean;
+	error?: string | null;
+	data?: TOrdersData | null;
 };
 
 export interface IWSConnectPayload {
@@ -56,9 +54,9 @@ export type WSErrorPayload = {
 	message: string;
 	eventType: string;
 	originalMessage?: string;
-	code?: number; // Коды из CloseEvent
+	code?: number;
 	reason?: string; // Причина закрытия
-	wasClean?: boolean; // Для close событий
+	wasClean?: boolean;
 };
 
 export interface ProcessedOrder extends TOrder {
