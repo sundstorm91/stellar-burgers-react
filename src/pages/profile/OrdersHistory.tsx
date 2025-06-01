@@ -28,7 +28,6 @@ export const OrdersHistory: React.FC = () => {
 
 	useEffect(() => {
 		if (!data?.orders || !ingredients.data) {
-			console.log('123');
 			return;
 		}
 
