@@ -3,7 +3,6 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order.module.css';
-import { useSelector } from 'react-redux';
 import {
 	selectOrderIngredients,
 	selectTotalPrice,
@@ -23,12 +22,14 @@ import { clearConstructorState } from '../../services/features/constructor/const
 
 export const OrderField: React.FC = () => {
 	const navigate = useNavigate();
-	const user = useSelector(getUserSelector);
-	const { bun, ingredients } = useSelector((state: RootState) => state.builder);
+	const user = useAppSelector(getUserSelector);
+	const { bun, ingredients } = useAppSelector(
+		(state: RootState) => state.builder
+	);
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 	const dispatch = useAppDispatch();
-	const totalPrice = useSelector(selectTotalPrice);
-	const orderIngredient = useSelector(selectOrderIngredients);
+	const totalPrice = useAppSelector(selectTotalPrice);
+	const orderIngredient = useAppSelector(selectOrderIngredients);
 	const { error } = useAppSelector((state) => state.order);
 
 	const handleCreateOrder = () => {

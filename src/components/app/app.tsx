@@ -19,8 +19,7 @@ import {
 	fetchUser,
 	getIsAuthCheckedSelector,
 } from '../../services/features/user/user-slice';
-import { useAppDispatch } from '../../hooks/hook';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
@@ -42,7 +41,7 @@ export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
 	const dispatch = useAppDispatch();
-	const isAuthChecked = useSelector(getIsAuthCheckedSelector);
+	const isAuthChecked = useAppSelector(getIsAuthCheckedSelector);
 
 	useEffect(() => {
 		dispatch(fetchUser());
