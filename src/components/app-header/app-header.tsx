@@ -7,10 +7,10 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getUserSelector } from '../../services/features/user/user-slice';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/hook';
 
 export const AppHeader = () => {
-	const user = useSelector(getUserSelector);
+	const user = useAppSelector(getUserSelector);
 	const isProfileActive = location.pathname.startsWith('/profile');
 
 	return (
