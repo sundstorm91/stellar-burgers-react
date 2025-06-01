@@ -12,7 +12,7 @@ import { ProcessedOrder } from '../../services/features/websocket/types';
 export const OrdersHistory: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { ingredients } = useAppSelector((state) => state.ingredients);
-	const { data } = useAppSelector((state) => state.websocket);
+	const { data } = useAppSelector((state) => state.wsPublicFeed);
 	const token = localStorage.getItem('accessToken')?.split(' ')[1];
 	const [processedOrders, setProcessedOrders] = useState<ProcessedOrder[]>([]);
 

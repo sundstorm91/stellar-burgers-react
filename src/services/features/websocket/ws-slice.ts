@@ -10,7 +10,7 @@ const initialState: TWSState = {
 	error: null,
 };
 
-const wsSlice = createSlice({
+const feedPublicSlice = createSlice({
 	name: 'websocket',
 	initialState,
 	reducers: {},
@@ -33,4 +33,4 @@ const wsSlice = createSlice({
 	},
 });
 
-export const { reducer: wsReducer } = wsSlice;
+export const { reducer: feedPublicReducer } = feedPublicSlice;

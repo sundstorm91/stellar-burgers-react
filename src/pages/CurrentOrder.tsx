@@ -19,7 +19,7 @@ import { getStatusText } from '../utils/helpers';
 export const CurrentOrder: React.FC<{ isModal: boolean }> = ({ isModal }) => {
 	const { number } = useParams<{ number: string }>();
 	const dispatch = useAppDispatch();
-	const { data } = useAppSelector((state) => state.websocket);
+	const { data } = useAppSelector((state) => state.wsPublicFeed);
 	const { ingredients } = useAppSelector((state) => state.ingredients);
 	const { currentOrder, fetchLoading, fetchError } = useAppSelector(
 		(state) => state.order

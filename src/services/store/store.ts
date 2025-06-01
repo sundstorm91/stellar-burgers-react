@@ -5,7 +5,7 @@ import orderReducer from '../features/create-order/order-slice';
 import currentIngredient from '../features/current-ingredient/current-ingredient-slice';
 import userReducer from '../features/user/user-slice';
 import { socketMiddleware } from './middleware/socket-middleware';
-import { wsReducer } from '../features/websocket/ws-slice';
+import { feedPublicReducer } from '../features/websocket/ws-slice';
 import {
 	wsConnect as connect,
 	wsClose as onClose,
@@ -33,7 +33,7 @@ const rootReducer = combineSlices({
 	order: orderReducer,
 	currentIngredient: currentIngredient,
 	user: userReducer,
-	websocket: wsReducer,
+	wsPublicFeed: feedPublicReducer,
 });
 
 export const store = configureStore({
