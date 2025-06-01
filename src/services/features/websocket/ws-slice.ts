@@ -1,18 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import {
-	wsClose,
-	wsConnect,
-	wsConnecting,
-	wsError,
-	wsMessage,
-	wsOpen,
-} from '../../features/websocket/actions';
-import { TOrdersData, TWSState } from './types';
-export type TStatusWsLink =
-	| 'connecting'
-	| 'connected'
-	| 'error'
-	| 'disconnected';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { IWSActionPayload, TWSState } from './types';
+import { wsConnecting } from './actions';
 
 const initialState: TWSState = {
 	public: {
@@ -32,59 +21,63 @@ const initialState: TWSState = {
 const wsSlice = createSlice({
 	name: 'websocket',
 	initialState,
-	reducers: {},
+	reducers: {
+		/* wsConnecting(state, action: PayloadAction<IWSActionPayload>) {
+			const { feedType } = action.payload;
+			state[feedType] = {
+				...state[feedType],
+				connecting: true,
+				connected: false,
+				error: null,
+			};
+		},
+		wsOpen(state, action: PayloadAction<IWSActionPayload>) {
+			const { feedType } = action.payload;
+			state[feedType] = {
+				...state[feedType],
+				connecting: false,
+				connected: true,
+				error: null,
+			};
+		},
+		wsClose(state, action: PayloadAction<IWSActionPayload>) {
+			const { feedType } = action.payload;
+			state[feedType] = {
+				...state[feedType],
+				connecting: false,
+				connected: false,
+				error: null,
+				data: null,
+			};
+		},
+		wsError(state, action: PayloadAction<IWSActionPayload>) {
+			const { feedType, error } = action.payload;
+			state[feedType] = {
+				...state[feedType],
+				connecting: false,
+				connected: false,
+				error: error || new Error('Unknown WebSocket error'),
+			};
+		},
+		wsMessage(state, action: PayloadAction<IWSActionPayload>) {
+			const { feedType, data } = action.payload;
+			state[feedType] = {
+				...state[feedType],
+				data,
+			};
+		}, */
+	},
+	selectors: {
+		getFeedDataPublic: (state) => state.public.data,
+		getFeedDataPrivate: (state) => state.private.data,
+		/* дополнить нужно */
+	},
 	extraReducers: (builder) => {
-		builder
-			// подключение
-			.addCase(wsConnect, (state, action) => {
-				const { feedType } = action.meta;
-				state[feedType].connecting = true;
-				state[feedType].error = null;
-			})
-			// успешное подключение
-			.addCase(wsOpen, (state, action) => {
-				const { feedType } = action.meta;
-				state[feedType].connected = true;
-				state[feedType].connecting = false;
-			})
-			// закрытие соединения
-			.addCase(wsClose, (state, action) => {
-				const { feedType } = action.meta;
-				state[feedType] = initialState[feedType];
-			})
-			// обработка ошибок
-			.addCase(wsError, (state, action) => {
-				const { feedType } = action.meta;
-				state[feedType].error = action.payload;
-				state[feedType].connecting = false;
-				state[feedType].connected = false;
-			})
-
-			// обработка входящих сообщений
-
-			.addCase(wsMessage, (state, action) => {
-				// Проверяем только payload (данные заказов)
-				if (
-					typeof action.payload === 'object' &&
-					action.payload !== null &&
-					'orders' in action.payload
-				) {
-					const { feedType } = action.meta;
-					const data = action.payload as TOrdersData;
-
-					state[feedType].data = data;
-					console.log('Data saved to Redux:', { feedType, data });
-				} else {
-					console.error('Invalid wsMessage payload:', action.payload);
-				}
-			})
-
-			// Обработка состояния "connecting"
-			.addCase(wsConnecting, (state, action) => {
-				const { feedType } = action.meta;
-				state[feedType].connecting = true;
-			});
+		builder.addCase(wsConnecting, (state, action) => {
+			state.
+		});
 	},
 });
 
-export default wsSlice.reducer;
+export const { reducer: wsReducer } = wsSlice;
+export const {} = wsSlice.actions;

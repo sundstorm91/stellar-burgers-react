@@ -35,6 +35,22 @@ export type TWSState = {
 	};
 };
 
+export interface IWSConnectPayload {
+	url: string;
+	feedType: TFeedType;
+	accessToken?: string;
+}
+
+export interface IWSDisconnectPayload {
+	feedType: TFeedType;
+}
+
+export interface IWSActionPayload {
+	feedType: TFeedType;
+	data?: TOrdersData;
+	error?: Error;
+}
+
 export type WSErrorPayload = {
 	name: string;
 	message: string;
