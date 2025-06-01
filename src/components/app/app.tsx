@@ -85,15 +85,11 @@ export const App: React.FC = () => {
 							path='orders'
 							element={<OnlyAuth component={<OrdersHistory />} />}
 						/>
-						<Route
-							path='/profile/orders/:number'
-							element={
-								<Modal>
-									<CurrentOrder isModal={false} />
-								</Modal>
-							}
-						/>
 					</Route>
+					<Route
+						path='/profile/orders/:number'
+						element={<OnlyAuth component={<CurrentOrder isModal={false} />} />}
+					/>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
