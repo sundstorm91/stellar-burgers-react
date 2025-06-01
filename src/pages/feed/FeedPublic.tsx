@@ -2,9 +2,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import styles from '../pages.module.css';
 import { useEffect, useState } from 'react';
 import {
-	wsConnect,
-	wsDisconnect,
-} from '../../services/features/websocket/actions';
+	wsConnectPublic,
+	wsDisconnectPublic,
+} from '../../services/features/websocket/feed-public/actions';
 import { ingredientsApiConfig } from '../../utils/api-utils';
 import {
 	OrderStats,
@@ -21,10 +21,10 @@ export const FeedPublic: React.FC = () => {
 
 	// 2. Подключение к WebSocket
 	useEffect(() => {
-		dispatch(wsConnect(ingredientsApiConfig.orderAllUrl));
+		dispatch(wsConnectPublic(ingredientsApiConfig.orderAllUrl));
 
 		return () => {
-			dispatch(wsDisconnect());
+			dispatch(wsDisconnectPublic());
 		};
 	}, [dispatch]);
 

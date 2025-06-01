@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { TWSState } from './types';
-import { wsConnecting, wsError, wsMessage } from './actions';
+import { TWSState } from '../types';
+import {
+	wsConnectingProfile,
+	wsErrorProfile,
+	wsMessageProfile,
+} from './actions';
 
 const initialState: TWSState = {
 	connected: false,
@@ -10,27 +14,26 @@ const initialState: TWSState = {
 	error: null,
 };
 
-const feedPublicSlice = createSlice({
+const feedProfileSlice = createSlice({
 	name: 'websocket',
 	initialState,
 	reducers: {},
 	selectors: {
 		getFeedData: (state) => state.data,
-		/* дополнить нужно */
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(wsConnecting, (state) => {
+			.addCase(wsConnectingProfile, (state) => {
 				state.connecting = true;
 				state.error = null;
 			})
-			.addCase(wsError, (state, action) => {
+			.addCase(wsErrorProfile, (state, action) => {
 				state.error = action.payload;
 			})
-			.addCase(wsMessage, (state, action) => {
+			.addCase(wsMessageProfile, (state, action) => {
 				state.data = action.payload;
 			});
 	},
 });
 
-export const { reducer: feedPublicReducer } = feedPublicSlice;
+export const { reducer: feedProfileReducer } = feedProfileSlice;

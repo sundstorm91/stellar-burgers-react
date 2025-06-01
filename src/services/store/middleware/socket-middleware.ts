@@ -77,8 +77,10 @@ export const socketMiddleware = <R, S>(
 									dispatch(onError((error as Error).message));
 								});
 							dispatch(disconnect());
+
 							return;
 						}
+
 						dispatch(onMessage(parsedData));
 					} catch (error) {
 						dispatch(onError((error as Error).message));
