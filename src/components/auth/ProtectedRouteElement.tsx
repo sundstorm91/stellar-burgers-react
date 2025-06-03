@@ -3,9 +3,9 @@ import {
 	getUserSelector,
 	getWasPasswordResetRequested,
 } from '../../services/features/user/user-slice';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Spinner } from '../spinner/spinner';
+import { useAppSelector } from '../../hooks/hook';
 
 interface ProtectedRouteProps {
 	onlyUnAuth?: boolean;
@@ -22,10 +22,12 @@ export const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
 	component,
 	needPasswordResetRequest = false,
 }) => {
-	const user = useSelector(getUserSelector);
-	const isAuthChecked = useSelector(getIsAuthCheckedSelector);
+	const user = useAppSelector(getUserSelector);
+	const isAuthChecked = useAppSelector(getIsAuthCheckedSelector);
 	const location = useLocation();
-	const wasPasswordResetRequested = useSelector(getWasPasswordResetRequested);
+	const wasPasswordResetRequested = useAppSelector(
+		getWasPasswordResetRequested
+	);
 
 	if (!isAuthChecked) {
 		return <Spinner />;

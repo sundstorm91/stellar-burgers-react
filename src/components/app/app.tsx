@@ -19,12 +19,12 @@ import {
 	fetchUser,
 	getIsAuthCheckedSelector,
 } from '../../services/features/user/user-slice';
-import { useAppDispatch } from '../../hooks/hook';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { ProfileLayout } from '../../pages/profile/ProfileLayout';
 import { ProfileView } from '../../pages/profile/ProfileView';
 import { OrdersHistory } from '../../pages/profile/OrdersHistory';
-import { OrderFeed } from '../../pages/OrderFeed';
+import { FeedPublic } from '../../pages/feed/FeedPublic';
+import { CurrentOrder } from '../../pages/CurrentOrder';
 
 const Layout = (): ReactElement => {
 	return (
@@ -36,11 +36,12 @@ const Layout = (): ReactElement => {
 		</>
 	);
 };
+
 export const App: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { backgroundLocation?: Location };
 	const dispatch = useAppDispatch();
-	const isAuthChecked = useSelector(getIsAuthCheckedSelector);
+	const isAuthChecked = useAppSelector(getIsAuthCheckedSelector);
 
 	useEffect(() => {
 		dispatch(fetchUser());
@@ -51,7 +52,11 @@ export const App: React.FC = () => {
 			<Routes location={state?.backgroundLocation || location}>
 				<Route path='/' element={<Layout />}>
 					<Route index element={<Home />} />
-					<Route path='order-feed' element={<OrderFeed />} />
+					<Route path='/feed' element={<FeedPublic />} />
+					<Route
+						path='/feed/:number'
+						element={<CurrentOrder isModal={false} />}
+					/>
 					<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 					<Route
 						path='/ingredients/:id'
@@ -81,10 +86,15 @@ export const App: React.FC = () => {
 							element={<OnlyAuth component={<OrdersHistory />} />}
 						/>
 					</Route>
+					<Route
+						path='/profile/orders/:number'
+						element={<OnlyAuth component={<CurrentOrder isModal={false} />} />}
+					/>
 					<Route path='*' element={<NotFoundPage />} />
 				</Route>
 			</Routes>
 
+			{/* Модальные роуты */}
 			{state?.backgroundLocation && (
 				<Routes>
 					<Route
@@ -93,7 +103,25 @@ export const App: React.FC = () => {
 							<Modal>
 								<CurrentIngredient backgroundLocation={true} />
 							</Modal>
-						}></Route>
+						}
+					/>
+					<Route
+						path='/feed/:number'
+						element={
+							<Modal>
+								<CurrentOrder isModal={true} />
+							</Modal>
+						}
+					/>
+
+					<Route
+						path='/profile/orders/:number'
+						element={
+							<Modal>
+								<CurrentOrder isModal={true} />
+							</Modal>
+						}
+					/>
 				</Routes>
 			)}
 		</>
