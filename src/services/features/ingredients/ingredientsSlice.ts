@@ -2,16 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IngredientsApi } from '../../../types/data-types';
 import { checkResponse, ingredientsApiConfig } from '../../../utils/api-utils';
 
-/* export type TFetchIngredientsPayload = ReturnType<
-	typeof fetchIngredients.fulfilled
->['payload']; */
-
-export type TFetchIngredientsFulfilled = ReturnType<
-	typeof fetchIngredients.fulfilled
->;
-
-export type TIngredientsPayload = TFetchIngredientsFulfilled['payload'];
-
 export interface ingredientsState {
 	ingredients: IngredientsApi;
 	loading: boolean;

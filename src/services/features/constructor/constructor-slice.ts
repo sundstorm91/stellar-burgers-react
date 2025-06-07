@@ -5,17 +5,17 @@ export interface ConstructorIngredient extends Ingredients {
 	constructorId?: string;
 }
 
-interface BurgerBuilderState {
+export interface BurgerBuilderState {
 	bun: ConstructorIngredient | null;
 	ingredients: ConstructorIngredient[];
 }
 
-const initialState: BurgerBuilderState = {
+export const initialState: BurgerBuilderState = {
 	bun: null,
 	ingredients: [],
 };
 
-const burgerBuilderSlice = createSlice({
+export const burgerBuilderSlice = createSlice({
 	name: 'builder',
 	initialState,
 	reducers: {
