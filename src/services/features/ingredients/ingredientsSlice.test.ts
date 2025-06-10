@@ -49,6 +49,7 @@ describe('ingredientsSlice async thunks', () => {
 		const state = ingredientsSlice.reducer(initialState, action);
 
 		expect(state).toEqual({
+			...initialState,
 			loading: false,
 			ingredients: mockApiResponse,
 			error: null,

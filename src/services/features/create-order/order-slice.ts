@@ -6,7 +6,7 @@ import {
 import { fetchOrderByNumber } from '@utils/order-utils';
 import { TOrder } from '../websocket/types';
 
-interface OrderState {
+export interface OrderState {
 	orderName: string | null;
 	orderNumber: number | null;
 	loading: boolean;
@@ -24,7 +24,7 @@ export interface ResponseData {
 	success: boolean;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
 	orderName: null,
 	orderNumber: null,
 	loading: false,
@@ -73,7 +73,7 @@ export const getCurrentOrder = createAsyncThunk(
 	}
 );
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
