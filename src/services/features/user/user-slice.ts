@@ -14,7 +14,7 @@ import {
 	UserData,
 } from '../../../utils/api-utils';
 
-const initialState: UserState = {
+export const initialState: UserState = {
 	user: null,
 	isAuthChecked: false,
 	isLoading: false,
@@ -25,12 +25,12 @@ const initialState: UserState = {
 	},
 };
 
-interface LoginCredentials {
+export interface LoginCredentials {
 	email: string;
 	password: string;
 }
 
-interface ResetPasswordProps {
+export interface ResetPasswordProps {
 	password: string;
 	token: string;
 }
@@ -110,9 +110,9 @@ export const fetchUser = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk<
-	User, // Тип возвращаемого значения при успехе
-	UpdateUserData, // Тип входного параметра
-	{ rejectValue: string } // Тип ошибки
+	User,
+	UpdateUserData,
+	{ rejectValue: string }
 >('user/updateUser', async (userData, { rejectWithValue }) => {
 	try {
 		return await updateUserData(userData); // Вызываем API-функцию
