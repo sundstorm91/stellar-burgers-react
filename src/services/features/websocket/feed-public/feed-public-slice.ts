@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TWSState } from '../types';
 import { wsConnectingPublic, wsErrorPublic, wsMessagePublic } from './actions';
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
 	connected: false,
 	connecting: false,
 	data: null,
 	error: null,
 };
 
-const feedPublicSlice = createSlice({
+export const feedPublicSlice = createSlice({
 	name: 'websocket',
 	initialState,
 	reducers: {},
