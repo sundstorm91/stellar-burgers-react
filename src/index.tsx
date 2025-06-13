@@ -14,7 +14,7 @@ const root = createRoot(domNode);
 
 root.render(
 	<StrictMode>
-		<HashRouter basename='/stellar-burgers-react'>
+		<HashRouter>
 			<Provider store={store}>
 				<DndProvider backend={HTML5Backend}>
 					<App />
