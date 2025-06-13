@@ -49,7 +49,7 @@ Cypress.Commands.add(
 
 		window.localStorage.setItem('refreshToken', 'mock-refresh-token');
 
-		cy.visit('/login');
+		cy.visit('/#/login');
 		cy.get('[data-testid="email-input"]').type(`${email}{enter}`);
 		cy.get('[data-testid="password-input"]').type(`${password}{enter}`);
 
