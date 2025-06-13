@@ -43,7 +43,8 @@ export const BurgerConstructorItem: React.FC<{
 			key={constructorId}
 			ref={ref}
 			style={{ opacity }}
-			className={styles.item}>
+			className={styles.item}
+			data-testid={'constructor-item'}>
 			<ConstructorElement
 				text={name}
 				thumbnail={image}

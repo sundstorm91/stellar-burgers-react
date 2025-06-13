@@ -56,11 +56,23 @@ export const Login: React.FC = () => {
 				<span className={styles.title}>Вход</span>
 				{error && <div className={styles.error}>{error}</div>}
 				<form className={styles.form} onSubmit={handleSubmitLogin}>
-					<EmailInput value={email} onChange={handleEmailChange} />
+					<EmailInput
+						value={email}
+						onChange={handleEmailChange}
+						data-testid={'email-input'}
+					/>
 
-					<PasswordInput value={password} onChange={handlePasswordChange} />
+					<PasswordInput
+						value={password}
+						onChange={handlePasswordChange}
+						data-testid={'password-input'}
+					/>
 
-					<Button htmlType='submit' size='large' disabled={!password || !email}>
+					<Button
+						htmlType='submit'
+						size='large'
+						disabled={!password || !email}
+						data-testid={'login-button'}>
 						Войти
 					</Button>
 				</form>

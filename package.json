@@ -79,7 +79,9 @@
 		"prepare": "husky install",
 		"commit": "npm run check && cz",
 		"test": "jest",
-		"cypress": "cypress open"
+		"cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:chrome": "cypress run --browser chrome"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.6.0",

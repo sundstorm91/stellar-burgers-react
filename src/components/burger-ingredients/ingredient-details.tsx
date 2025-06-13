@@ -9,6 +9,7 @@ export const IngredientDetails: React.FC<CurrentIngredient> = ({
 	return (
 		<div
 			className={styles.container}
+			data-testid={'ingredient-details'}
 			style={isModal ? { marginTop: '10px' } : { marginTop: '120px' }}>
 			<p
 				className={styles.tableTitle}

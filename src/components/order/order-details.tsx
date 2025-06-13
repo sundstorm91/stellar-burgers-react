@@ -19,7 +19,7 @@ export const OrderDetails: React.FC = () => {
 	if (error) return <p>{error}</p>;
 	return (
 		<>
-			<div className={styles.wrapperOrder}>
+			<div className={styles.wrapperOrder} data-testid={'order-modal'}>
 				<p className='text text_type_digits-large'>{orderNumber}</p>
 				<p className={styles.idOrder}>идентификатор заказа</p>
 				<div>

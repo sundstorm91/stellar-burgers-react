@@ -63,7 +63,8 @@ export const OrderField: React.FC = () => {
 				htmlType='button'
 				type='primary'
 				size='large'
-				onClick={handleCreateOrder}>
+				onClick={handleCreateOrder}
+				data-testid={'create-order-button'}>
 				{error ? 'заказ не выполнен' : 'Оформить заказ'}
 			</Button>{' '}
 			{isOrderModalOpen && (
