@@ -22,6 +22,11 @@ describe('Application', () => {
 	it('modal window should successfully opened..', () => {
 		cy.get('[data-testid="ingredient-item"]').first().click();
 		cy.get('[data-testid="ingredient-details"]').should('be.visible');
+		cy.get('[data-testid="ingredient-name"]').should('not.be.empty');
+		cy.get('[data-testid="ingredient-proteins"]').should('not.be.empty');
+		cy.get('[data-testid="ingredient-fat"]').should('not.be.empty');
+		cy.get('[data-testid="ingredient-carbohydrates"]').should('not.be.empty');
+		cy.get('[data-testid="ingredient-calories"]').should('not.be.empty');
 		cy.get('[data-testid="modal-close-button"]').click();
 	});
 
@@ -60,5 +65,6 @@ describe('Application', () => {
 				cy.contains('идентификатор заказа').should('exist');
 				cy.contains('12345').should('exist');
 			});
+		cy.get('[data-testid="modal-close-button"]').click();
 	});
 });
