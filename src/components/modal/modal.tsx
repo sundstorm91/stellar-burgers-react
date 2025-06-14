@@ -33,7 +33,10 @@ export const Modal: React.FC<{
 			<Overlay onClick={handleClose} />
 			<div className={styles.modal}>
 				<div className={styles.modalContent}>
-					<button className={styles.modalClose} onClick={handleClose}>
+					<button
+						className={styles.modalClose}
+						onClick={handleClose}
+						data-testid={'modal-close-button'}>
 						&times;
 					</button>
 					{children}

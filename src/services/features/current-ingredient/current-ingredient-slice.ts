@@ -4,10 +4,10 @@ import { ConstructorIngredient } from '../constructor/constructor-slice';
 export interface CurrentIngredient {
 	currentIngredient: ConstructorIngredient | null;
 }
-const initialState: CurrentIngredient = {
+export const initialState: CurrentIngredient = {
 	currentIngredient: null,
 };
-const currentIngredientSlice = createSlice({
+export const currentIngredientSlice = createSlice({
 	name: 'currentIngredient',
 	initialState,
 	reducers: {

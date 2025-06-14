@@ -113,6 +113,7 @@ export const BurgerIngredients: React.FC = () => {
 											<div
 												key={component.type}
 												className={styles.typeWrapper}
+												data-testid={`menu-${component.type}`}
 												ref={(el) => {
 													if (el) componentRefs.current[idx] = el;
 												}}>

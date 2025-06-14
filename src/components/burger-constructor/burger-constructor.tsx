@@ -68,8 +68,11 @@ export const BurgerConstructor: React.FC = () => {
 
 	return (
 		<section className={styles.burgerConstructorField}>
-			<div className={styles.container}>
-				<div ref={bunTopDrop} className={styles.bunIndent}>
+			<div className={styles.container} data-testid={'constructor-container'}>
+				<div
+					ref={bunTopDrop}
+					className={styles.bunIndent}
+					data-testid={'constructor-bun-top'}>
 					{bun ? (
 						<ConstructorElement
 							type='top'
@@ -86,7 +89,7 @@ export const BurgerConstructor: React.FC = () => {
 						</div>
 					)}
 				</div>
-				<div ref={fillingsDrop}>
+				<div ref={fillingsDrop} data-testid={'constructor-fillings'}>
 					{ingredients.length === 0 ? (
 						<div
 							className={styles.emptyMiddle}
@@ -105,7 +108,10 @@ export const BurgerConstructor: React.FC = () => {
 					)}
 				</div>
 
-				<div ref={bunBottomDrop} className={styles.bunIndent}>
+				<div
+					ref={bunBottomDrop}
+					className={styles.bunIndent}
+					data-testid={'constructor-bun-bottom'}>
 					{bun ? (
 						<ConstructorElement
 							text={`${bun.name}(низ)`}

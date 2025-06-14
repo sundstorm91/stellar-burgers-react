@@ -20,6 +20,7 @@ export const IngredientItem: React.FC<{
 		<div
 			key={ingredient._id}
 			className={styles.ingredientItem}
+			data-testid={'ingredient-item'}
 			ref={drag}
 			onClick={() => onClick(ingredient)}
 			aria-hidden='true'>

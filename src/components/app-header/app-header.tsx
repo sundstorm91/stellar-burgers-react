@@ -78,7 +78,8 @@ export const AppHeader = () => {
 						<span
 							className={
 								isProfileActive ? styles.activeText : styles.defaultText
-							}>
+							}
+							data-testid={'profile-email'}>
 							{user ? `${user.email}` : 'Личный кабинет'}
 						</span>
 					</NavLink>

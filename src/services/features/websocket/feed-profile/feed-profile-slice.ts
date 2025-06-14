@@ -7,14 +7,14 @@ import {
 	wsMessageProfile,
 } from './actions';
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
 	connected: false,
 	connecting: false,
 	data: null,
 	error: null,
 };
 
-const feedProfileSlice = createSlice({
+export const feedProfileSlice = createSlice({
 	name: 'websocket',
 	initialState,
 	reducers: {},
