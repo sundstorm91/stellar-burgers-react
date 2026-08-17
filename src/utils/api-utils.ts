@@ -1,13 +1,15 @@
 import { User } from '../services/features/user/types';
 
+const BASE_URL = 'https://59d87f24-654f-4165-81e5-b0f60b59ab09.tunnel4.com';
+
 export const ingredientsApiConfig = {
-	baseUrl: 'https://norma.nomoreparties.space/api',
+	baseUrl: BASE_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	orderAllUrl: 'wss://norma.nomoreparties.space/orders/all',
-	orderCurrentUrl: 'wss://norma.nomoreparties.space/orders',
-	orders: 'https://norma.nomoreparties.space/api/orders',
+	orderAllUrl: `wss://${BASE_URL.replace('https://', '')}/orders/all`,
+	orderCurrentUrl: `wss://${BASE_URL.replace('https://', '')}/orders`,
+	orders: `${BASE_URL}/orders`,
 };
 
 export interface UserData {
