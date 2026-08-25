@@ -1,6 +1,6 @@
 import { User } from '../services/features/user/types';
 
-const BASE_URL = 'https://01a00fca-b989-7cb1-bb13-b0f558a3e4f6.tunnel4.com';
+const BASE_URL = 'https://a2552e51-cf26-4515-8009-2d6581b90d65.tunnel4.com';
 
 export const ingredientsApiConfig = {
 	baseUrl: BASE_URL,
