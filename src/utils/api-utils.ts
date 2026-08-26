@@ -1,14 +1,14 @@
 import { User } from '../services/features/user/types';
 
-const BASE_URL = 'https://a2552e51-cf26-4515-8009-2d6581b90d65.tunnel4.com';
+export const BASE_URL = 'https://stellarburgers.education-services.ru/api';
 
 export const ingredientsApiConfig = {
 	baseUrl: BASE_URL,
 	headers: {
 		'Content-Type': 'application/json',
 	},
-	orderAllUrl: `wss://${BASE_URL.replace('https://', '')}/orders/all`,
-	orderCurrentUrl: `wss://${BASE_URL.replace('https://', '')}/orders`,
+	orderAllUrl: 'wss://stellarburgers.education-services.ru/orders/all',
+	orderCurrentUrl: 'wss://stellarburgers.education-services.ru/orders',
 	orders: `${BASE_URL}/orders`,
 };
 
